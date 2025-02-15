@@ -1,0 +1,74 @@
+.mainWrapper {
+    display: flex;
+    width: 55%;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding: 20px 0;
+    
+}
+
+.navLinksWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-gray-900);
+    /* padding: 1rem 2rem; */
+    border-radius: 20px;
+    list-style-type: none;
+    margin-left: 2rem;
+    padding-inline-start: 0;
+    border-right: 1px solid var(--color-gray-500);
+}
+
+.navLinksWrapper a:visited {
+    color: inherit; /* Prevent visited links from turning purple */
+}
+
+.mainNavLink {
+    padding: 1rem 1rem;
+    border-right: 1px solid var(--color-gray-500); /* Keep the right border for all except the last */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.navLinksWrapper a:hover {
+    background-color: var(--color-orange-primary);
+    /* border-radius: 0 0 0 0; */
+}
+
+.mainNavLink:last-child {
+    padding: 1rem 1rem;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 20px 20px 0;
+    border-right: none;
+} 
+
+.mainNavLink:first-child  {
+    
+    border-radius: 20px 0 0 20px;
+} 
+
+
+
+.mainNavLink a:visited {
+    color: inherit; /* Prevent visited links from turning purple */
+}
+
+.mainNavLink:hover {
+    background-color: var(--color-orange-primary);
+}
+
+/* Maintain border radius for the first and last link on hover */
+.navLinksWrapper a:first-child .mainNavLink:hover {
+    border-radius: 20px 0 0 20px; /* Maintain the first link's border radius */
+}
+
+.navLinksWrapper a:last-child .mainNavLink:hover {
+    border-radius: 0 20px 20px 0; /* Maintain the last link's border radius */
+}
