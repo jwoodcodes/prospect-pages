@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import MainNav from "./components/mainNav/MainNav";
+import DataFetcher from './components/dataTable/DataFetcher';
 
 
 export default function Home() {
@@ -8,10 +9,20 @@ export default function Home() {
     <div className={styles.page}>
       <MainNav />
       <main className={styles.main}>
+      <Image
+          src="/star-bar.jpg"
+          alt="starry night"
+          className={styles.starBar}
+          width={2000}
+          height={150}
+          
+        /> 
         <div className={styles.titleWrapper}>
           <h1 className={styles.title}>Prospect Data By Class</h1>
           <h2 className={styles.secondTitle}>click players name to view full prospect profile</h2>
         </div>
+        
+        
         <div className={styles.clsSelectBtnsWrapper}>
           <button className={styles.clsSelectBtn}>2021</button>
           <button className={styles.clsSelectBtn}>2022</button>
@@ -20,6 +31,7 @@ export default function Home() {
           <button className={styles.clsSelectBtn}>2025</button>
 
         </div>
+        <DataFetcher />
       </main>
       
     </div>
