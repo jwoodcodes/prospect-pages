@@ -1,3 +1,6 @@
+
+
+import React from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import MainNav from "./components/mainNav/MainNav";
@@ -5,6 +8,10 @@ import DataFetcher from './components/dataTable/DataFetcher';
 
 
 export default function Home() {
+
+  
+  
+
   return (
     <div className={styles.page}>
       <MainNav />
@@ -15,7 +22,7 @@ export default function Home() {
           className={styles.starBar}
           width={2000}
           height={150}
-          
+          priority
         /> 
         <div className={styles.titleWrapper}>
           <h1 className={styles.title}>Prospect Data By Class</h1>
@@ -23,14 +30,14 @@ export default function Home() {
         </div>
         
         
-        <div className={styles.clsSelectBtnsWrapper}>
+        {/* <div className={styles.clsSelectBtnsWrapper}>
           <button className={styles.clsSelectBtn}>2021</button>
           <button className={styles.clsSelectBtn}>2022</button>
           <button className={styles.clsSelectBtn}>2023</button>
           <button className={styles.clsSelectBtn}>2024</button>
           <button className={styles.clsSelectBtn}>2025</button>
 
-        </div>
+        </div> */}
         <DataFetcher />
       </main>
       

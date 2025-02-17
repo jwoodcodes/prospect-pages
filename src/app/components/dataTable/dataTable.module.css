@@ -1,0 +1,31 @@
+.clsSelectBtnsWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+    margin-bottom: 5rem;
+  }
+  
+  .clsSelectBtn {
+    margin: 0 0.5rem;
+    border-radius: 20px;
+    padding: .5rem 1rem;
+    background-color: var(--color-orange-primary);
+    color: var(--color-gray-100);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .clsSelectBtn:hover {
+    background-color: var(--color-gray-700);
+    transform: scale(1.05) translateY(-.2rem);
+    
+  }
+  
+  .clsSelectBtn:active {
+    
+    transform: scale(1.05) translateY(.2rem);
+    
+  }
+
+ 
