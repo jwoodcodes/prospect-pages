@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react";
+import React, { useState } from "react";
 import { useMemo } from "react";
 import { AgGridReact } from "ag-grid-react"; // React Data Grid Component
 import {
@@ -13,8 +13,11 @@ import {
   
   
 import styles from './dataTable.module.css'
+import PlayerDialog from './PlayerDialog'; // Import the dialog component
 
 export default function DataTable({ data }) {
+    const [selectedPlayer, setSelectedPlayer] = useState(null); // State to hold selected player
+    const [isDialogOpen, setIsDialogOpen] = useState(false); // State to manage dialog visibility
 
     // console.log(data)
     const myTheme = themeAlpine.withParams({
@@ -176,6 +179,14 @@ const [colDefs, setColDefs] = React.useState([
       flex: 1,
       pinned: "left",
       maxWidth: 140,
+      cellRenderer: (params) => (
+        <span
+          style={{ cursor: 'pointer', textDecoration: 'none' }}
+          onClick={() => openDialog(params.value)}
+        >
+          {params.value}
+        </span>
+      ),
     },
     {
       field: "Pos",
@@ -415,6 +426,19 @@ const [colDefs, setColDefs] = React.useState([
    
     
 
+    const openDialog = (playerName) => {
+        console.log("Clicked Player Name:", playerName); // Log the clicked player name
+        const player = data.find(item => item.Player_Name.trim().toLowerCase() === playerName.trim().toLowerCase()); // Find the player by name
+        console.log("Selected Player Data:", player); // Log the selected player data
+        setSelectedPlayer(player); // Set the selected player
+        setIsDialogOpen(true); // Open the dialog
+    };
+
+    const closeDialog = () => {
+        setIsDialogOpen(false); // Close the dialog
+        setSelectedPlayer(null); // Clear the selected player
+    };
+
     return (
         <div style={containerStyle}>
           <div className={styles.clsSelectBtnsWrapper}>
@@ -438,6 +462,9 @@ const [colDefs, setColDefs] = React.useState([
                 // modules={[ClientSideRowModelModule]} // Register the module here
             />
         </div>
+        {isDialogOpen && (
+            <PlayerDialog player={selectedPlayer} onClose={closeDialog} />
+        )}
         </div>
     );
 }
