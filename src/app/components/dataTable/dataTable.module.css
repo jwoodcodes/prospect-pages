@@ -42,6 +42,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    
 }
 
 .dialogContent {
@@ -58,6 +60,8 @@
     max-height: 80%;
     overflow-y: scroll;
     margin: 0 auto;
+
+   
 }
 
 /* Custom scrollbar for WebKit browsers */
@@ -93,28 +97,80 @@
 
 .closeBtn {
   background-color: var(--color-gray-50);
+  width: 40px; 
+  height: 40px; 
+  cursor: pointer; 
     font-size: 1.25rem;
-    padding: .5rem 1rem;
+    
     cursor: pointer;
     border: none;
-    border-radius: 40px;
+    border-radius: 50%;
     color: var(--color-gray-900);
 }
 
+
 .playerName {
-  font-size: 2rem;
+  font-size: 2.5rem;
   letter-spacing: .1rem;
+  text-align: center;
+  /* margin: 1rem 0; */
+  margin: 1rem auto;
+  color: var(--color-orange-primary)
 }
 
 .infoBox {
   margin-bottom: 2rem;
+  text-align: center;
+  margin: .5rem 0 .5rem .5rem;
 }
+
+
 
 .breakdown {
   margin: 2rem auto;
   line-height: 1.5rem;
   font-size: 1rem;
   letter-spacing: .05rem;
+  /* color: var(--color-gray-800); */
   color: var(--color-gray-800);
   max-width: 80%;
 }
+
+.tablesContainer {
+    display: flex;
+    flex-wrap: wrap; /* Allow tables to wrap to the next line */
+    justify-content: center; /* Center the tables */
+    color: var(--color-gray-700);
+    font-size: .8rem;
+}
+
+.tableWrapper {
+    flex: 1 1 45%; /* Allow tables to take up to 45% of the width */
+    margin: 0 0.5rem; /* Add horizontal margin to create space between tables */
+    text-align: center;
+    justify-content: center;
+    padding: .5rem;
+}
+
+@media (max-width: 700px) {
+    .tableWrapper {
+        flex: 1 1 100%; /* Stack tables to take full width on small screens */
+        margin: 0; /* Remove margin on small screens */
+    }
+}
+
+.table {
+    width: 100%; /* Ensure the table takes full width */
+    border-collapse: collapse; /* Collapse borders for a cleaner look */
+}
+
+.tableCell {
+    padding: 1rem; /* Add padding to table cells */
+    text-align: left; /* Align text to the left */
+    border: 1px solid var(--color-gray-300); /* Optional: Add border for better visibility */
+}
+
+.heading {
+    margin-bottom: 1rem; /* Add 1rem bottom margin to headings */
+}
+
