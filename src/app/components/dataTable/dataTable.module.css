@@ -42,21 +42,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
+    
     
 }
 
 .dialogContent {
   border-bottom: .5rem solid var(--color-orange-primary);
-    background-image: linear-gradient(to bottom right, var(--color-gray-50), var(--color-blue-dark));
+    /* background-image: linear-gradient(to bottom right, var(--color-gray-50), var(--color-blue-dark)); */
+    background-image: linear-gradient(to bottom right, var(--color-green-primary), var(--color-blue-dark), var(--color-green-dark));
+    
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index:100;
     color: var(--color-gray-900);
+    font-family: 'Noto Serif Khojki', serif; /* Apply Noto Serif Khojki font */
 
     min-width: 70%;
-    max-width: 80%;
+    width: 80%;
+    max-width: 40rem;
     max-height: 80%;
     overflow-y: scroll;
     margin: 0 auto;
@@ -91,16 +95,21 @@
 
 .nameAndCloseWrapper {
   display: flex;
-  justify-content: space-between;
-  
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .closeBtn {
   background-color: var(--color-gray-50);
   width: 40px; 
   height: 40px; 
+  position: sticky;
+  top: .25rem;
+  
   cursor: pointer; 
     font-size: 1.25rem;
+   
     
     cursor: pointer;
     border: none;
@@ -108,48 +117,92 @@
     color: var(--color-gray-900);
 }
 
+.nameAndInfoboxAndGradesChartWrapper {
+  
+  width: 50%;
+  margin-bottom: 5rem;  
+}
+
 
 .playerName {
-  font-size: 2.5rem;
-  letter-spacing: .1rem;
+  font-size: 3rem;
+  letter-spacing: .2rem;
   text-align: center;
   /* margin: 1rem 0; */
-  margin: 1rem auto;
-  color: var(--color-orange-primary)
+  margin: 0 auto ;
+  color: var(--color-orange-primary);
+  font-weight: 400;
 }
 
 .infoBox {
   margin-bottom: 2rem;
   text-align: center;
-  margin: .5rem 0 .5rem .5rem;
+  margin: 0 0 .5rem .5rem;
+  font-size: 1rem;
+  letter-spacing: .05rem;
 }
 
+.chartsWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 2rem;
+  max-width: 50%;
+  margin: 2rem auto;
+}
 
+.prospectGradesChart {
+  margin-right: 4rem
+}
+
+.breakdownAndDataTablesWrapper {
+  display: flex;
+}
+
+.BreakdownHeading {
+  text-align: center;
+  
+  font-size: 1.5rem;
+  letter-spacing: .05rem;
+  color: var(--color-orange-primary);
+}
 
 .breakdown {
   margin: 2rem auto;
   line-height: 1.5rem;
-  font-size: 1rem;
-  letter-spacing: .05rem;
+  font-size: 1.1rem;
+  letter-spacing: .075rem;
   /* color: var(--color-gray-800); */
   color: var(--color-gray-800);
   max-width: 80%;
 }
 
 .tablesContainer {
-    display: flex;
-    flex-wrap: wrap; /* Allow tables to wrap to the next line */
-    justify-content: center; /* Center the tables */
-    color: var(--color-gray-700);
+    /* display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    align-items: center;
+    flex-direction: column; */
+    text-align: center;
+    letter-spacing: .05rem;
+    width: 50%;
+    color: var(--color-white);
     font-size: .8rem;
+    margin-right: 2rem;
 }
 
 .tableWrapper {
-    flex: 1 1 45%; /* Allow tables to take up to 45% of the width */
-    margin: 0 0.5rem; /* Add horizontal margin to create space between tables */
+    /* flex: 1 1 45%; 
+    margin: 0 0.5rem; 
     text-align: center;
     justify-content: center;
-    padding: .5rem;
+    padding: .5rem; */
+
+    flex: 1 1 50%;
+    align-items: center;
+        margin: 4rem auto; 
+      
 }
 
 @media (max-width: 700px) {
@@ -172,5 +225,62 @@
 
 .heading {
     margin-bottom: 1rem; /* Add 1rem bottom margin to headings */
+}
+
+.videoContainer {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: space-between; /* Space between items */
+    margin-top: 1rem; /* Add some space above */
+}
+
+.videoWrapper {
+    flex: 0 1 calc(50% - 1rem); /* Two columns, each taking up half the width minus margin */
+    margin-bottom: 1rem; /* Space between video players */
+}
+
+@media (max-width: 1000px) {
+    .videoWrapper {
+        flex: 0 1 80%; /* Single column, each taking up 80% of the width */
+        margin: 0 auto; /* Center the video wrapper */
+    }
+}
+
+.dialogContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.compareContainer {
+    margin-bottom: 20px;
+}
+
+.playerDialogs {
+    display: flex;
+    justify-content: space-between; /* Adjusts spacing between player dialogs */
+}
+
+.playerDialog {
+    flex: 1; /* Each dialog takes equal space */
+    margin: 0 10px; /* Space between dialogs */
+    padding: 10px;
+    border: 1px solid #ccc; /* Optional border */
+    border-radius: 5px; /* Optional rounded corners */
+}
+
+.chartWrapper {
+    display: flex; /* Hide by default */
+}
+
+@media (min-width: 800px) {
+    .chartWrapper {
+        display: block; /* Show on larger screens */
+        margin-left: 20px; /* Add some space between elements */
+    }
+
+    .infoBox {
+        display: flex;
+        flex-direction: column; /* Stack info box items vertically */
+    }
 }
 
