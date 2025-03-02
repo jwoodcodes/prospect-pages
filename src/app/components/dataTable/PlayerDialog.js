@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './dataTable.module.css'
 import PlayerGradesChart from './PlayerGradesChart'; // Adjust the import path as necessary
 
-export default function PlayerDialog({ player, onClose }) {
+export default function PlayerDialog({ player, onClose, allPlayers }) {
     const dialogRef = useRef(null); // Create a ref for the dialog
+    const [isAvailable, setIsAvailable] = useState(true);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [selectedPlayer, setSelectedPlayer] = useState(null);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -20,6 +23,12 @@ export default function PlayerDialog({ player, onClose }) {
         };
     }, [onClose]);
 
+    const handlePlayerChange = (event) => {
+        const selectedId = event.target.value;
+        const foundPlayer = allPlayers.find(p => p.id === selectedId); // Assuming each player has a unique 'id'
+        setSelectedPlayer(foundPlayer);
+    };
+
     if (!player) return null; // Return null if no player is selected
 
     // Check if PlayerBio exists before accessing its properties
@@ -31,32 +40,47 @@ export default function PlayerDialog({ player, onClose }) {
     return (
         <div className={styles.dialogOverlay}>
             <div className={styles.dialogContent} ref={dialogRef}>
-                <div className={styles.topBar} ></div>
-                <div className={styles.nameAndCloseWrapper}>
-                <h2 className={styles.playerName}>{player.Player_Name}</h2> {/* Display the player's name */}
-               
-                <button onClick={onClose} className={styles.closeBtn}>X</button>
-                </div>
-                <div className={styles.infoBox}>
+            <button onClick={onClose} className={styles.closeBtn}>X</button>
+            <h2 className={styles.playerName}>{player.Player_Name}</h2> 
+            <div className={styles.infoBox}>
                     {playerBio.Height && (
                         <p><strong>Height:</strong> {playerBio.Height}</p>
                     )}
                     {playerBio.Weight && (
                         <p><strong>Weight:</strong> {playerBio.Weight}</p>
                     )}
-                     {playerBio.Draft_Year && (
+                    {playerBio.Draft_Year && (
                         <p><strong>Draft Year:</strong> {playerBio.Draft_Year}</p>
                     )}
-                     {playerBio.
-                     School && (
-                        <p><strong>
-                            School:</strong> {playerBio.
-                        School}</p>
+                    {playerBio.School && (
+                        <p><strong>School:</strong> {playerBio.School}</p>
                     )}
                 </div>
+              <div className={styles.nameAndInfoboxAndGradesChartWrapper}> 
+                
+                <div className={styles.nameAndCloseWrapper}>
+                    
+                    
+                
+                
+                </div>
+                <div className={styles.chartWrapper}>
+                    {/* Add the PlayerGradesChart component */}
+                    <PlayerGradesChart rookieGuideData={player.rookieGuideData} filmGrades={player.filmGrades} />
+                </div>
+                </div> 
 
-                {/* Add the PlayerGradesChart component */}
-                <PlayerGradesChart rookieGuideData={player.rookieGuideData} />
+                <div className={styles.breakdownAndDataTablesWrapper}>
+
+                <div>
+                <h3 className={styles.BreakdownHeading}>Player Breakdown</h3>
+                <p className={styles.breakdown} 
+                dangerouslySetInnerHTML={{
+                    __html: player.PlayerBio && player.PlayerBio.Breakdown
+                        ? player.PlayerBio.Breakdown.replace(/<br\s*\/?>/gi, '<br />')
+                        : ''
+                }} />
+                </div>
 
                 {/* Container for tables */}
                 <div className={styles.tablesContainer}>
@@ -343,13 +367,12 @@ export default function PlayerDialog({ player, onClose }) {
                         </>
                     )}
                 </div>
+                </div>
+               
 
-                <p className={styles.breakdown} dangerouslySetInnerHTML={{
-                    __html: player.PlayerBio && player.PlayerBio.Breakdown
-                        ? player.PlayerBio.Breakdown.replace(/<br\s*\/?>/gi, '<br />')
-                        : ''
-                }} />
+              
 
+                
             </div>
         </div>
     );

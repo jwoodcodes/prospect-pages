@@ -2,37 +2,74 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto'; // Import Chart.js
 import ChartDataLabels from 'chartjs-plugin-datalabels'; // Import the data labels plugin
+import styles from './dataTable.module.css'
 
-const PlayerGradesChart = ({ rookieGuideData }) => {
+const PlayerGradesChart = ({ rookieGuideData, filmGrades = [] }) => {
     // Extract grades from rookieGuideData
-    const { Film_Grade, Landing_Spot, Overall_Grade } = rookieGuideData;
+    const { Film_Grade, Analytical_Grade, Landing_Spot, Overall_Grade } = rookieGuideData;
 
     // Function to determine color based on value
     const getColor = (value) => {
         if (value >= 90) {
-            return 'rgba(57, 255, 20, 0.8)'; // Bright neon green
+            
+            return 'oklch(76.47% 0.2763 141.53 / 83.04%)'; // Bright neon green
         } else if (value >= 80) {
-            return 'rgba(144, 238, 144, 0.6)'; // Medium green
+            // return 'oklch(44.67% 0.071 203.29)'; // Medium green
+            return 'oklch(60.68% 0.2122 141.53 / 94.25%)'; // Medium green
+            
         } else if (value >= 70) {
-            return 'rgba(255, 206, 86, 0.6)'; // Yellow
-        } else if (value >= 60) {
-            return 'rgba(255, 165, 0, 0.6)'; // Orange
-        } else if (value >= 50) {
-            return 'rgba(255, 99, 132, 0.6)'; // Light red
-        } else {
-            return 'rgba(255, 0, 0, 0.6)'; // Dark red
+            // return 'oklch(73.24% 0.1554 97.41)'; // Yellow
+            // return 'oklch(73.24% 0.1554 97.41)'; // Yellow
+            return 'oklch(66.48% 0.1576 120.18 / 94.25%)'; // Yellow
+        }
+        else {
+            return 'oklch(49.33% 0.2092 29.65)'; // Dark red
         }
     };
 
+    const getFilmColor = (value) => {
+        if (value >= 4.5) {
+            
+            return 'oklch(76.47% 0.2763 141.53 / 83.04%)'; // Bright neon green
+        } else if (value >= 3.5) {
+            // return 'oklch(44.67% 0.071 203.29)'; // Medium green
+            return 'oklch(60.68% 0.2122 141.53 / 94.25%)'; // Medium green
+            
+        } else if (value >= 2.5) {
+            // return 'oklch(73.24% 0.1554 97.41)'; // Yellow
+            // return 'oklch(73.24% 0.1554 97.41)'; // Yellow
+            return 'oklch(66.48% 0.1576 120.18 / 94.25%)'; // Yellow
+        }
+        else {
+            return 'oklch(49.33% 0.2092 29.65)'; // Dark red
+        }
+    };
+
+    // Function to filter unique film grades by Metric
+    const getUniqueFilmGrades = (grades) => {
+        const seenMetrics = new Set();
+        return grades.filter(grade => {
+            if (!seenMetrics.has(grade.Metric)) {
+                seenMetrics.add(grade.Metric);
+                return true; // Keep this grade
+            }
+            return false; // Skip duplicates
+        });
+    };
+
+    // Filter unique film grades
+    const uniqueFilmGrades = getUniqueFilmGrades(filmGrades);
+
     // Data for the chart
     const data = {
-        labels: ['Film Grade', 'Landing Spot', 'Overall Grade'],
+        labels: ['Film Grade', 'Analytical Grade', 'Landing Spot', 'Overall Grade'],
         datasets: [
             {
-                label: 'Rookie Guide Grades',
-                data: [Film_Grade, Landing_Spot, Overall_Grade],
+                label: 'Prospect Grades',
+                data: [Film_Grade, Analytical_Grade, Landing_Spot, Overall_Grade],
                 backgroundColor: [
                     getColor(Film_Grade),
+                    getColor(Analytical_Grade),
                     getColor(Landing_Spot),
                     getColor(Overall_Grade),
                 ],
@@ -57,7 +94,7 @@ const PlayerGradesChart = ({ rookieGuideData }) => {
             //     },
             // },
             datalabels: {
-                anchor: 'end', // Position of the label
+                anchor: 'center', // Position of the label
                 align: 'end', // Align the label
                 formatter: (value) => value.toFixed(1), // Display the value
                 color: 'white', // Color of the label text
@@ -75,9 +112,53 @@ const PlayerGradesChart = ({ rookieGuideData }) => {
         },
     };
 
+    // Data for the film grades chart
+    const filmGradesData = {
+        labels: uniqueFilmGrades.map(grade => grade.Metric), // Extract unique metrics as labels
+        datasets: [
+            {
+                label: 'Film Grades',
+                data: uniqueFilmGrades.map(grade => grade.Grade), // Extract grades from unique metrics
+                backgroundColor: uniqueFilmGrades.map(grade => getFilmColor(grade.Grade)), // Use the same color logic
+                borderColor: 'rgba(0, 0, 0, 1)',
+                borderWidth: 1,
+            },
+        ],
+    };
+
+    // Options for the film grades chart
+    const filmGradesOptions = {
+        plugins: {
+            datalabels: {
+                anchor: 'center',
+                align: 'end',
+                formatter: (value) => value.toFixed(1),
+                color: 'white',
+                font: {
+                    weight: 'bold',
+                },
+                display: true,
+            },
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 5, // Adjust max value based on expected grades
+            },
+        },
+    };
+
+    // Debugging: Log filmGrades to check its structure
+    console.log('Film Grades:', uniqueFilmGrades);
+
     return (
-        <div style={{ width: '500px', height: '400px', margin: '0 auto'}}> {/* Container for the chart */}
-            <Bar data={data} options={options} plugins={[ChartDataLabels]} />
+        <div className={styles.chartsWrapper}>
+        <div style={{ width: '500px', height: '250px', display: 'flex'} }> {/* Container for the rookie grades chart */}
+            <Bar data={data} options={options} plugins={[ChartDataLabels]} className={styles.prospectGradesChart} />
+            {uniqueFilmGrades.length > 0 && ( // Only render the film grades chart if there are unique grades
+                <Bar data={filmGradesData} options={filmGradesOptions} plugins={[ChartDataLabels]} /> 
+            )}
+        </div>
         </div>
     );
 };
