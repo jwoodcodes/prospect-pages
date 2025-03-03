@@ -149,7 +149,7 @@ const PlayerGradesChart = ({ rookieGuideData, filmGrades = [] }) => {
     };
 
     // Debugging: Log filmGrades to check its structure
-    console.log('Film Grades:', uniqueFilmGrades);
+    // console.log('Film Grades:', uniqueFilmGrades);
 
     return (
         <div className={styles.chartsWrapper}>

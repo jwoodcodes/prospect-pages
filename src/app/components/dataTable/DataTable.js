@@ -463,7 +463,7 @@ const [colDefs, setColDefs] = React.useState([
             />
         </div>
         {isDialogOpen && (
-            <PlayerDialog player={selectedPlayer} onClose={closeDialog} />
+            <PlayerDialog player={selectedPlayer} onClose={closeDialog} data={data}/>
         )}
         </div>
     );

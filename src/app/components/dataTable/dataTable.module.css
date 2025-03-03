@@ -60,7 +60,7 @@
 
     min-width: 70%;
     width: 80%;
-    max-width: 40rem;
+    max-width: 30rem;
     max-height: 80%;
     overflow-y: scroll;
     margin: 0 auto;
@@ -145,7 +145,7 @@
 .chartsWrapper {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   margin-top: 2rem;
   max-width: 50%;
@@ -153,7 +153,10 @@
 }
 
 .prospectGradesChart {
-  margin-right: 4rem
+  margin-right: 4rem;
+  margin-left: 4rem;
+  margin-top: 2rem;
+ 
 }
 
 .breakdownAndDataTablesWrapper {
@@ -282,5 +285,18 @@
         display: flex;
         flex-direction: column; /* Stack info box items vertically */
     }
+}
+
+.playerCardsWrapper {
+    display: flex;
+    justify-content: space-between; /* Space between the cards */
+}
+
+.playerCard {
+    width: 48%; /* Adjust width to fit two cards */
+    padding: 10px; /* Add some padding */
+    border: 1px solid #ccc; /* Optional: Add a border */
+    border-radius: 5px; /* Optional: Add rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
 }
 
