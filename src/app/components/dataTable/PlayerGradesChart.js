@@ -35,7 +35,7 @@ const PlayerGradesChart = ({ rookieGuideData, filmGrades = [] }) => {
             // return 'oklch(44.67% 0.071 203.29)'; // Medium green
             return 'oklch(60.68% 0.2122 141.53 / 94.25%)'; // Medium green
             
-        } else if (value >= 2.5) {
+        } else if (value >= 3) {
             // return 'oklch(73.24% 0.1554 97.41)'; // Yellow
             // return 'oklch(73.24% 0.1554 97.41)'; // Yellow
             return 'oklch(66.48% 0.1576 120.18 / 94.25%)'; // Yellow
@@ -96,7 +96,7 @@ const PlayerGradesChart = ({ rookieGuideData, filmGrades = [] }) => {
             datalabels: {
                 anchor: 'center', // Position of the label
                 align: 'end', // Align the label
-                formatter: (value) => value.toFixed(1), // Display the value
+                formatter: (value) => value?.toFixed(1) ?? '0.0', // Display the value with fallback
                 color: 'white', // Color of the label text
                 font: {
                     weight: 'bold', // Make the font bold
@@ -132,7 +132,7 @@ const PlayerGradesChart = ({ rookieGuideData, filmGrades = [] }) => {
             datalabels: {
                 anchor: 'center',
                 align: 'end',
-                formatter: (value) => value.toFixed(1),
+                formatter: (value) => value?.toFixed(1) ?? '0.0',
                 color: 'white',
                 font: {
                     weight: 'bold',
@@ -153,12 +153,14 @@ const PlayerGradesChart = ({ rookieGuideData, filmGrades = [] }) => {
 
     return (
         <div className={styles.chartsWrapper}>
-        <div style={{ width: '500px', height: '250px', display: 'flex'} }> {/* Container for the rookie grades chart */}
-            <Bar data={data} options={options} plugins={[ChartDataLabels]} className={styles.prospectGradesChart} />
-            {uniqueFilmGrades.length > 0 && ( // Only render the film grades chart if there are unique grades
-                <Bar data={filmGradesData} options={filmGradesOptions} plugins={[ChartDataLabels]} /> 
-            )}
-        </div>
+            <div style={{ width: '500px', height: '250px', display: 'flex'} }> {/* Container for the rookie grades chart */}
+                <Bar data={data} options={options} plugins={[ChartDataLabels]} className={styles.prospectGradesChart} />
+            </div>
+            <div style={{ width: '500px', height: '250px', display: 'flex'} }>  
+                {uniqueFilmGrades.length > 0 && ( // Only render the film grades chart if there are unique grades
+                <Bar data={filmGradesData} options={filmGradesOptions} plugins={[ChartDataLabels] } /> )}
+            
+             </div>
         </div>
     );
 };

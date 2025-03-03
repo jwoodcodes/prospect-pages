@@ -434,9 +434,12 @@ const [colDefs, setColDefs] = React.useState([
         setIsDialogOpen(true); // Open the dialog
     };
 
+    const [comparePlayer, setComparePlayer] = useState(null);
+
     const closeDialog = () => {
         setIsDialogOpen(false); // Close the dialog
         setSelectedPlayer(null); // Clear the selected player
+        setComparePlayer(null)
     };
 
     return (
@@ -463,7 +466,7 @@ const [colDefs, setColDefs] = React.useState([
             />
         </div>
         {isDialogOpen && (
-            <PlayerDialog player={selectedPlayer} onClose={closeDialog} data={data}/>
+            <PlayerDialog player={selectedPlayer} onClose={closeDialog} data={data} comparePlayer={comparePlayer} setComparePlayer={setComparePlayer}/>
         )}
         </div>
     );

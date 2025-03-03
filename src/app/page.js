@@ -30,14 +30,7 @@ export default function Home() {
         </div>
         
         
-        {/* <div className={styles.clsSelectBtnsWrapper}>
-          <button className={styles.clsSelectBtn}>2021</button>
-          <button className={styles.clsSelectBtn}>2022</button>
-          <button className={styles.clsSelectBtn}>2023</button>
-          <button className={styles.clsSelectBtn}>2024</button>
-          <button className={styles.clsSelectBtn}>2025</button>
-
-        </div> */}
+       
         <DataFetcher />
       </main>
       

@@ -58,15 +58,19 @@
     color: var(--color-gray-900);
     font-family: 'Noto Serif Khojki', serif; /* Apply Noto Serif Khojki font */
 
-    min-width: 70%;
+    min-width: 40%;
     width: 80%;
-    max-width: 30rem;
+    max-width: 90rem;
     max-height: 80%;
     overflow-y: scroll;
-    margin: 0 auto;
+    margin: 0 1rem;
 
+
+    
    
 }
+
+
 
 /* Custom scrollbar for WebKit browsers */
 .dialogContent::-webkit-scrollbar {
@@ -93,12 +97,7 @@
     scrollbar-color: var(--color-blue-light) var(--color-gray-200); /* thumb color and track color */
 }
 
-.nameAndCloseWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+
 
 .closeBtn {
   background-color: var(--color-gray-50);
@@ -142,20 +141,60 @@
   letter-spacing: .05rem;
 }
 
-.chartsWrapper {
-  display: flex;
-  flex-direction: column;
+.searchForm {
+  /* display: flex;
   justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
-  max-width: 50%;
-  margin: 2rem auto;
+  margin-top: 1rem; */
+  margin: 0 auto;
+  text-align: center ;
 }
 
-.prospectGradesChart {
-  margin-right: 4rem;
-  margin-left: 4rem;
+.searchInputAndButtonWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem; 
+}
+
+.teamOneSearchInput {
+  border-radius: 20px;
+  margin-right: .5rem;
+  background-color: var(--color-gray-800);
+  text-align: center;
+  color: var(--color-gray-50);
+  /* cursor: pointer; */
+}
+
+
+
+.selectMenuItem {
+  cursor: pointer;
+  width: fit-content;
+  margin: .1rem auto;
+}
+
+.addPlayerButton {
+  border-radius: 20px;
+  background-color: var(--color-green-primary);
+  text-align: center;
+  color: var(--color-gray-900);
+  padding: 0 .5rem;
+}
+
+.chartsWrapper {
+  display: flex;
+  
+  justify-content: space-between;
+  align-items: baseline;
   margin-top: 2rem;
+  max-width: 85%;
+  margin: 2rem auto;
+  gap: 2rem;
+}
+
+
+
+.prospectGradesChart {
+  
  
 }
 
@@ -189,7 +228,7 @@
     flex-direction: column; */
     text-align: center;
     letter-spacing: .05rem;
-    width: 50%;
+    width: 60%;
     color: var(--color-white);
     font-size: .8rem;
     margin-right: 2rem;
@@ -271,9 +310,7 @@
     border-radius: 5px; /* Optional rounded corners */
 }
 
-.chartWrapper {
-    display: flex; /* Hide by default */
-}
+
 
 @media (min-width: 800px) {
     .chartWrapper {
@@ -298,5 +335,13 @@
     border: 1px solid #ccc; /* Optional: Add a border */
     border-radius: 5px; /* Optional: Add rounded corners */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
+}
+
+.comparePlayerWrapper {
+    margin: 15px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f5f5f5;
 }
 
