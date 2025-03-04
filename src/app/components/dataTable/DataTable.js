@@ -1,7 +1,6 @@
 "use client"
 
-import React, { useState } from "react";
-import { useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { AgGridReact } from "ag-grid-react"; // React Data Grid Component
 import {
     AllCommunityModule,
@@ -37,7 +36,7 @@ export default function DataTable({ data }) {
   }, []);
   
     
-    const [classYear, setClassYear] = React.useState(2021)
+    const [classYear, setClassYear] = React.useState("all")
 
     const [rowData, setRowData] = React.useState([]);
 
@@ -103,12 +102,10 @@ export default function DataTable({ data }) {
         p.class = player.rookieGuideData.Class
       
         if(player.rookieGuideData.Overall_Grade) {
-       let tempOverall = +player.rookieGuideData.Overall_Grade
-        
-        p.Grade = (tempOverall).toFixed(1)
-        }
-        else{
-          p.Grade = player.rookieGuideData.Overall_Grade
+          let tempOverall = +player.rookieGuideData.Overall_Grade
+          p.Grade = (tempOverall).toFixed(1)
+        } else {
+          p.Grade = "0.0"
         }
 
         p.film = player.rookieGuideData.Film_Grade
@@ -209,8 +206,9 @@ const [colDefs, setColDefs] = React.useState([
       filter: true,
       floatingFilter: true,
       flex: 1,
-      
       maxWidth: 80,
+      sortable: true,
+      sort: 'desc',
     },
     // {
     //   field: "film",
@@ -414,17 +412,17 @@ const [colDefs, setColDefs] = React.useState([
     },
 ])
 
-
-
-
-
-    const defaultColDef = {
-        flex: 1,
-      };
-
-
-   
-    
+const defaultColDef = useMemo(() => ({
+    flex: 1,
+    sortable: true,
+    comparator: (valueA, valueB) => {
+        // Put null/undefined/empty values at the bottom when sorting
+        if (!valueA && valueA !== 0) return 1;
+        if (!valueB && valueB !== 0) return -1;
+        // Convert to numbers for comparison since Grade is stored as string
+        return Number(valueA) - Number(valueB);
+    }
+}), []);
 
     const openDialog = (playerName) => {
         console.log("Clicked Player Name:", playerName); // Log the clicked player name
@@ -458,11 +456,12 @@ const [colDefs, setColDefs] = React.useState([
             <AgGridReact
                 columnDefs={colDefs}
                 rowData={rowData}
+                defaultColDef={defaultColDef}
                 pagination={true}
                 paginationPageSize={50}
                 theme={theme}
                 className={styles.dataGrid}
-                // modules={[ClientSideRowModelModule]} // Register the module here
+                sortModel={[{ colId: 'Grade', sort: 'desc' }]}
             />
         </div>
         {isDialogOpen && (
