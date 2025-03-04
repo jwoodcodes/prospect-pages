@@ -18,6 +18,7 @@ export default function PlayerDialog({ player, onClose, data, comparePlayer, set
     function teamOneSearchOnChange(event) {
         setTeamOneSearchValue(event.target.value);
     }
+    //
     function onPlayerSelectFromList(searchTerm, player) {
         // console.log(searchTerm, player)
         event.preventDefault();
