@@ -50,7 +50,7 @@ export default async function DataFetcher() {
             _id: item._id.toString(), // Convert ObjectId to string
         }));
 
-        // Process the data to extract players
+        /// Process the data to extract players
         data3 = data.flatMap((data2) => data2.players); // Collect all players into data3
 
     } catch (error) {
