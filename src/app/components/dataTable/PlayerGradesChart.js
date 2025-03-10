@@ -1,12 +1,29 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Radar } from 'react-chartjs-2';
 import 'chart.js/auto'; // Import Chart.js
 import ChartDataLabels from 'chartjs-plugin-datalabels'; // Import the data labels plugin
 import styles from './dataTable.module.css'
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+} from 'chart.js';
 
-const PlayerGradesChart = ({ rookieGuideData, filmGrades = [] }) => {
+// Register the required components for radar charts
+ChartJS.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler
+);
+
+const PlayerGradesChart = ({ rookieGuideData, filmGrades = [], isSelectedPlayer, name = 'Player' }) => {
     // Extract grades from rookieGuideData
     const { Film_Grade, Analytical_Grade, Landing_Spot, Overall_Grade } = rookieGuideData;
+
+    console.log('this one', rookieGuideData)
 
     // Function to determine color based on value
     const getColor = (value) => {
@@ -151,16 +168,235 @@ const PlayerGradesChart = ({ rookieGuideData, filmGrades = [] }) => {
     // Debugging: Log filmGrades to check its structure
     // console.log('Film Grades:', uniqueFilmGrades);
 
+    // Create filtered data for prospect grades spider chart
+    const selectedRookieGuideFields = {
+        'Film': rookieGuideData?.Film_Grade || 0,
+        'Analytical': rookieGuideData?.Analytical_Grade || 0,
+        'Landing Spot': rookieGuideData?.Landing_Spot || 0,
+        'Overall': rookieGuideData?.Overall_Grade || 0
+    };
+
+    const prospectSpiderData = {
+        labels: Object.keys(selectedRookieGuideFields),
+        datasets: [{
+            label: 'Prospect Grades',
+            data: Object.values(selectedRookieGuideFields),
+            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1,
+            fill: true,
+            pointBackgroundColor: Object.values(selectedRookieGuideFields).map(value => getColor(value)),
+            pointBorderColor: Object.values(selectedRookieGuideFields).map(value => getColor(value)),
+            pointHoverBackgroundColor: Object.values(selectedRookieGuideFields).map(value => getColor(value)),
+            pointHoverBorderColor: Object.values(selectedRookieGuideFields).map(value => getColor(value)),
+            pointLabels: Object.values(selectedRookieGuideFields).map(value => value.toFixed(1)),
+            pointRadius: 7,
+            pointHoverRadius: 7,
+        }]
+    };
+
+    // Get position from first film grade entry
+    const position = filmGrades?.[0]?.Position;
+
+    // Remove duplicate entries (appears data is duplicated in array)
+    const uniqueFilmGradesFiltered = filmGrades ? 
+        filmGrades.filter((grade, index, self) =>
+            index === self.findIndex((t) => t.Metric === grade.Metric)
+        ) : [];
+
+    // Get metrics based on position
+    let metrics = [];
+    if (position === 'QB') {
+        metrics = ['Processing', 'Accuracy', 'Arm Talent', 'Pocket', 'Run Threat'];
+    } else if (position === 'RB') {
+        metrics = ['Vision', 'Collisions', 'Elusiveness', 'Receiving', 'Burst'];
+    } else if (position === 'WR') {
+        metrics = ['Release', 'Route', 'Receiving', 'YAC', 'Explosiveness'];
+    } else if (position === 'TE') {
+        metrics = ['Blocking', 'Route', 'Receiving', 'YAC', 'Explosiveness'];
+    }
+
+    // Create data object with position-specific metrics
+    const processedData = {};
+    metrics.forEach(metric => {
+        const grade = uniqueFilmGradesFiltered.find(g => g.Metric === metric);
+        processedData[metric] = grade ? parseFloat(grade.Grade) : 0;
+    });
+
+    console.log('Position:', position);
+    console.log('Processed Data:', processedData);
+
+    // Film spider data with point colors
+    const filmSpiderData = {
+        labels: metrics,
+        datasets: [{
+            label: 'Film Grades',
+            data: metrics.map(metric => processedData[metric]),
+            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1,
+            fill: true,
+            pointBackgroundColor: metrics.map(metric => getFilmColor(processedData[metric])),
+            pointBorderColor: metrics.map(metric => getFilmColor(processedData[metric])),
+            pointHoverBackgroundColor: metrics.map(metric => getFilmColor(processedData[metric])),
+            pointHoverBorderColor: metrics.map(metric => getFilmColor(processedData[metric])),
+            pointLabels: metrics.map(metric => processedData[metric].toFixed(1)),
+            pointRadius: 7,
+            pointHoverRadius: 7,
+        }]
+    };
+
+    console.log('Spider Chart Data:', filmSpiderData);
+
+    // Options for prospect grades (0-100 scale)
+    const prospectSpiderOptions = {
+        scales: {
+            r: {
+                beginAtZero: true,
+                max: 100,
+                min: 0,
+                ticks: {
+                    display: false  // Hide the numeric labels
+                },
+                grid: {
+                    color: '#000000'
+                },
+                angleLines: {
+                    color: '#000000'
+                },
+                pointLabels: {
+                    font: {
+                        size: 12
+                    },
+                    color: '#FFFFFF',
+                    padding: 15
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                display: true
+            },
+            tooltip: {
+                callbacks: {
+                    label: (context) => `${context.dataset.label}: ${context.raw}`
+                }
+            },
+            datalabels: {
+                color: 'white',
+                font: {
+                    weight: 'bold'
+                },
+                formatter: (value) => value?.toFixed(1) ?? '0.0',
+                anchor: 'center',
+                align: (context) => {
+                    // The first label (index 0) is typically at the top of the radar chart
+                    return context.dataIndex === 0 ? 'bottom' : 'top'
+                },
+                offset: 5
+            }
+        }
+    };
+
+    // Film grades options
+    const filmSpiderOptions = {
+        scales: {
+            r: {
+                beginAtZero: true,
+                max: 5,
+                min: 0,
+                ticks: {
+                    display: false  // Hide the numeric labels
+                },
+                grid: {
+                    color: '#000000'
+                },
+                angleLines: {
+                    color: '#000000'
+                },
+                pointLabels: {
+                    font: {
+                        size: 12
+                    },
+                    color: '#FFFFFF',
+                    padding: 15
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                display: true
+            },
+            tooltip: {
+                callbacks: {
+                    label: (context) => {
+                        const metric = metrics[context.dataIndex];
+                        const grade = uniqueFilmGradesFiltered.find(g => g.Metric === metric);
+                        return grade ? 
+                            `${metric}: ${grade.Grade} - ${grade.Analysis}` :
+                            `${metric}: ${context.raw}`;
+                    }
+                }
+            },
+            datalabels: {
+                color: 'white',
+                font: {
+                    weight: 'bold'
+                },
+                formatter: (value) => value?.toFixed(1) ?? '0.0',
+                anchor: 'center',
+                align: (context) => {
+                    // The first label (index 0) is typically at the top of the radar chart
+                    return context.dataIndex === 0 ? 'bottom' : 'top'
+                },
+                offset: 5
+            }
+        }
+    };
+
+    // Grade labels for film grades
+    const filmGradeLabels = {
+        0: 'No Grade',
+        1: 'Poor',
+        2: 'Below Average',
+        3: 'Average',
+        4: 'Above Average',
+        5: 'Excellent'
+    };
+
     return (
-        <div className={styles.chartsWrapper}>
+        <div >
+            {isSelectedPlayer && (
+                
+            
+            <div className={styles.chartsWrapper}>
             <div style={{ width: '500px', height: '250px', display: 'flex'} }> {/* Container for the rookie grades chart */}
                 <Bar data={data} options={options} plugins={[ChartDataLabels]} className={styles.prospectGradesChart} />
             </div>
             <div style={{ width: '500px', height: '250px', display: 'flex'} }>  
-                {uniqueFilmGrades.length > 0 && ( // Only render the film grades chart if there are unique grades
+                {uniqueFilmGradesFiltered.length > 0 && ( // Only render the film grades chart if there are unique grades
                 <Bar data={filmGradesData} options={filmGradesOptions} plugins={[ChartDataLabels] } /> )}
             
              </div>
+             </div>
+             )}
+
+            {/* Spider charts with updated headings */}
+            <div style={{ 
+                display: 'flex', 
+                justifyContent: 'center',
+                marginTop: '2rem',
+                gap: '1rem'
+            }}>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', flex: 1, maxWidth: '400px', height: '300px' }}>
+                    <h3 style={{ textAlign: 'left' }}>{name}'s Prospect Grades</h3>
+                    <Radar data={prospectSpiderData} options={prospectSpiderOptions} plugins={[ChartDataLabels]} />
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',flex: 1, maxWidth: '400px', height: '300px' }}>
+                    <h3 style={{ textAlign: 'left' }}>{name}'s Film Grades</h3>
+                    <Radar data={filmSpiderData} options={filmSpiderOptions} plugins={[ChartDataLabels]} />
+                </div>
+            </div>
         </div>
     );
 };
