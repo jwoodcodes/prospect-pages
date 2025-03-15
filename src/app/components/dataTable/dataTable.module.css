@@ -58,7 +58,7 @@
     color: var(--color-gray-900);
     font-family: 'Noto Serif Khojki', serif; /* Apply Noto Serif Khojki font */
 
-    width: min(80%, 1200px); /* Reduced from 80%, 1200px to make dialog narrower */
+    width: min(80%, 1500px); /* Reduced from 80%, 1200px to make dialog narrower */
     max-width: 95vw; /* Ensure some margin on sides */
     min-width: auto; /* Remove min-width constraint */
     max-height: 80vh;
