@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react"; // React Data Grid Component
 import {
     AllCommunityModule,
@@ -168,14 +168,15 @@ export default function DataTable({ data }) {
 
 }, [data, classYear])
 
-const [colDefs, setColDefs] = React.useState([
+const getResponsiveColumnDefs = (width) => {
+  const baseColDefs = [
     {
       field: "name",
       filter: true,
       floatingFilter: true,
       flex: 1,
       pinned: "left",
-      maxWidth: 140,
+      maxWidth: width < 768 ? 100 : 140,
       cellRenderer: (params) => (
         <span
           style={{ cursor: 'pointer', textDecoration: 'none' }}
@@ -190,227 +191,199 @@ const [colDefs, setColDefs] = React.useState([
       filter: true,
       floatingFilter: true,
       flex: 1,
-      
-      maxWidth: 85,
+      maxWidth: width < 768 ? 60 : 85,
     },
     {
       field: "class",
       filter: true,
       floatingFilter: true,
       flex: 1,
-      
-      maxWidth: 80,
+      maxWidth: width < 768 ? 60 : 80,
     },
     {
       field: "Grade",
       filter: true,
       floatingFilter: true,
       flex: 1,
-      maxWidth: 80,
+      maxWidth: width < 768 ? 60 : 80,
       sortable: true,
       sort: 'desc',
-    },
-    // {
-    //   field: "film",
-    //   filter: true,
-    //   floatingFilter: true,
-    //   flex: 1,
-      
-    //   maxWidth: 70,
-    // },
-    // {
-    //   field: "analytical",
-    //   filter: true,
-    //   floatingFilter: true,
-    //   flex: 1,
-      
-    //   maxWidth: 95,
-    // },
-    // {
-    //   field: "Landing",
-    //   filter: true,
-    //   floatingFilter: true,
-    //   flex: 1,
-      
-    //   maxWidth: 90,
-    // },
-    // {
-    //   field: "G",
-    //   filter: true,
-    //   floatingFilter: true,
-    //   flex: 1,
-      
-    //   maxWidth: 50,
-    // },
-    {
-      field: "ruAtt",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 75,
-    },
-    {
-      field: "ruYds",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 75,
-    },
-    {
-      field: "ruTD",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 70,
-    },
-    {
-      field: "Ru Y/A",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 80,
-    },
-    {
-      field: "Ru Y/G",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 80,
-    },
-    {
-      field: "rec",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 60,
-    },
-    {
-      field: "reYds",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 75,
-    },
-    {
-      field: "reTD",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 75,
-    },
-    {
-      field: "Re Y/R",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 75,
-    },
-    {
-      field: "Re Y/G",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 75,
-    },
-    {
-      field: "pAtt",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 70,
-    },
-    {
-      field: "Cmp",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 70,
-    },
-    {
-      field: "cmp%",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 80,
-    },
-    {
-      field: "pYds",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 75,
-    },
-    {
-      field: "pTD",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 70,
-    },
-    {
-      field: "TD%",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 65,
-    },
-    {
-      field: "Int",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 55,
-    },
-    {
-      field: "Int%",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 65,
-    },
-    {
-      field: "Y/A",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 60,
-    },
-    {
-      field: "Y/C",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 60,
-    },
-    {
-      field: "Y/G",
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      
-      maxWidth: 80,
-    },
-])
+    }
+  ];
+
+  // Add remaining columns only if screen width is above 768px
+  if (width >= 768) {
+    // Add your existing columns here
+    baseColDefs.push(
+      {
+        field: "ruAtt",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 75,
+      },
+      {
+        field: "ruYds",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 75,
+      },
+      {
+        field: "ruTD",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 70,
+      },
+      {
+        field: "Ru Y/A",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 80,
+      },
+      {
+        field: "Ru Y/G",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 80,
+      },
+      {
+        field: "rec",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 60,
+      },
+      {
+        field: "reYds",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 75,
+      },
+      {
+        field: "reTD",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 75,
+      },
+      {
+        field: "Re Y/R",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 75,
+      },
+      {
+        field: "Re Y/G",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 75,
+      },
+      {
+        field: "pAtt",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 70,
+      },
+      {
+        field: "Cmp",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 70,
+      },
+      {
+        field: "cmp%",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 80,
+      },
+      {
+        field: "pYds",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 75,
+      },
+      {
+        field: "pTD",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 70,
+      },
+      {
+        field: "TD%",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 65,
+      },
+      {
+        field: "Int",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 55,
+      },
+      {
+        field: "Int%",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 65,
+      },
+      {
+        field: "Y/A",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 60,
+      },
+      {
+        field: "Y/C",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 60,
+      },
+      {
+        field: "Y/G",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        maxWidth: 80,
+      },
+    );
+  }
+
+  return baseColDefs;
+};
+
+const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+useEffect(() => {
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
+
+const [colDefs, setColDefs] = useState(getResponsiveColumnDefs(windowWidth));
+
+useEffect(() => {
+  setColDefs(getResponsiveColumnDefs(windowWidth));
+}, [windowWidth]);
 
 const defaultColDef = useMemo(() => ({
     flex: 1,

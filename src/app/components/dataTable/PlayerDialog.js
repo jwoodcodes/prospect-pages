@@ -14,6 +14,8 @@ export default function PlayerDialog({ player, onClose, data, comparePlayer, set
     const [teamOnePlayers, setTeamOnePlayers] = React.useState([]);
     const [teamOneSearchValue, setTeamOneSearchValue] = React.useState('');
     
+    const [spiderComparePlayersList, setSpiderComparePlayersList] = useState([]);
+    const [spiderSearchValue, setSpiderSearchValue] = useState('');
 
     function teamOneSearchOnChange(event) {
         setTeamOneSearchValue(event.target.value);
@@ -47,6 +49,21 @@ export default function PlayerDialog({ player, onClose, data, comparePlayer, set
         setTeamOnePlayers(newPlayerArray);
     }
 
+    function spiderSearchOnChange(event) {
+        setSpiderSearchValue(event.target.value);
+    }
+
+    function onSpiderPlayerSelectFromList(searchTerm, selectedPlayer) {
+        event.preventDefault();
+        if (spiderComparePlayersList.length < 4) { // Limit to 4 additional players (5 total including main player)
+            setSpiderComparePlayersList([...spiderComparePlayersList, selectedPlayer]);
+        }
+        setSpiderSearchValue('');
+    }
+
+    function removeSpiderComparePlayer(playerName) {
+        setSpiderComparePlayersList(spiderComparePlayersList.filter(p => p.Player_Name !== playerName));
+    }
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -153,13 +170,27 @@ export default function PlayerDialog({ player, onClose, data, comparePlayer, set
               
                 
                 
-                {/* <div className={styles.chartWrapper}> */}
-                    {/* Add the PlayerGradesChart component */}
-                    <PlayerGradesChart rookieGuideData={player.rookieGuideData} filmGrades={player.filmGrades} isSelectedPlayer={true} name={player.Player_Name} />
-                    {comparePlayer && (
-                    <PlayerGradesChart rookieGuideData={comparePlayer.rookieGuideData} filmGrades={comparePlayer.filmGrades} isSelectedPlayer={false} name={comparePlayer.Player_Name} />
-                )}
-                {/* </div> */}
+                <PlayerGradesChart 
+                    rookieGuideData={player.rookieGuideData} 
+                    filmGrades={player.filmGrades} 
+                    isSelectedPlayer={true} 
+                    name={player.Player_Name}
+                    comparePlayerData={comparePlayer ? {
+                        rookieGuideData: comparePlayer.rookieGuideData,
+                        filmGrades: comparePlayer.filmGrades,
+                        name: comparePlayer.Player_Name
+                    } : null}
+                    spiderComparePlayers={spiderComparePlayersList}
+                    spiderSearchValue={spiderSearchValue}
+                    onSpiderSearchChange={spiderSearchOnChange}
+                    onSpiderPlayerSelect={onSpiderPlayerSelectFromList}
+                    onRemoveSpiderPlayer={removeSpiderComparePlayer}
+                    allPlayers={data}
+                    mainPlayerName={player.Player_Name}
+                    spiderComparePlayersList={spiderComparePlayersList}
+                />
+
+                
                 
 
                 <div className={styles.breakdownAndDataTablesWrapper}>
