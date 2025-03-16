@@ -29,7 +29,7 @@ export default function DataTable({ data }) {
       });
 
       const containerStyle = useMemo(() => ({ width: "100%", height: "100dvh" }), []);
-  const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
+  const gridStyle = useMemo(() => ({ height: "100%", width: "100%",  }), []);
 
   const theme = useMemo(() => {
     return myTheme;
@@ -45,27 +45,27 @@ export default function DataTable({ data }) {
 
     function year2021(event) {
       setClassYear(2021);
-      console.log(classYear)
+      // console.log(classYear)
     }
     function year2022(event) {
       setClassYear(2022);
-      console.log(classYear)
+      // console.log(classYear)
     }
     function year2023(event) {
       setClassYear(2023);
-      console.log(classYear)
+      // console.log(classYear)
     }
     function year2024(event) {
       setClassYear(2024);
-      console.log(classYear)
+      // console.log(classYear)
     }
     function year2025(event) {
       setClassYear(2025);
-      console.log(classYear)
+      // console.log(classYear)
     }
     function yearAll(event) {
       setClassYear("all");
-      console.log(classYear)
+      // console.log(classYear)
     }
 
   //  React.useEffect(() => {
@@ -174,9 +174,11 @@ const getResponsiveColumnDefs = (width) => {
       field: "name",
       filter: true,
       floatingFilter: true,
-      flex: 1,
+      flex: 2,
       pinned: "left",
-      maxWidth: width < 768 ? 100 : 140,
+      maxWidth: width < 768 ? 130 : 160,
+      minWidth: width < 768 ? 125 : 140,
+      
       cellRenderer: (params) => (
         <span
           style={{ cursor: 'pointer', textDecoration: 'none' }}
@@ -191,29 +193,31 @@ const getResponsiveColumnDefs = (width) => {
       filter: true,
       floatingFilter: true,
       flex: 1,
-      maxWidth: width < 768 ? 60 : 85,
+      maxWidth: width < 768 ? 60 : 60,
+      minWidth: width < 768 ? 60 : 60,
+      
     },
     {
       field: "class",
       filter: true,
       floatingFilter: true,
       flex: 1,
-      maxWidth: width < 768 ? 60 : 80,
+      maxWidth: width < 768 ? 70 : 75,
+      minWidth: width < 768 ? 65 : 70,
     },
     {
       field: "Grade",
       filter: true,
       floatingFilter: true,
       flex: 1,
-      maxWidth: width < 768 ? 60 : 80,
+      maxWidth: width < 768 ? 100 : 105,
+      minWidth: width < 768 ? 95 : 100,
       sortable: true,
       sort: 'desc',
     }
   ];
 
-  // Add remaining columns only if screen width is above 768px
-  if (width >= 768) {
-    // Add your existing columns here
+ 
     baseColDefs.push(
       {
         field: "ruAtt",
@@ -221,6 +225,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 75,
+        minWidth: 75,
       },
       {
         field: "ruYds",
@@ -228,6 +233,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 75,
+        minWidth: 75,
       },
       {
         field: "ruTD",
@@ -235,6 +241,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 70,
+        minWidth: 70,
       },
       {
         field: "Ru Y/A",
@@ -242,6 +249,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 80,
+        minWidth: 80,
       },
       {
         field: "Ru Y/G",
@@ -249,6 +257,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 80,
+        minWidth: 80,
       },
       {
         field: "rec",
@@ -256,6 +265,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 60,
+        minWidth: 60,
       },
       {
         field: "reYds",
@@ -263,6 +273,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 75,
+        minWidth: 75,
       },
       {
         field: "reTD",
@@ -270,6 +281,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 75,
+        minWidth: 75,
       },
       {
         field: "Re Y/R",
@@ -277,6 +289,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 75,
+        minWidth: 75,
       },
       {
         field: "Re Y/G",
@@ -284,6 +297,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 75,
+        minWidth: 75,
       },
       {
         field: "pAtt",
@@ -291,6 +305,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 70,
+        minWidth: 70,
       },
       {
         field: "Cmp",
@@ -298,6 +313,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 70,
+        minWidth: 70,
       },
       {
         field: "cmp%",
@@ -305,6 +321,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 80,
+        minWidth: 80,
       },
       {
         field: "pYds",
@@ -312,6 +329,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 75,
+        minWidth: 75,
       },
       {
         field: "pTD",
@@ -319,6 +337,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 70,
+        minWidth: 70,
       },
       {
         field: "TD%",
@@ -326,6 +345,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 65,
+        minWidth: 65,
       },
       {
         field: "Int",
@@ -333,6 +353,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 55,
+        minWidth: 55,
       },
       {
         field: "Int%",
@@ -340,6 +361,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 65,
+        minWidth: 65,
       },
       {
         field: "Y/A",
@@ -347,6 +369,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 60,
+        minWidth: 60,
       },
       {
         field: "Y/C",
@@ -354,6 +377,7 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 60,
+        minWidth: 60,
       },
       {
         field: "Y/G",
@@ -361,9 +385,10 @@ const getResponsiveColumnDefs = (width) => {
         floatingFilter: true,
         flex: 1,
         maxWidth: 80,
+        minWidth: 80,
       },
     );
-  }
+  
 
   return baseColDefs;
 };
@@ -435,6 +460,7 @@ const defaultColDef = useMemo(() => ({
                 theme={theme}
                 className={styles.dataGrid}
                 sortModel={[{ colId: 'Grade', sort: 'desc' }]}
+                
             />
         </div>
         {isDialogOpen && (
