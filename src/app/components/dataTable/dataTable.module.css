@@ -204,7 +204,7 @@
 
 .chartsWrapper {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: baseline;
   margin: 2rem auto;
   width: 100%; /* Take full width of dialog content */
@@ -336,8 +336,8 @@
 
 @media (min-width: 800px) {
     .chartWrapper {
-        display: block; /* Show on larger screens */
-        margin-left: 20px; /* Add some space between elements */
+        /* display: block; 
+        margin-left: 20px;  */
     }
 
     .infoBox {
@@ -371,7 +371,7 @@
 @media (max-width: 1200px) {
   .chartsWrapper {
     max-width: 85%; /* Reduced from 90% */
-    gap: 2rem;
+    gap: 0rem;
   }
 
   .nameAndInfoboxAndGradesChartWrapper {
@@ -392,6 +392,7 @@
   .dataGrid {
     min-width: auto; /* Remove fixed min-width */
     width: 100%; /* Take full width of container */
+    
   }
 
   .clsSelectBtnsWrapper {
@@ -406,8 +407,36 @@
 }
 
 @media (max-width: 768px) {
+/*
+ .outerSpiderChartWrapper {
+  flex-direction: row !important;
+}
+
+.selectedPlayersWrapper {
+  position: relative;
+}
+
+.selectedPlayersWrapper {
+  position: absolute;
+
+}
+
+*/ 
+.outerPropsectGradesSpiderWrapper {
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.outerFilmGradesSpiderWrapper {
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+} 
+
   .playerName {
     font-size: 2rem;
+    margin-top: 1rem;
   }
 
   .dialogContent {
@@ -458,7 +487,7 @@
 
   .dataGrid {
     height: calc(100vh - 150px) !important;
-    font-size: 0.9rem;
+    font-size: 0.5rem;
   }
 
   .clsSelectBtnsWrapper {
@@ -476,21 +505,84 @@
   .chartsWrapper {
     flex-direction: column;
     align-items: center;
-    gap: 3rem;
+    justify-content: center;
+    gap: 0;
     padding: 5px;
+    
   }
 
   .prospectGradesChart {
-    width: 95%; /* Slightly smaller than container on mobile */
-    max-height: 300px;
+    width: 75%; /* Slightly smaller than container on mobile */
+    max-height: 200px;
+   
+  }
+
+  .filmGradesChart{
+    width: 75%; /* Slightly smaller than container on mobile */
+    max-height: 200px;
+  }
+}
+
+@media (max-width: 575px) {
+
+  .selectedPlayersWrapper {
+    margin: 0 auto;
+    padding: 0;
+   
+  }
+
+  .chartsWrapper {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 5px;
+    width: 75%;
+    max-width: 75%;
+  }
+
+  .prospectGradesChart {
+    width: 300px; /* Slightly smaller than container on mobile */
+    max-height: 250px;
+   max-width: 350px;
+   margin: 0 auto;
+  }
+
+  .filmGradesChart{
+    width: 75%; /* Slightly smaller than container on mobile */
+    max-height: 50px;
+    max-width: 350px;
+    margin: 0 auto;
+  }
+
+  .prospectGradesChartWrapper {
+    width: 5rem;
   }
 }
 
 @media (max-width: 480px) {
+
+  .outerSpiderChartWrapper {
+    margin: 0 auto;
+    flex-direction: column !important;
+    width: 80%;
+  }
+
+  
+
+/*
+  .selectedPlayersWrapper {
+    bottom: -25rem;
+    margin: 0 auto;
+    width: 75%;
+   
+  }
+
   .searchInputAndButtonWrapper {
     flex-direction: column;
     gap: 1rem;
-  }
+    margin-bottom: 10rem;
+  } */
 
   .teamOneSearchInput {
     margin-right: 0;
@@ -535,13 +627,18 @@
     top: 0.5rem;
   }
 
-  .chartsWrapper {
-    gap: 2rem;
+  .prospectGradesChart {
+    width: 300px; /* Slightly smaller than container on mobile */
+    max-height: 250px;
+   max-width: 300px;
+   margin: 0 auto;
   }
 
-  .prospectGradesChart {
-    width: 90%;
+  .filmGradesChart{
+    width: 75%; /* Slightly smaller than container on mobile */
     max-height: 250px;
+    max-width: 300px;
+    margin: 0 auto;
   }
 }
 
@@ -550,6 +647,7 @@
   max-width: 100%; /* Ensure it doesn't exceed container width */
   overflow-x: auto; /* Keep horizontal scroll for table only */
   -webkit-overflow-scrolling: touch;
+  
 }
 
 /* Add this new container for the data grid */

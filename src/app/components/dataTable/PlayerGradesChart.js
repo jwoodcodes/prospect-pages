@@ -580,7 +580,7 @@ const PlayerGradesChart = ({
             </div>
                     <div style={{ width: '500px', height: '300px', display: 'flex' }}>
                         {uniqueFilmGradesFiltered.length > 0 && (
-                            <Bar data={filmGradesData} options={filmGradesOptions} plugins={[ChartDataLabels]} />
+                            <Bar data={filmGradesData} options={filmGradesOptions} plugins={[ChartDataLabels]} className={styles.filmGradesChart}/>
                         )}
              </div>
              </div>
@@ -631,7 +631,7 @@ const PlayerGradesChart = ({
                 flexDirection: 'column',
                 gap: '2rem',
                 marginTop: '2rem'
-            }}>
+            }} className={styles.outerSpiderChartWrapper}>
 
 {spiderComparePlayersList.length > 0 && (
                     <div className={styles.selectedPlayersWrapper}>
@@ -654,7 +654,7 @@ const PlayerGradesChart = ({
                     justifyContent: 'center',
                     flexWrap: 'wrap',
                     gap: '2rem'
-                }}>
+                }} className={styles.outerPropsectGradesSpiderWrapper}>
                     {/* Main player's prospect grades */}
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', flex: 1, maxWidth: '400px', height: '300px' }}>
                         <h3 style={{ textAlign: 'left', color: 'var(--color-orange-primary)' }}>{name}</h3>
@@ -718,7 +718,7 @@ const PlayerGradesChart = ({
                     justifyContent: 'center',
                     flexWrap: 'wrap',
                     gap: '2rem'
-                }}>
+                }} className={styles.outerFilmGradesSpiderWrapper}>
                     {/* Main player's film grades */}
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', flex: 1, maxWidth: '400px', height: '300px' }}>
                         <h3 style={{ textAlign: 'left', color: 'var(--color-orange-primary)' }}>{name}</h3>
