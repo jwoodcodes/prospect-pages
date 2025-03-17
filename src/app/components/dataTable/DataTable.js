@@ -38,6 +38,8 @@ export default function DataTable({ data }) {
     
     const [classYear, setClassYear] = React.useState("all")
 
+    const [positionForDataTable,setPositionForDataTable] = React.useState("all")
+
     const [rowData, setRowData] = React.useState([]);
 
 
@@ -82,13 +84,30 @@ export default function DataTable({ data }) {
     React.useEffect(() => {
     const newPlayerArray = [];
 
-    let dataToUse = data.filter((player) => {
+    let tempDataToUse = data.filter((player) => {
       
       return +player.rookieGuideData.Class === classYear
     })
 
     if(classYear === "all") {
+      tempDataToUse = data
+    }
+
+    dataToUse = tempDataToUse.filter((player) => {
+      
+      // console.log(player.rookieGuideData.Position, positionForDataTable)
+      
+      
+      return player.rookieGuideData.Position === positionForDataTable
+    })
+    console.log("here", positionForDataTable)
+    if(positionForDataTable === "all") {
+      if(classYear === "all") {
       dataToUse = data
+      } else {
+        dataToUse = tempDataToUse
+      }
+      
     }
 
     dataToUse.map((player) => {
@@ -166,7 +185,7 @@ export default function DataTable({ data }) {
 
     setRowData(newPlayerArray)
 
-}, [data, classYear])
+}, [data, classYear, positionForDataTable])
 
 const getResponsiveColumnDefs = (width) => {
   const baseColDefs = [
@@ -440,7 +459,93 @@ const defaultColDef = useMemo(() => ({
 
     return (
         <div style={containerStyle}>
-          <div className={styles.clsSelectBtnsWrapper}>
+
+        <div className={styles.dataTableSelectsWrapper}>
+
+                <form
+                  onSubmit={(event) => {
+                   event.preventDefault();
+                  }}
+                  className={styles.clsSelectForm}
+              >
+                  <label htmlFor="class-select" className={styles.clsSelectLabel}>
+                   Class
+                  </label>
+        
+                  <select
+                    id="class-select"
+                   value={classYear}
+                   onChange={event => {
+                     event.target.value === "all" ? setClassYear("all") : setClassYear(+event.target.value)
+                    
+            // console.log(event.target.value, typeof event.target.value, classYear, )
+                   }}
+                   className={styles.clsSelect}
+                  >
+                   <option value={2021}>
+                      2021
+                    </option>
+                    <option value={2022}>
+                      2022
+                    </option>
+                    <option value={2023}>
+                      2023
+                   </option>
+                    <option value={2024}>
+                      2024
+                    </option>
+                   <option value={2025}>
+                      2025
+                    </option>
+                    <option value="all">
+                      2021-2025
+                    </option>
+                  </select>
+                  </form>
+
+                  <form
+                  onSubmit={(event) => {
+                   event.preventDefault();
+                  }}
+                  className={styles.clsSelectForm}
+              >
+                  <label htmlFor="position-select" className={styles.clsSelectLabel}>
+                   Position
+                  </label>
+        
+                  <select
+                    id="position-select"
+                   value={positionForDataTable}
+                   onChange={event => {
+                    // console.log("target value", event.target.value)
+                    event.target.value === "all" ? setPositionForDataTable("all") : setPositionForDataTable(event.target.value)
+                     
+                  // console.log(event.target.value, typeof event.target.value, classYear, )
+                   }}
+                   className={styles.clsSelect}
+                  >
+                   <option value={"QB"}>
+                      QB
+                    </option>
+                    <option value={"RB"}>
+                      RB
+                    </option>
+                    <option value={"WR"}>
+                      WR
+                   </option>
+                    <option value={"TE"}>
+                      TE
+                    </option>
+                    <option value={"all"}>
+                      All
+                    </option>
+                   
+                  </select>
+                  </form>
+
+        </div>
+
+          {/* <div className={styles.clsSelectBtnsWrapper}>
           
           <button className={styles.clsSelectBtn} value={2021} onClick={year2021}>2021</button>
           <button className={styles.clsSelectBtn} onClick={year2022}>2022</button>
@@ -449,7 +554,7 @@ const defaultColDef = useMemo(() => ({
           <button className={styles.clsSelectBtn} onClick={year2025}>2025</button>
           <button className={styles.clsSelectBtn} onClick={yearAll}>21-25</button>
 
-        </div>
+        </div> */}
         <div className="ag-theme-alpine-dark" style={gridStyle}>
             <AgGridReact
                 columnDefs={colDefs}
