@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './dataTable.module.css'
 import PlayerGradesChart from './PlayerGradesChart'; // Adjust the import path as necessary
+import Image from 'next/image';
 
 export default function PlayerDialog({ player, onClose, data, comparePlayer, setComparePlayer }) {
     const dialogRef = useRef(null); // Create a ref for the dialog
@@ -83,7 +84,7 @@ export default function PlayerDialog({ player, onClose, data, comparePlayer, set
 
     // Log the comparePlayer whenever it changes
     useEffect(() => {
-        console.log(comparePlayer);
+        // console.log(comparePlayer);
     }, [comparePlayer]);
 
     if (!player) return null; // Return null if no player is selected
@@ -94,6 +95,11 @@ export default function PlayerDialog({ player, onClose, data, comparePlayer, set
     const isRunningBack = playerBio.Position === "RB";
     const isReceiverOrTE = playerBio.Position === "WR" || playerBio.Position === "TE";
 
+    
+    let playersTeam = player.PlayerBio.NFL_Team.replace(" ", "")
+    playersTeam = playersTeam.replace(" ", "")
+
+    console.log(`/${playersTeam}.png`)
     //
     ///
     ////
@@ -106,6 +112,13 @@ export default function PlayerDialog({ player, onClose, data, comparePlayer, set
             
             <div className={styles.dialogContent} ref={dialogRef}>
                 <button onClick={onClose} className={styles.closeBtn}>X</button>
+                <Image
+                src={`/${playersTeam}.png`}
+                
+                height={150}
+                width={200}
+                alt='team logo'
+                />
                 <h2 className={styles.playerName}>{player.Player_Name}</h2>
                 
                
