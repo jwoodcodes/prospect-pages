@@ -1,4 +1,21 @@
 
+.ag-root-wrapper {
+  text-align: center !important;
+  justify-content: center !important;
+}
+
+.ag-header-cell-label {
+  text-align: center !important;
+  justify-content: center !important;
+}
+
+.ag-header-cell-label.text-center {
+  text-align: center !important;
+  justify-content: center !important;
+}
+
+
+
 .dataTableSelectsWrapper {
   display: flex;
   justify-content: space-around;
@@ -461,6 +478,18 @@
 }
 
 */ 
+
+.dataTableSelectsWrapper {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.clsSelectForm {
+  margin: 0 auto 1rem auto;
+}
+
 .outerPropsectGradesSpiderWrapper {
   flex-direction: column !important;
   justify-content: center !important;

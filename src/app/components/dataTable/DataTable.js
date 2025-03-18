@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, use } from "react";
 import { AgGridReact } from "ag-grid-react"; // React Data Grid Component
 import {
     AllCommunityModule,
@@ -39,6 +39,8 @@ export default function DataTable({ data }) {
     const [classYear, setClassYear] = React.useState("all")
 
     const [positionForDataTable,setPositionForDataTable] = React.useState("all")
+
+    const [dataSetToDisplay, setDataSetToDisplay] = React.useState("prospect grades")
 
     const [rowData, setRowData] = React.useState([]);
 
@@ -187,17 +189,128 @@ export default function DataTable({ data }) {
 
 }, [data, classYear, positionForDataTable])
 
+
+let baseColDefs = []
+
+
+
+  
+
 const getResponsiveColumnDefs = (width) => {
-  const baseColDefs = [
+  baseColDefs = [
+   
+    {
+      field: "name",
+      
+      filter: true,
+      floatingFilter: true,
+      flex: 2,
+      pinned: "left",
+      maxWidth: width < 768 ? 130 : 200,
+      minWidth: width < 768 ? 90 : 140,
+      headerStyle: { textAlign: 'center' },
+      cellStyle: { textAlign: width < 768 ? 'left' : 'center', fontSize: width < 768 ? '12px' : '14px' },
+      cellRenderer: (params) => (
+        <span
+          style={{ cursor: 'pointer', textDecoration: 'none', textAlign: 'center', justifyContent: 'center' }}
+          onClick={() => openDialog(params.value)}
+        >
+          {params.value}
+        </span>
+      ),
+    },
+    {
+      field: "Pos",
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      cellStyle: { textAlign: width < 768 ? 'left' : 'center', fontSize: width < 768 ? '12px' : '14px' },
+      
+      headerClass: 'text-center',
+      minWidth: width < 768 ? 60 : 60,
+      
+    },
+    {
+      field: "class",
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      cellStyle: { textAlign: width < 768 ? 'left' : 'center', fontSize: width < 768 ? '12px' : '14px' },
+      minWidth: width < 768 ? 65 : 70,
+    },
+    {
+      field: "Grade",
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      cellStyle: {   textAlign: width < 768 ? 'center' : 'center', fontSize: width < 768 ? '12px' : '14px' },
+      minWidth: width < 768 ? 95 : 100,
+      sortable: true,
+      sort: 'desc',
+    }
+  ];
+
+
+  
+
+  if(dataSetToDisplay === "prospect grades") {
+    baseColDefs.push(
+ 
+    {
+      field: "analytical",
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      cellStyle: {textAlign: 'center'},
+      minWidth: 100,
+      sortable: true,
+      
+    },
+    {
+      field: "film",
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      cellStyle: {textAlign: 'center'},
+      minWidth: 100,
+      sortable: true,
+      
+    },
+    {
+      field: "Landing",
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      cellStyle: {textAlign: 'center'},
+      minWidth: 100,
+      sortable: true,
+      
+    },
+
+
+   
+  )
+    
+  }
+
+  
+
+  return baseColDefs;
+};
+
+
+function changeDataTableData(value) {
+
+  baseColDefs = [
     {
       field: "name",
       filter: true,
       floatingFilter: true,
       flex: 2,
       pinned: "left",
-      maxWidth: width < 768 ? 130 : 160,
-      minWidth: width < 768 ? 125 : 140,
-      
+      maxWidth: 160,
+      minWidth: 140,
+      cellStyle: {textAlign: 'center'},
       cellRenderer: (params) => (
         <span
           style={{ cursor: 'pointer', textDecoration: 'none' }}
@@ -212,31 +325,73 @@ const getResponsiveColumnDefs = (width) => {
       filter: true,
       floatingFilter: true,
       flex: 1,
-      maxWidth: width < 768 ? 60 : 60,
-      minWidth: width < 768 ? 60 : 60,
       
+      minWidth: 60,
+      cellStyle: {textAlign: 'center'},
     },
     {
       field: "class",
       filter: true,
       floatingFilter: true,
       flex: 1,
-      maxWidth: width < 768 ? 70 : 75,
-      minWidth: width < 768 ? 65 : 70,
+      
+      minWidth: 70,
+      cellStyle: {textAlign: 'center'},
     },
     {
       field: "Grade",
       filter: true,
       floatingFilter: true,
       flex: 1,
-      maxWidth: width < 768 ? 100 : 105,
-      minWidth: width < 768 ? 95 : 100,
+      
+      minWidth: 100,
       sortable: true,
       sort: 'desc',
+      cellStyle: {textAlign: 'center'},
     }
   ];
 
+  if(value === "prospect grades") {
+    baseColDefs.push(
  
+    {
+      field: "analytical",
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      
+      minWidth: 100,
+      sortable: true,
+      cellStyle: {textAlign: 'center'},
+    },
+    {
+      field: "film",
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      
+      minWidth: 100,
+      sortable: true,
+      cellStyle: {textAlign: 'center'},
+    },
+    {
+      field: "Landing",
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      
+      minWidth: 100,
+      sortable: true,
+      cellStyle: {textAlign: 'center'},
+    },
+
+
+   
+  )
+    
+  }
+
+  if(value === "all") {
     baseColDefs.push(
       {
         field: "ruAtt",
@@ -245,6 +400,7 @@ const getResponsiveColumnDefs = (width) => {
         flex: 1,
         maxWidth: 75,
         minWidth: 75,
+        
       },
       {
         field: "ruYds",
@@ -253,6 +409,7 @@ const getResponsiveColumnDefs = (width) => {
         flex: 1,
         maxWidth: 75,
         minWidth: 75,
+        
       },
       {
         field: "ruTD",
@@ -261,6 +418,7 @@ const getResponsiveColumnDefs = (width) => {
         flex: 1,
         maxWidth: 70,
         minWidth: 70,
+        
       },
       {
         field: "Ru Y/A",
@@ -407,10 +565,199 @@ const getResponsiveColumnDefs = (width) => {
         minWidth: 80,
       },
     );
-  
+  }
 
-  return baseColDefs;
-};
+  if(value === "passing") {
+ 
+    baseColDefs.push(
+      
+      {
+        field: "pAtt",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 70,
+      },
+      {
+        field: "Cmp",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 70,
+      },
+      {
+        field: "cmp%",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 80,
+      },
+      {
+        field: "pYds",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 75,
+      },
+      {
+        field: "pTD",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 70,
+      },
+      {
+        field: "TD%",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 65,
+      },
+      {
+        field: "Int",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 55,
+      },
+      {
+        field: "Int%",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 65,
+      },
+      {
+        field: "Y/A",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 60,
+      },
+      {
+        field: "Y/C",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 60,
+      },
+      {
+        field: "Y/G",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 80,
+      },
+    );
+  }
+
+
+  if(value === "rushing & receiving") {
+ 
+    baseColDefs.push(
+      {
+        field: "ruAtt",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 75,
+      },
+      {
+        field: "ruYds",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 75,
+      },
+      {
+        field: "ruTD",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 70,
+      },
+      {
+        field: "Ru Y/A",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 80,
+      },
+      {
+        field: "Ru Y/G",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 80,
+      },
+      {
+        field: "rec",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 60,
+      },
+      {
+        field: "reYds",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 75,
+      },
+      {
+        field: "reTD",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 75,
+      },
+      {
+        field: "Re Y/R",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 75,
+      },
+      {
+        field: "Re Y/G",
+        filter: true,
+        floatingFilter: true,
+        flex: 1,
+        cellStyle: {textAlign: 'center'},
+        minWidth: 75,
+      },
+    )
+  }
+
+  setColDefs(baseColDefs);
+
+}
+
+
+
+// useEffect(() => {
+//   setColDefs(getResponsiveColumnDefs(windowWidth));
+// }, [windowWidth]);
 
 const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
@@ -425,9 +772,7 @@ useEffect(() => {
 
 const [colDefs, setColDefs] = useState(getResponsiveColumnDefs(windowWidth));
 
-useEffect(() => {
-  setColDefs(getResponsiveColumnDefs(windowWidth));
-}, [windowWidth]);
+
 
 const defaultColDef = useMemo(() => ({
     flex: 1,
@@ -535,6 +880,46 @@ const defaultColDef = useMemo(() => ({
                    </option>
                     <option value={"TE"}>
                       TE
+                    </option>
+                    <option value={"all"}>
+                      All
+                    </option>
+                   
+                  </select>
+                  </form>
+
+
+                  <form
+                  onSubmit={(event) => {
+                   event.preventDefault();
+                  }}
+                  className={styles.clsSelectForm}
+              >
+                  <label htmlFor="dataSet-select" className={styles.clsSelectLabel}>
+                   Dataset
+                  </label>
+        
+                  <select
+                    id="dataSet-select"
+                   value={dataSetToDisplay}
+                   onChange={event => {
+                    // console.log("target value", event.target.value)
+                    event.target.value === "all" ? setDataSetToDisplay("all") : setDataSetToDisplay(event.target.value)
+                    changeDataTableData(event.target.value)
+                     
+                  // console.log(event.target.value, typeof event.target.value, classYear, )
+                   }}
+                   className={styles.clsSelect}
+                  >
+                   <option value={"prospect grades"}>
+                      prospect grades
+                    </option>
+                    <option value={"passing"}>
+                      passing
+                    </option>
+                    
+                    <option value={"rushing & receiving"}>
+                      rushing & receiving
                     </option>
                     <option value={"all"}>
                       All
