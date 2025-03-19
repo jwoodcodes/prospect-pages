@@ -208,7 +208,7 @@ const getResponsiveColumnDefs = (width) => {
       pinned: "left",
       maxWidth: width < 768 ? 130 : 200,
       minWidth: width < 768 ? 90 : 140,
-      headerStyle: { textAlign: 'center' },
+      headerClass: 'header-center',
       cellStyle: { textAlign: width < 768 ? 'left' : 'center', fontSize: width < 768 ? '12px' : '14px' },
       cellRenderer: (params) => (
         <span

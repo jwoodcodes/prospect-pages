@@ -95,11 +95,16 @@ export default function PlayerDialog({ player, onClose, data, comparePlayer, set
     const isRunningBack = playerBio.Position === "RB";
     const isReceiverOrTE = playerBio.Position === "WR" || playerBio.Position === "TE";
 
+    const yearsSincePlayersDraft = player.PlayerBio.Draft_Year ? new Date().getFullYear() - player.PlayerBio.Draft_Year : null;
+    // console.log(yearsSincePlayersDraft)
+    const playerAge = player.PlayerBio.Draft_Age + yearsSincePlayersDraft
+   
+    
     
     let playersTeam = player.PlayerBio.NFL_Team.replace(" ", "")
     playersTeam = playersTeam.replace(" ", "")
 
-    console.log(`/${playersTeam}.png`)
+    // console.log(`/${playersTeam}.png`)
     //
     ///
     ////
@@ -111,32 +116,48 @@ export default function PlayerDialog({ player, onClose, data, comparePlayer, set
         <div className={styles.dialogOverlay}>
             
             <div className={styles.dialogContent} ref={dialogRef}>
-                <button onClick={onClose} className={styles.closeBtn}>X</button>
+            <button onClick={onClose} className={styles.closeBtn}>X</button>
+            <div className={styles.teamLogoPlayerNameAndInfoboxWrapper}>
+               
+               <div className={styles.logoAndPlayerNameWrapper}>
                 <Image
                 src={`/${playersTeam}.png`}
                 
-                height={150}
-                width={200}
+                height={100}
+                width={150}
                 alt='team logo'
                 />
                 <h2 className={styles.playerName}>{player.Player_Name}</h2>
-                
+                </div>
                
 
                 <div className={styles.infoBox}>
-                    {playerBio.Height && (
-                        <p><strong>Height:</strong> {playerBio.Height}</p>
+                {playerBio.Position && (
+                        <p><strong>{playerBio.Position}: </strong> {playerBio.NFL_Team}</p>
                     )}
-                    {playerBio.Weight && (
-                        <p><strong>Weight:</strong> {playerBio.Weight}</p>
+                    {playerBio.Height && (
+                        <p><strong>{playerBio.Height} {playerBio.Weight}</strong> </p>
+                    )}
+                    {playerAge && (
+                        <p><strong>Age:</strong> {playerAge}</p>
                     )}
                     {playerBio.Draft_Year && (
-                        <p><strong>Draft Year:</strong> {playerBio.Draft_Year}</p>
+                        <p><strong>Draft Class:</strong> {playerBio.Draft_Year}</p>
                     )}
+                    {playerAge && (
+                        <p><strong>Experience:</strong> {yearsSincePlayersDraft} years</p>
+                    )}
+                    {playerBio.Draft_Pick && (
+                        <p><strong>Draft Pick:</strong> {playerBio.Draft_Pick}</p>
+                    )}
+                    
                     {playerBio.School && (
-                        <p><strong>School:</strong> {playerBio.School}</p>
+                        <p><strong>College:</strong> {playerBio.School}</p>
                     )}
                 </div>
+            </div>
+
+
                 <form onSubmit={() => onPlayerSelectFromList(player.Player_Name, player)} className={styles.searchForm}>
                     <div className={styles.searchInputAndButtonWrapper}>
                         <input
@@ -209,7 +230,7 @@ export default function PlayerDialog({ player, onClose, data, comparePlayer, set
                 <div className={styles.breakdownAndDataTablesWrapper}>
 
                 <div>
-                <h3 className={styles.BreakdownHeading}>Player Breakdown</h3>
+                <h3 className={styles.BreakdownHeading}>Scouting Report</h3>
                 <p className={styles.breakdown} 
                 dangerouslySetInnerHTML={{
                     __html: player.PlayerBio && player.PlayerBio.Breakdown

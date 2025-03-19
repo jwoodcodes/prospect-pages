@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bar, Radar } from 'react-chartjs-2';
+import { Bar, Radar, Scatter } from 'react-chartjs-2';
 import 'chart.js/auto'; // Import Chart.js
 import ChartDataLabels from 'chartjs-plugin-datalabels'; // Import the data labels plugin
 import styles from './dataTable.module.css'
@@ -10,6 +10,7 @@ import {
   LineElement,
   Filler,
 } from 'chart.js';
+import { useState } from 'react'; // Import useState for managing dropdown states
 
 // Register the required components for radar charts
 ChartJS.register(
@@ -417,8 +418,8 @@ const PlayerGradesChart = ({
         processedData[metric] = grade ? parseFloat(grade.Grade) : 0;
     });
 
-    console.log('Position:', position);
-    console.log('Processed Data:', processedData);
+    // console.log('Position:', position);
+    // console.log('Processed Data:', processedData);
 
     // Film spider data with point colors
     const filmSpiderData = {
@@ -440,7 +441,7 @@ const PlayerGradesChart = ({
         }]
     };
 
-    console.log('Spider Chart Data:', filmSpiderData);
+    // console.log('Spider Chart Data:', filmSpiderData);
 
     // Options for prospect grades (0-100 scale)
     const prospectSpiderOptions = {
@@ -557,6 +558,106 @@ const PlayerGradesChart = ({
         4: 'Above Average',
         5: 'Excellent'
     };
+
+    // State for dropdown selections
+    const [selectedClass, setSelectedClass] = useState('');
+    const [selectedPosition, setSelectedPosition] = useState('');
+    const [xAxisVariable, setXAxisVariable] = useState('Film_Grade'); // Default x-axis variable
+    const [yAxisVariable, setYAxisVariable] = useState('Analytical_Grade'); // Default y-axis variable
+
+    console.log('X Axis Variable:', xAxisVariable);
+    console.log('Y Axis Variable:', yAxisVariable);
+
+    // Function to filter players based on selected class and position
+    const filteredPlayers = allPlayers.filter(player => {
+        
+        const matchesClass = selectedClass ? player.Draft_Year
+        === selectedClass : true;
+        
+        const matchesPosition = selectedPosition ? player.Position === selectedPosition : true;
+        return matchesClass && matchesPosition;
+    });
+
+    console.log('Filtered Players:', filteredPlayers);
+
+    // Scatterplot options
+    const scatterOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                min: 30, // Set minimum value for x-axis
+                max: 100, // Set maximum value for x-axis
+                grid: {
+                    offset: true
+                },
+                title: {
+                    display: true,
+                    text: xAxisVariable.replace(/_/g, ' '), // Replace underscores with spaces for better readability
+                    color: '#000', // Color of the title
+                    font: {
+                        size: 14, // Font size of the title
+                        weight: 'bold' // Font weight of the title
+                    }
+                }
+            },
+            y: {
+                min: 30, // Set minimum value for y-axis
+                max: 100, // Set maximum value for y-axis
+                beginAtZero: true,
+                ticks: {
+                    padding: 2, // Add padding to y-axis ticks
+                },
+                title: {
+                    display: true,
+                    text: yAxisVariable.replace(/_/g, ' '), // Replace underscores with spaces for better readability
+                    color: '#000', // Color of the title
+                    font: {
+                        size: 14, // Font size of the title
+                        weight: 'bold' // Font weight of the title
+                    }
+                }
+            }
+        }
+    };
+
+    // Prepare data for the scatterplot
+    const scatterData = {
+        datasets: [{
+            label: 'Player Scatterplot',
+            data: filteredPlayers.map(player => {
+                const xValue = player.rookieGuideData[xAxisVariable] !== undefined ? player.rookieGuideData[xAxisVariable] : 0; // Fallback to 0
+                const yValue = player.rookieGuideData[yAxisVariable] !== undefined ? player.rookieGuideData[yAxisVariable] : 0; // Fallback to 0
+                
+                // Log the values after they have been defined
+                // console.log(`Player: ${player.Player_Name}, X: ${xValue}, Y: ${yValue}`);
+                
+                return {
+                    x: xValue,
+                    y: yValue,
+                    // We will set the color in the dataset level
+                };
+            }),
+            backgroundColor: filteredPlayers.map(player => {
+                return player.Player_Name === name ? 'rgba(0, 255, 0, 0.6)' : 'rgba(255, 99, 132, 0.6)'; // Green for selected player, default color for others
+            }),
+        }]
+    };
+
+    if (filteredPlayers.length > 0) {
+        const meanX = filteredPlayers.reduce((sum, player) => sum + player[xAxisVariable], 0) / filteredPlayers.length;
+        const meanY = filteredPlayers.reduce((sum, player) => sum + player[yAxisVariable], 0) / filteredPlayers.length;
+
+        // Add mean line to the scatterplot
+        scatterData.datasets.push({
+            label: 'Mean Line',
+            data: [{ x: meanX, y: meanY }],
+            backgroundColor: 'rgba(0, 255, 0, 0.5)',
+            type: 'line',
+        });
+    }
+
+    console.log('Scatter Data:', scatterData);
 
     return (
         <div>
@@ -768,7 +869,53 @@ const PlayerGradesChart = ({
                     })}
                 </div>
             </div>
+
+
+
+            <select onChange={(e) => setSelectedClass(e.target.value)}>
+            <option value="">Select Class</option>
+            <option value={2021}>
+                      2021
+                    </option>
+                    <option value={2022}>
+                      2022
+                    </option>
+                    <option value={2023}>
+                      2023
+                   </option>
+                    <option value={2024}>
+                      2024
+                    </option>
+                   <option value={2025}>
+                      2025
+                    </option>
+                    <option value="all">
+                      2021-2025
+                    </option>
+        </select>
+        <select onChange={(e) => setSelectedPosition(e.target.value)}>
+            <option value="">Select Position</option>
+            {/* Add options for positions */}
+        </select>
+        <select onChange={(e) => setXAxisVariable(e.target.value)}>
+            <option value="Film_Grade">Film Grade</option>
+            <option value="Analytical_Grade">Analytical Grade</option>
+            {/* Add other options for x-axis */}
+        </select>
+        <select onChange={(e) => setYAxisVariable(e.target.value)}>
+            <option value="Analytical_Grade">Analytical Grade</option>
+            <option value="Overall_Grade">Overall Grade</option>
+            {/* Add other options for y-axis */}
+        </select>
+
+        {/* Scatterplot Section */}
+        <div style={{ width: '500px', height: '300px' }}>
+            <Scatter data={scatterData} options={scatterOptions} />
         </div>
+        </div>
+
+       
+      
     );
 };
 
