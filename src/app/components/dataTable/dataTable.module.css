@@ -34,12 +34,11 @@
   color: var(--color-orange-primary);
 
   margin-top: 3rem;
-    margin-bottom: 5rem;
-  
+  margin-bottom: 5rem;
 }
 
 .clsSelectLabel {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   font-size: 1.25rem;
 }
 
@@ -51,7 +50,7 @@
   /* color: var(--color-gray-50); */
   color: var(--color-orange-primary);
   border-radius: 20px;
-  padding: .5rem;
+  padding: 0.5rem;
   font-size: 1.15rem;
   font-weight: 200;
 }
@@ -86,100 +85,92 @@
     
   } */
 
-  
+.dialogOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
 
-  .dialogOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index:10;
-    
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .dialogContent {
-  border-bottom: .5rem solid var(--color-orange-primary);
-    /* background-image: linear-gradient(to bottom right, var(--color-gray-50), var(--color-blue-dark)); */
-    background-image: linear-gradient(to bottom right, var(--color-green-primary), var(--color-blue-dark), var(--color-green-dark));
-   
-    
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    z-index:100;
-    color: var(--color-gray-900);
-    font-family: 'Noto Serif Khojki', serif; /* Apply Noto Serif Khojki font */
+  border-bottom: 0.5rem solid var(--color-orange-primary);
+  /* background-image: linear-gradient(to bottom right, var(--color-gray-50), var(--color-blue-dark)); */
+  background-image: linear-gradient(
+    to bottom right,
+    var(--color-green-primary),
+    var(--color-blue-dark),
+    var(--color-green-dark)
+  );
 
-    width: min(80%, 1500px); /* Reduced from 80%, 1200px to make dialog narrower */
-    max-width: 95vw; /* Ensure some margin on sides */
-    min-width: auto; /* Remove min-width constraint */
-    max-height: 80vh;
-    overflow-y: auto;
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    margin: 0 auto; /* Center the dialog */
-    position: relative; /* Added for better positioning of close button */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  color: var(--color-gray-900);
+  font-family: "Noto Serif Khojki", serif; /* Apply Noto Serif Khojki font */
 
-
-    
-   
+  width: min(
+    80%,
+    1500px
+  ); /* Reduced from 80%, 1200px to make dialog narrower */
+  max-width: 95vw; /* Ensure some margin on sides */
+  min-width: auto; /* Remove min-width constraint */
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  margin: 0 auto; /* Center the dialog */
+  position: relative; /* Added for better positioning of close button */
 }
-
-
 
 /* Custom scrollbar for WebKit browsers */
 .dialogContent::-webkit-scrollbar {
-    width: 12px; /* Width of the scrollbar */
+  width: 12px; /* Width of the scrollbar */
 }
 
 .dialogContent::-webkit-scrollbar-track {
-    background: var(--color-gray-200); /* Background of the scrollbar track */
-    border-radius: 10px; /* Rounded corners for the track */
+  background: var(--color-gray-200); /* Background of the scrollbar track */
+  border-radius: 10px; /* Rounded corners for the track */
 }
 
 .dialogContent::-webkit-scrollbar-thumb {
-    background: var(--color-blue-light); /* Color of the scrollbar thumb */
-    border-radius: 10px; /* Rounded corners for the thumb */
+  background: var(--color-blue-light); /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners for the thumb */
 }
 
 .dialogContent::-webkit-scrollbar-thumb:hover {
-    background: var(--color-orange-dark); /* Color of the thumb on hover */
+  background: var(--color-orange-dark); /* Color of the thumb on hover */
 }
 
 /* Custom scrollbar for Firefox */
 .dialogContent {
-    scrollbar-width: thin; /* Options: auto | thin */
-    scrollbar-color: var(--color-blue-light) var(--color-gray-200); /* thumb color and track color */
+  scrollbar-width: thin; /* Options: auto | thin */
+  scrollbar-color: var(--color-blue-light) var(--color-gray-200); /* thumb color and track color */
 }
-
-
 
 .closeBtn {
   background-color: var(--color-gray-50);
-  width: 40px; 
-  height: 40px; 
+  width: 40px;
+  height: 40px;
   position: sticky;
-  top: .25rem;
+  top: 0.25rem;
   left: 98%;
-  cursor: pointer; 
-    font-size: 1.25rem;
-  
-    
-    cursor: pointer;
-    border: none;
-    border-radius: 50%;
-    color: var(--color-gray-900);
+  cursor: pointer;
+  font-size: 1.25rem;
+
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+  color: var(--color-gray-900);
 }
 
-
-.teamLogoPlayerNameAndInfoboxWrapper{
-
+.teamLogoPlayerNameAndInfoboxWrapper {
   display: flex;
   width: 70%;
   justify-content: center;
@@ -188,7 +179,6 @@
 }
 
 .logoAndPlayerNameWrapper {
-
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -197,33 +187,27 @@
 }
 
 .nameAndInfoboxAndGradesChartWrapper {
-  
   width: 50%;
-  margin-bottom: 5rem;  
+  margin-bottom: 5rem;
 }
-
 
 .playerName {
   font-size: 3rem;
-  letter-spacing: .2rem;
+  letter-spacing: 0.2rem;
   text-align: center;
   flex: 1;
   /* margin: 1rem 0; */
   margin: 0 3rem 0 1rem;
-  
+
   color: var(--color-orange-primary);
   font-weight: 400;
 }
 
 .infoBox {
-  
   text-align: center;
-  
-  font-size: 1rem;
-  letter-spacing: .05rem;
 
-  
-  
+  font-size: 1rem;
+  letter-spacing: 0.05rem;
 }
 
 .searchForm {
@@ -231,19 +215,19 @@
   justify-content: center;
   margin-top: 1rem; */
   margin: 0 auto;
-  text-align: center ;
+  text-align: center;
 }
 
 .searchInputAndButtonWrapper {
   display: flex;
   justify-content: center;
-  margin-top: 1rem; 
+  margin-top: 1rem;
   margin-bottom: 3rem;
 }
 
 .teamOneSearchInput {
   border-radius: 20px;
-  margin-right: .5rem;
+  margin-right: 0.5rem;
   background-color: var(--color-gray-800);
   text-align: center;
   color: var(--color-gray-50);
@@ -254,7 +238,7 @@
 
 .selectedPlayersWrapper {
   display: flex;
-  margin: .5rem auto;
+  margin: 0.5rem auto;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
@@ -264,8 +248,8 @@
 }
 
 .removePlayerBtn {
-  margin-left: .5rem;
-  padding-left: 0 .5rem;
+  margin-left: 0.5rem;
+  padding-left: 0 0.5rem;
   border-radius: 50%;
   background-color: var(--color-black);
   color: var(--color-gray-900);
@@ -274,7 +258,7 @@
 .selectMenuItem {
   cursor: pointer;
   width: fit-content;
-  margin: .1rem auto;
+  margin: 0.1rem auto;
 }
 
 .addPlayerButton {
@@ -282,7 +266,7 @@
   background-color: var(--color-green-primary);
   text-align: center;
   color: var(--color-gray-900);
-  padding: 0 .5rem;
+  padding: 0 0.5rem;
 }
 
 .chartsWrapper {
@@ -309,9 +293,9 @@
 
 .BreakdownHeading {
   text-align: center;
-  
+
   font-size: 1.5rem;
-  letter-spacing: .05rem;
+  letter-spacing: 0.05rem;
   color: var(--color-orange-primary);
 }
 
@@ -319,135 +303,132 @@
   margin: 2rem auto;
   line-height: 1.5rem;
   font-size: 1.1rem;
-  letter-spacing: .075rem;
+  letter-spacing: 0.075rem;
   /* color: var(--color-gray-800); */
   color: var(--color-gray-800);
   max-width: 80%;
 }
 
 .tablesContainer {
-    /* display: flex;
+  /* display: flex;
     flex-wrap: wrap; 
     justify-content: center; 
     align-items: center;
     flex-direction: column; */
-    text-align: center;
-    letter-spacing: .05rem;
-    width: 60%;
-    color: var(--color-white);
-    font-size: .8rem;
-    margin-right: 2rem;
+  text-align: center;
+  letter-spacing: 0.05rem;
+  width: 60%;
+  color: var(--color-white);
+  font-size: 0.8rem;
+  margin-right: 2rem;
 }
 
 .tableWrapper {
-    /* flex: 1 1 45%; 
+  /* flex: 1 1 45%; 
     margin: 0 0.5rem; 
     text-align: center;
     justify-content: center;
     padding: .5rem; */
 
-    flex: 1 1 50%;
-    align-items: center;
-        margin: 4rem auto; 
-      
+  flex: 1 1 50%;
+  align-items: center;
+  margin: 4rem auto;
 }
 
 @media (max-width: 700px) {
-    .tableWrapper {
-        flex: 1 1 100%; /* Stack tables to take full width on small screens */
-        margin: 0; /* Remove margin on small screens */
-    }
+  .tableWrapper {
+    flex: 1 1 100%; /* Stack tables to take full width on small screens */
+    margin: 0; /* Remove margin on small screens */
+  }
 }
 
 .table {
-    width: 100%; /* Ensure the table takes full width */
-    border-collapse: collapse; /* Collapse borders for a cleaner look */
+  width: 100%; /* Ensure the table takes full width */
+  border-collapse: collapse; /* Collapse borders for a cleaner look */
 }
 
 .tableCell {
-    padding: 1rem; /* Add padding to table cells */
-    text-align: left; /* Align text to the left */
-    border: 1px solid var(--color-gray-300); /* Optional: Add border for better visibility */
+  padding: 1rem; /* Add padding to table cells */
+  text-align: left; /* Align text to the left */
+  border: 1px solid var(--color-gray-300); /* Optional: Add border for better visibility */
 }
 
 .heading {
-    margin-bottom: 1rem; /* Add 1rem bottom margin to headings */
+  margin-bottom: 1rem; /* Add 1rem bottom margin to headings */
 }
 
 .videoContainer {
-    display: flex;
-    flex-wrap: wrap; /* Allow items to wrap to the next line */
-    justify-content: space-between; /* Space between items */
-    margin-top: 1rem; /* Add some space above */
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  justify-content: space-between; /* Space between items */
+  margin-top: 1rem; /* Add some space above */
 }
 
 .videoWrapper {
-    flex: 0 1 calc(50% - 1rem); /* Two columns, each taking up half the width minus margin */
-    margin-bottom: 1rem; /* Space between video players */
+  flex: 0 1 calc(50% - 1rem); /* Two columns, each taking up half the width minus margin */
+  margin-bottom: 1rem; /* Space between video players */
 }
 
 @media (max-width: 1000px) {
-    .videoWrapper {
-        flex: 0 1 80%; /* Single column, each taking up 80% of the width */
-        margin: 0 auto; /* Center the video wrapper */
-    }
+  .videoWrapper {
+    flex: 0 1 80%; /* Single column, each taking up 80% of the width */
+    margin: 0 auto; /* Center the video wrapper */
+  }
 }
 
 .dialogContainer {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .compareContainer {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .playerDialogs {
-    display: flex;
-    justify-content: space-between; /* Adjusts spacing between player dialogs */
+  display: flex;
+  justify-content: space-between; /* Adjusts spacing between player dialogs */
 }
 
 .playerDialog {
-    flex: 1; /* Each dialog takes equal space */
-    margin: 0 10px; /* Space between dialogs */
-    padding: 10px;
-    border: 1px solid #ccc; /* Optional border */
-    border-radius: 5px; /* Optional rounded corners */
+  flex: 1; /* Each dialog takes equal space */
+  margin: 0 10px; /* Space between dialogs */
+  padding: 10px;
+  border: 1px solid #ccc; /* Optional border */
+  border-radius: 5px; /* Optional rounded corners */
 }
 
-
-
 @media (min-width: 800px) {
-    .chartWrapper {
-        /* display: block; 
+  .chartWrapper {
+    /* display: block; 
         margin-left: 20px;  */
-    }
+  }
 
-    .infoBox {
-        display: flex;
-        flex-direction: column; /* Stack info box items vertically */
-    }
+  .infoBox {
+    display: flex;
+    flex-direction: column; /* Stack info box items vertically */
+  }
 }
 
 .playerCardsWrapper {
-    display: flex;
-    justify-content: space-between; /* Space between the cards */
+  display: flex;
+  justify-content: space-between; /* Space between the cards */
 }
 
 .playerCard {
-    width: 48%; /* Adjust width to fit two cards */
-    padding: 10px; /* Add some padding */
-    border: 1px solid #ccc; /* Optional: Add a border */
-    border-radius: 5px; /* Optional: Add rounded corners */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
+  width: 48%; /* Adjust width to fit two cards */
+  padding: 10px; /* Add some padding */
+  border: 1px solid #ccc; /* Optional: Add a border */
+  border-radius: 5px; /* Optional: Add rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
 }
 
 .comparePlayerWrapper {
-    margin: 15px 0;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f5f5f5;
+  margin: 15px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f5f5f5;
 }
 
 /* Add/update responsive styles */
@@ -475,7 +456,6 @@
   .dataGrid {
     min-width: auto; /* Remove fixed min-width */
     width: 100%; /* Take full width of container */
-    
   }
 
   .clsSelectBtnsWrapper {
@@ -490,7 +470,7 @@
 }
 
 @media (max-width: 768px) {
-/*
+  /*
  .outerSpiderChartWrapper {
   flex-direction: row !important;
 }
@@ -504,30 +484,30 @@
 
 }
 
-*/ 
+*/
 
-.dataTableSelectsWrapper {
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-}
+  .dataTableSelectsWrapper {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+  }
 
-.clsSelectForm {
-  margin: 0 auto 1rem auto;
-}
+  .clsSelectForm {
+    margin: 0 auto 1rem auto;
+  }
 
-.outerPropsectGradesSpiderWrapper {
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: center !important;
-}
+  .outerPropsectGradesSpiderWrapper {
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
 
-.outerFilmGradesSpiderWrapper {
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: center !important;
-} 
+  .outerFilmGradesSpiderWrapper {
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
 
   .playerName {
     font-size: 2rem;
@@ -603,27 +583,23 @@
     justify-content: center;
     gap: 0;
     padding: 5px;
-    
   }
 
   .prospectGradesChart {
     width: 75%; /* Slightly smaller than container on mobile */
     max-height: 200px;
-   
   }
 
-  .filmGradesChart{
+  .filmGradesChart {
     width: 75%; /* Slightly smaller than container on mobile */
     max-height: 200px;
   }
 }
 
 @media (max-width: 575px) {
-
   .selectedPlayersWrapper {
     margin: 0 auto;
     padding: 0;
-   
   }
 
   .chartsWrapper {
@@ -639,11 +615,11 @@
   .prospectGradesChart {
     width: 300px; /* Slightly smaller than container on mobile */
     max-height: 250px;
-   max-width: 350px;
-   margin: 0 auto;
+    max-width: 350px;
+    margin: 0 auto;
   }
 
-  .filmGradesChart{
+  .filmGradesChart {
     width: 75%; /* Slightly smaller than container on mobile */
     max-height: 50px;
     max-width: 350px;
@@ -656,16 +632,13 @@
 }
 
 @media (max-width: 480px) {
-
-  .outerSpiderChartWrapper {
+  .spiderChartWrapper {
     margin: 0 auto;
     flex-direction: column !important;
     width: 80%;
   }
 
-  
-
-/*
+  /*
   .selectedPlayersWrapper {
     bottom: -25rem;
     margin: 0 auto;
@@ -705,7 +678,6 @@
   .dataGrid {
     height: calc(100vh - 120px) !important;
     font-size: 0.4rem;
-   
   }
 
   .dialogContent {
@@ -725,11 +697,11 @@
   .prospectGradesChart {
     width: 300px; /* Slightly smaller than container on mobile */
     max-height: 250px;
-   max-width: 300px;
-   margin: 0 auto;
+    max-width: 300px;
+    margin: 0 auto;
   }
 
-  .filmGradesChart{
+  .filmGradesChart {
     width: 75%; /* Slightly smaller than container on mobile */
     max-height: 250px;
     max-width: 300px;
@@ -742,7 +714,6 @@
   max-width: 100%; /* Ensure it doesn't exceed container width */
   overflow-x: auto; /* Keep horizontal scroll for table only */
   -webkit-overflow-scrolling: touch;
-  
 }
 
 /* Add this new container for the data grid */
@@ -773,7 +744,55 @@
 
 /* Add this new class for center alignment */
 .header-center {
-    text-align: center; /* Center align text */
-    justify-content: center;
+  text-align: center; /* Center align text */
+  justify-content: center;
 }
 
+/* scatterPlot and spider chart section in PlayerGradesChart */
+
+.wholeScatterAndSpiderChartsSectionWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+/* scatterplot section in PlayerGradesChart */
+
+.wholeScatterSectionWrapper {
+  margin-top: 4rem;
+}
+
+.selectsForAndScatterWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.scatterSelectsWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.scatterSelects {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  background-color: var(--color-gray-200);
+  /* color: var(--color-gray-50); */
+  color: var(--color-orange-primary);
+  border-radius: 20px;
+  padding: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 200;
+}
+
+.outerScatterWrapper {
+  margin: 3rem 0;
+  width: 100% !important;
+}
+
+.outerSpiderChartWrapper {
+  width: 50%;
+  margin: 4rem 0;
+}

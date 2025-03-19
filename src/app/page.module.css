@@ -26,7 +26,11 @@
 
 .secondTitle {
   color: var(--color-gray-700);
-  font-size: clamp(0.8rem, 1.8vw, .9rem);
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+}
+
+.starbar {
+  width: 100dvw;
 }
 
 /* .clsSelectBtnsWrapper {
@@ -58,5 +62,3 @@
   transform: scale(1.05) translateY(.2rem);
   
 } */
-
-
