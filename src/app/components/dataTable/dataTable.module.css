@@ -1,5 +1,9 @@
-
 .ag-root-wrapper {
+  text-align: center !important;
+  justify-content: center !important;
+}
+
+.ag-header-cell {
   text-align: center !important;
   justify-content: center !important;
 }
@@ -13,8 +17,6 @@
   text-align: center !important;
   justify-content: center !important;
 }
-
-
 
 .dataTableSelectsWrapper {
   display: flex;
@@ -106,6 +108,7 @@
   border-bottom: .5rem solid var(--color-orange-primary);
     /* background-image: linear-gradient(to bottom right, var(--color-gray-50), var(--color-blue-dark)); */
     background-image: linear-gradient(to bottom right, var(--color-green-primary), var(--color-blue-dark), var(--color-green-dark));
+   
     
     padding: 15px;
     border-radius: 8px;
@@ -163,15 +166,34 @@
   height: 40px; 
   position: sticky;
   top: .25rem;
-  
+  left: 98%;
   cursor: pointer; 
     font-size: 1.25rem;
-   
+  
     
     cursor: pointer;
     border: none;
     border-radius: 50%;
     color: var(--color-gray-900);
+}
+
+
+.teamLogoPlayerNameAndInfoboxWrapper{
+
+  display: flex;
+  width: 70%;
+  justify-content: center;
+  align-items: center;
+  margin: 3rem auto;
+}
+
+.logoAndPlayerNameWrapper {
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-right: 1px solid var(--color-orange-primary);
+  margin-right: 4rem;
 }
 
 .nameAndInfoboxAndGradesChartWrapper {
@@ -185,18 +207,23 @@
   font-size: 3rem;
   letter-spacing: .2rem;
   text-align: center;
+  flex: 1;
   /* margin: 1rem 0; */
-  margin: 0 auto ;
+  margin: 0 3rem 0 1rem;
+  
   color: var(--color-orange-primary);
   font-weight: 400;
 }
 
 .infoBox {
-  margin-bottom: 2rem;
+  
   text-align: center;
-  margin: 0 0 .5rem .5rem;
+  
   font-size: 1rem;
   letter-spacing: .05rem;
+
+  
+  
 }
 
 .searchForm {
@@ -742,5 +769,11 @@
 
 .dataGrid::-webkit-scrollbar-thumb:hover {
   background: var(--color-orange-dark);
+}
+
+/* Add this new class for center alignment */
+.header-center {
+    text-align: center; /* Center align text */
+    justify-content: center;
 }
 
