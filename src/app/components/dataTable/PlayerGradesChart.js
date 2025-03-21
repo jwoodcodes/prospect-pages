@@ -658,7 +658,7 @@ const PlayerGradesChart = ({
 
     // Check if PlayerBio is null or undefined
     if (!player.PlayerBio) {
-      return false; // Return false if PlayerBio is not available
+      return false; // Return false if PlayerBio is not availabl
     }
 
     const matchesClass =
@@ -801,13 +801,33 @@ const PlayerGradesChart = ({
     setSelectedVariables(newVariables);
   };
 
+  // Define an array of options with display labels and corresponding data keys
+  const variableOptions = [
+    { label: "Film Grade", value: "Film_Grade" },
+    { label: "Analytical Grade", value: "Analytical_Grade" },
+    { label: "Landing Spot", value: "Landing_Spot" },
+    { label: "Overall Grade", value: "Overall_Grade" },
+    { label: "Processing (QB)", value: "Processing" },
+    { label: "Accuracy (QB)", value: "Accuracy" },
+    { label: "Arm Talent (QB)", value: "Arm Talent" },
+    { label: "Pocket (QB)", value: "Pocket" },
+    { label: "Run Threat (QB)", value: "Run Threat" },
+    { label: "Vision (RB)", value: "Vision" },
+    { label: "Collisions (RB)", value: "Collisions" },
+    { label: "Elusiveness (RB)", value: "Elusiveness" },
+    { label: "Receiving (RB, WR, & TE)", value: "Receiving" },
+    { label: "Burst (RB)", value: "Burst" },
+    { label: "Release (WR)", value: "Release" },
+    { label: "Route (WR & TE)", value: "Route" },
+    { label: "YAC (WR & TE)", value: "YAC" },
+    { label: "Explosiveness (WR & TE)", value: "Explosiveness" },
+    { label: "Blocking (TE)", value: "Blocking" },
+  ];
+
   // Function to render the new spider chart based on selected variables
   const renderNewSpiderChart = () => {
     const data = {
-      labels: selectedVariables.map((variable) => {
-        // Keep the variable names as labels
-        return variable; // This will be displayed as the label
-      }),
+      labels: selectedVariables, // Keep the variable names as labels
       datasets: [
         {
           label: "Player Data",
@@ -837,7 +857,7 @@ const PlayerGradesChart = ({
               const filmGradeEntry = uniqueFilmGradesFiltered.find(
                 (grade) => grade.Metric === variable
               );
-              // Scale the film grade to a 0-100 range for the arm length
+              // Scale the film grade to a 0-100 range
               return filmGradeEntry
                 ? (parseFloat(filmGradeEntry.Grade) / 5) * 100
                 : 0; // Scale to 100
@@ -857,30 +877,32 @@ const PlayerGradesChart = ({
     };
 
     return (
-      <Radar
-        data={data}
-        options={{
-          ...prospectSpiderOptions,
-          plugins: {
-            ...prospectSpiderOptions.plugins,
-            tooltip: {
-              callbacks: {
-                label: (context) => {
-                  const variable = selectedVariables[context.dataIndex];
-                  const filmGradeEntry = uniqueFilmGradesFiltered.find(
-                    (grade) => grade.Metric === variable
-                  );
-                  const originalValue = filmGradeEntry
-                    ? filmGradeEntry.Grade
-                    : 0;
-                  return `${variable}: ${originalValue}`; // Show original value in tooltip
+      <div className={styles.adjustableSpiderChartWrapper}>
+        <Radar
+          data={data}
+          options={{
+            ...prospectSpiderOptions,
+            plugins: {
+              ...prospectSpiderOptions.plugins,
+              tooltip: {
+                callbacks: {
+                  label: (context) => {
+                    const variable = selectedVariables[context.dataIndex];
+                    const filmGradeEntry = uniqueFilmGradesFiltered.find(
+                      (grade) => grade.Metric === variable
+                    );
+                    const originalValue = filmGradeEntry
+                      ? filmGradeEntry.Grade
+                      : 0;
+                    return `${variable}: ${originalValue}`; // Show original value in tooltip
+                  },
                 },
               },
             },
-          },
-        }} // Use existing options or define new ones
-        plugins={[ChartDataLabels]}
-      />
+          }} // Use existing options or define new ones
+          plugins={[ChartDataLabels]}
+        />
+      </div>
     );
   };
 
@@ -1348,19 +1370,20 @@ const PlayerGradesChart = ({
       </div>
 
       {/* New Section for Single Spider Chart with Select Inputs */}
-      <div style={{ marginTop: "2rem" }}>
+      <div className={styles.wholeAdjustableSpiderChartWrapper}>
         <h2>Player Spider Chart</h2>
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div className={styles.spiderChartInputSelectsWrapper}>
           {/* Select Inputs for Variables */}
           {Array.from({ length: 5 }, (_, index) => (
             <select
               key={index}
               onChange={(e) => handleVariableChange(index, e.target.value)}
+              className={styles.adjustableSpiderChartSelects}
             >
-              <option value="">Select Variable {index + 1}</option>
-              {allVariables.map((variable) => (
-                <option key={variable} value={variable}>
-                  {variable.replace(/_/g, " ")}
+              <option value="">Data Point {index + 1}</option>
+              {variableOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
                 </option>
               ))}
             </select>
