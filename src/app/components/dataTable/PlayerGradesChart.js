@@ -748,25 +748,25 @@ const PlayerGradesChart = ({
           const xValue =
             player.rookieGuideData[xAxisVariable] !== undefined
               ? player.rookieGuideData[xAxisVariable]
-              : 0; // Fallback to 0
+              : 0;
           const yValue =
             player.rookieGuideData[yAxisVariable] !== undefined
               ? player.rookieGuideData[yAxisVariable]
-              : 0; // Fallback to 0
-
-          // Log the values after they have been defined
-          // console.log(`Player: ${player.Player_Name}, X: ${xValue}, Y: ${yValue}`);
+              : 0;
 
           return {
             x: xValue,
             y: yValue,
-            // We will set the color in the dataset level
           };
         }),
         backgroundColor: filteredPlayers.map((player) => {
-          return player.Player_Name === name
-            ? "rgba(0, 255, 0, 0.6)"
-            : "rgba(255, 99, 132, 0.6)"; // Green for selected player, default color for others
+          if (player.Player_Name === name) {
+            return "rgba(0, 255, 0, 0.6)"; // Green for selected player
+          } else if (spiderComparePlayersList.some(p => p.Player_Name === player.Player_Name)) {
+            return "rgba(255, 0, 0, 0.6)"; // Bright red for compare players
+          } else {
+            return "rgba(255, 99, 132, 0.6)"; // Default color for others
+          }
         }),
       },
     ],
@@ -774,25 +774,55 @@ const PlayerGradesChart = ({
 
   if (filteredPlayers.length > 0) {
     const meanX =
-      filteredPlayers.reduce((sum, player) => sum + player[xAxisVariable], 0) /
-      filteredPlayers.length;
+        filteredPlayers.reduce((sum, player) => sum + (player.rookieGuideData[xAxisVariable] || 0), 0) /
+        filteredPlayers.length;
     const meanY =
-      filteredPlayers.reduce((sum, player) => sum + player[yAxisVariable], 0) /
-      filteredPlayers.length;
+        filteredPlayers.reduce((sum, player) => sum + (player.rookieGuideData[yAxisVariable] || 0), 0) /
+        filteredPlayers.length;
+
+    // Calculate the slope using linear regression
+    const slope = filteredPlayers.reduce((sum, player) => {
+        const x = player.rookieGuideData[xAxisVariable] || 0;
+        const y = player.rookieGuideData[yAxisVariable] || 0;
+        return sum + ((x - meanX) * (y - meanY));
+    }, 0) / filteredPlayers.reduce((sum, player) => {
+        const x = player.rookieGuideData[xAxisVariable] || 0;
+        return sum + ((x - meanX) * (x - meanX));
+    }, 0);
+
+    const intercept = meanY - (slope * meanX);
+
+    // Calculate points for the line across the full width of the graph
+    const x1 = 50;  // min x
+    const x2 = 100; // max x
+    const y1 = (slope * x1) + intercept;
+    const y2 = (slope * x2) + intercept;
 
     // Add mean line to the scatterplot
     scatterData.datasets.push({
-      label: "Mean Line",
-      data: [{ x: meanX, y: meanY }],
-      backgroundColor: "rgba(0, 255, 0, 0.5)",
-      type: "line",
+        label: "Mean Line",
+        data: [
+            { x: x1, y: y1 },
+            { x: x2, y: y2 }
+        ],
+        backgroundColor: "rgba(0, 255, 0, 0.5)",
+        borderColor: "rgba(0, 255, 0, 0.5)",
+        borderWidth: 2,
+        pointRadius: 0,
+        type: "line",
     });
   }
 
   console.log("Scatter Data:", scatterData);
 
   // State for selected variables for the new spider chart
-  const [selectedVariables, setSelectedVariables] = useState(Array(5).fill(""));
+  const [selectedVariables, setSelectedVariables] = useState([
+    "Film_Grade",      // Default for Data Point 1
+    "Analytical_Grade", // Default for Data Point 2
+    "Overall_Grade",   // Default for Data Point 3
+    "",                // Data Point 4 remains empty
+    ""                 // Data Point 5 remains empty
+]);
 
   // Function to handle variable selection
   const handleVariableChange = (index, value) => {
@@ -827,12 +857,11 @@ const PlayerGradesChart = ({
   // Function to render the new spider chart based on selected variables
   const renderNewSpiderChart = (player) => {
     const data = {
-        labels: selectedVariables, // Keep the variable names as labels
+        labels: selectedVariables,
         datasets: [
             {
-                label: player.Player_Name, // Use the player's name as the label
+                label: player.Player_Name,
                 data: selectedVariables.map((variable) => {
-                    // Define film grade and prospect grade variables
                     const filmGradeVariables = [
                         "Processing",
                         "Accuracy",
@@ -851,27 +880,138 @@ const PlayerGradesChart = ({
                         "Blocking",
                     ];
 
-                    // Check if the variable is a film grade variable
                     if (filmGradeVariables.includes(variable)) {
-                        // Find the corresponding film grade entry for the current player
                         const filmGradeEntry = getUniqueFilmGrades(player.filmGrades).find(
                             (grade) => grade.Metric === variable
                         );
-                        // Scale the film grade to a 0-100 range
                         return filmGradeEntry
                             ? (parseFloat(filmGradeEntry.Grade) / 5) * 100
-                            : 0; // Scale to 100
+                            : 0;
                     } else {
-                        // For prospect grades, keep them as is (0-100)
                         return player.rookieGuideData[variable] !== undefined
                             ? player.rookieGuideData[variable]
-                            : 0; // Fallback to 0 if undefined
+                            : 0;
                     }
                 }),
                 backgroundColor: "rgba(255, 99, 132, 0.6)",
                 borderColor: "rgba(255, 99, 132, 1)",
                 borderWidth: 1,
                 fill: true,
+                // Add dynamic point colors
+                pointBackgroundColor: selectedVariables.map((variable) => {
+                    const filmGradeVariables = [
+                        "Processing",
+                        "Accuracy",
+                        "Arm Talent",
+                        "Pocket",
+                        "Run Threat",
+                        "Vision",
+                        "Collisions",
+                        "Elusiveness",
+                        "Receiving",
+                        "Burst",
+                        "Release",
+                        "Route",
+                        "YAC",
+                        "Explosiveness",
+                        "Blocking",
+                    ];
+
+                    if (filmGradeVariables.includes(variable)) {
+                        const filmGradeEntry = getUniqueFilmGrades(player.filmGrades).find(
+                            (grade) => grade.Metric === variable
+                        );
+                        return getFilmColor(filmGradeEntry ? filmGradeEntry.Grade : 0);
+                    } else {
+                        return getColor(player.rookieGuideData[variable] || 0);
+                    }
+                }),
+                pointBorderColor: selectedVariables.map((variable) => {
+                    const filmGradeVariables = [
+                        "Processing",
+                        "Accuracy",
+                        "Arm Talent",
+                        "Pocket",
+                        "Run Threat",
+                        "Vision",
+                        "Collisions",
+                        "Elusiveness",
+                        "Receiving",
+                        "Burst",
+                        "Release",
+                        "Route",
+                        "YAC",
+                        "Explosiveness",
+                        "Blocking",
+                    ];
+
+                    if (filmGradeVariables.includes(variable)) {
+                        const filmGradeEntry = getUniqueFilmGrades(player.filmGrades).find(
+                            (grade) => grade.Metric === variable
+                        );
+                        return getFilmColor(filmGradeEntry ? filmGradeEntry.Grade : 0);
+                    } else {
+                        return getColor(player.rookieGuideData[variable] || 0);
+                    }
+                }),
+                pointHoverBackgroundColor: selectedVariables.map((variable) => {
+                    const filmGradeVariables = [
+                        "Processing",
+                        "Accuracy",
+                        "Arm Talent",
+                        "Pocket",
+                        "Run Threat",
+                        "Vision",
+                        "Collisions",
+                        "Elusiveness",
+                        "Receiving",
+                        "Burst",
+                        "Release",
+                        "Route",
+                        "YAC",
+                        "Explosiveness",
+                        "Blocking",
+                    ];
+
+                    if (filmGradeVariables.includes(variable)) {
+                        const filmGradeEntry = getUniqueFilmGrades(player.filmGrades).find(
+                            (grade) => grade.Metric === variable
+                        );
+                        return getFilmColor(filmGradeEntry ? filmGradeEntry.Grade : 0);
+                    } else {
+                        return getColor(player.rookieGuideData[variable] || 0);
+                    }
+                }),
+                pointHoverBorderColor: selectedVariables.map((variable) => {
+                    const filmGradeVariables = [
+                        "Processing",
+                        "Accuracy",
+                        "Arm Talent",
+                        "Pocket",
+                        "Run Threat",
+                        "Vision",
+                        "Collisions",
+                        "Elusiveness",
+                        "Receiving",
+                        "Burst",
+                        "Release",
+                        "Route",
+                        "YAC",
+                        "Explosiveness",
+                        "Blocking",
+                    ];
+
+                    if (filmGradeVariables.includes(variable)) {
+                        const filmGradeEntry = getUniqueFilmGrades(player.filmGrades).find(
+                            (grade) => grade.Metric === variable
+                        );
+                        return getFilmColor(filmGradeEntry ? filmGradeEntry.Grade : 0);
+                    } else {
+                        return getColor(player.rookieGuideData[variable] || 0);
+                    }
+                }),
+                pointRadius: 7,
+                pointHoverRadius: 7,
             },
         ],
     };
@@ -893,13 +1033,13 @@ const PlayerGradesChart = ({
                                     );
                                     const originalValue = filmGradeEntry
                                         ? filmGradeEntry.Grade
-                                        : 0;
+                                        : player.rookieGuideData[variable] || 0;
                                     return `${variable}: ${originalValue}`; // Show original value in tooltip
                                 },
                             },
                         },
                     },
-                }} // Use existing options or define new ones
+                }}
                 plugins={[ChartDataLabels]}
             />
         </div>
@@ -911,7 +1051,7 @@ const PlayerGradesChart = ({
     return (
         <div>
             {spiderComparePlayersList.map((player) => (
-                <div key={player.Player_Name}>
+                <div key={player.Player_Name} >
                     {renderNewSpiderChart(player)}
                 </div>
             ))}
@@ -1039,7 +1179,7 @@ const PlayerGradesChart = ({
 
             {/* Scatterplot Section */}
             <div
-              style={{ width: "50%", height: "500px", display: "flex" }}
+              style={{ width: "50%", height: "1000px", display: "flex" }}
               className={styles.outerScatterWrapper}
             >
               <Scatter data={scatterData} options={scatterOptions} />
@@ -1097,7 +1237,7 @@ const PlayerGradesChart = ({
                 ))}
             </form>
 
-          <div
+          {/* <div
             style={{
               display: "flex",
               flexDirection: "column",
@@ -1122,7 +1262,7 @@ const PlayerGradesChart = ({
                     </div>
                 )}
                 {/* Prospect Grades Row */}
-            <div
+            {/* <div
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -1130,9 +1270,9 @@ const PlayerGradesChart = ({
                 gap: "2rem",
               }}
               className={styles.outerPropsectGradesSpiderWrapper}
-            >
+            > */}
                     {/* Main player's prospect grades */}
-              <div
+              {/* <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -1157,9 +1297,9 @@ const PlayerGradesChart = ({
                   plugins={[ChartDataLabels]}
                 />
                     </div>
-                    
+                     */}
                     {/* Compare players' prospect grades */}
-                    {spiderComparePlayers.map((comparePlayer) => {
+                    {/* {spiderComparePlayers.map((comparePlayer) => {
                         // Add safety check for required data
                 if (
                   !comparePlayer?.rookieGuideData ||
@@ -1273,7 +1413,7 @@ const PlayerGradesChart = ({
                 </div>
 
                 {/* Film Grades Row */}
-            <div
+            {/* <div
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -1281,9 +1421,9 @@ const PlayerGradesChart = ({
                 gap: "2rem",
               }}
               className={styles.outerFilmGradesSpiderWrapper}
-            >
+            > */}
                     {/* Main player's film grades */}
-              <div
+              {/* <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -1304,120 +1444,146 @@ const PlayerGradesChart = ({
                 </h3>
                 <Radar
                   data={filmSpiderData}
-                  options={filmSpiderOptions}
-                  plugins={[ChartDataLabels]}
-                />
-                    </div>
-
-                    {/* Compare players' film grades */}
-                    {spiderComparePlayers.map((comparePlayer) => {
-                        // Add safety check for required data
-                if (
-                  !comparePlayer?.rookieGuideData ||
-                  !comparePlayer?.filmGrades
-                ) {
-                            return null;
-                        }
-
-                        return (
-                  <div
-                    key={comparePlayer.Player_Name}
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
-                      flex: 1,
-                      maxWidth: "400px",
-                      height: "300px",
-                    }}
-                  >
-                    <h3
-                      style={{
-                        textAlign: "left",
-                        color: "var(--color-orange-primary)",
-                      }}
-                    >
-                      {comparePlayer.Player_Name}
-                    </h3>
-                                <Radar 
-                                    data={{
-                                        labels: metrics,
-                        datasets: [
-                          {
-                            label: "Film Grades",
-                            data: metrics.map((metric) => {
-                              const grade = getUniqueFilmGrades(
-                                comparePlayer.filmGrades
-                              ).find((g) => g.Metric === metric);
-                                                return grade ? grade.Grade : 0;
-                                            }),
-                            backgroundColor: "rgba(255, 99, 132, 0.6)",
-                            borderColor: "rgba(255, 99, 132, 1)",
-                                            borderWidth: 1,
-                                            fill: true,
-                            pointBackgroundColor: metrics.map((metric) => {
-                              const grade = getUniqueFilmGrades(
-                                comparePlayer.filmGrades
-                              ).find((g) => g.Metric === metric);
-                                                return getFilmColor(grade ? grade.Grade : 0);
-                                            }),
-                            pointBorderColor: metrics.map((metric) => {
-                              const grade = getUniqueFilmGrades(
-                                comparePlayer.filmGrades
-                              ).find((g) => g.Metric === metric);
-                                                return getFilmColor(grade ? grade.Grade : 0);
-                                            }),
-                                            pointRadius: 7,
-                                            pointHoverRadius: 7,
-                          },
-                        ],
-                                    }}
                                     options={filmSpiderOptions} 
                                     plugins={[ChartDataLabels]} 
                                 />
+                    </div> */}
+
+                   
+                    {/* {spiderComparePlayers.map((comparePlayer) => { */}
+                     
+          {/* //       if (
+          //         !comparePlayer?.rookieGuideData ||
+          //         !comparePlayer?.filmGrades
+          //       ) {
+          //                   return null;
+          //               }
+
+          //               return (
+          //         <div
+          //           key={comparePlayer.Player_Name}
+          //           style={{
+          //             display: "flex",
+          //             justifyContent: "center",
+          //             alignItems: "center",
+          //             flexDirection: "column",
+          //             flex: 1,
+          //             maxWidth: "400px",
+          //             height: "300px",
+          //           }}
+          //         >
+          //           <h3
+          //             style={{
+          //               textAlign: "left",
+          //               color: "var(--color-orange-primary)",
+          //             }}
+          //           >
+          //             {comparePlayer.Player_Name}
+          //           </h3>
+          //                       <Radar 
+          //                           data={{
+          //                               labels: metrics,
+          //               datasets: [
+          //                 {
+          //                   label: "Film Grades",
+          //                   data: metrics.map((metric) => {
+          //                     const grade = getUniqueFilmGrades(
+          //                       comparePlayer.filmGrades
+          //                     ).find((g) => g.Metric === metric);
+          //                                       return grade ? grade.Grade : 0;
+          //                                   }),
+          //                   backgroundColor: "rgba(255, 99, 132, 0.6)",
+          //                   borderColor: "rgba(255, 99, 132, 1)",
+          //                                   borderWidth: 1,
+          //                                   fill: true,
+          //                   pointBackgroundColor: metrics.map((metric) => {
+          //                     const grade = getUniqueFilmGrades(
+          //                       comparePlayer.filmGrades
+          //                     ).find((g) => g.Metric === metric);
+          //                                       return getFilmColor(grade ? grade.Grade : 0);
+          //                                   }),
+          //                   pointBorderColor: metrics.map((metric) => {
+          //                     const grade = getUniqueFilmGrades(
+          //                       comparePlayer.filmGrades
+          //                     ).find((g) => g.Metric === metric);
+          //                                       return getFilmColor(grade ? grade.Grade : 0);
+          //                                   }),
+          //                                   pointRadius: 7,
+          //                                   pointHoverRadius: 7,
+          //                 },
+          //               ],
+          //                           }}
+          //                           options={filmSpiderOptions} 
+          //                           plugins={[ChartDataLabels]} 
+          //                       />
+          //                   </div>
+          //               );
+          //           })}
+          //       </div>
+          // </div> */
+          }
+
+                     {/* New Section for Single Spider Chart with Select Inputs */}
+      <div className={styles.wholeAdjustableSpiderChartWrapper}>
+        {/* <h2>Player Spider Chart</h2> */}
+        
+        {/* Add the selected players tags section here */}
+        {spiderComparePlayersList.length > 0 && (
+            <div className={styles.selectedPlayersWrapper}>
+                {spiderComparePlayersList.map((p) => (
+                    <div key={p.Player_Name} className={styles.selectedPlayerTag}>
+                        {p.Player_Name}
+                        <button 
+                            onClick={() => onRemoveSpiderPlayer(p.Player_Name)}
+                            className={styles.removePlayerBtn}
+                        >
+                            ×
+                        </button>
                             </div>
-                        );
-                    })}
+                ))}
                 </div>
-          </div>
+        )}
+
+        <div className={styles.spiderChartAndInputSelectorsWrapper}>
+        <div className={styles.spiderChartInputSelectsWrapper}>
+            {/* Select Inputs for Variables */}
+            {Array.from({ length: 5 }, (_, index) => (
+                <select
+                    key={index}
+                    onChange={(e) => handleVariableChange(index, e.target.value)}
+                    className={styles.adjustableSpiderChartSelects}
+                >
+                    <option value="">
+                        {index === 0 ? "Film Grade" : 
+                         index === 1 ? "Analytical Grade" : 
+                         index === 2 ? "Overall Grade" : 
+                         `Data Point ${index + 1}`}
+                    </option>
+                    {variableOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </select>
+            ))}
+            </div>
+
+
+        {/* Render the Spider Chart based on selected variables */}
+        {renderAllSpiderCharts()}
+        </div>
+    </div>
+        </div>
+
+
         </div>
       </div>
 
-      {/* New Section for Single Spider Chart with Select Inputs */}
-      <div className={styles.wholeAdjustableSpiderChartWrapper}>
-        <h2>Player Spider Chart</h2>
-        <div className={styles.spiderChartInputSelectsWrapper}>
-          {/* Select Inputs for Variables */}
-          
 
-          
-          {Array.from({ length: 5 }, (_, index) => (
-            <select
-              key={index}
-              onChange={(e) => handleVariableChange(index, e.target.value)}
-              className={styles.adjustableSpiderChartSelects}
-            >
-              <option value="">Data Point {index + 1}</option>
-              {variableOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          ))}
-         
-        </div>
+       
+    
 
-        {/* Render the Spider Chart based on selected variables */}
-        
-            
-            {renderAllSpiderCharts()}
-            
-        
-        
-            </div>
-        </div>
+
     );
 };
 
