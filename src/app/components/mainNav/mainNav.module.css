@@ -1,209 +1,230 @@
 .mainWrapper {
-    display: flex;
-    width: 55%;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    padding: 20px 0;
-    
+  display: flex;
+  width: 55%;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 20px 0;
 }
 
 .navLinksWrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--color-gray-900);
-    /* padding: 1rem 2rem; */
-    border-radius: 20px;
-    list-style-type: none;
-    margin-left: 2rem;
-    padding-inline-start: 0;
-    border-right: 1px solid var(--color-gray-500);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-gray-900);
+  /* padding: 1rem 2rem; */
+  border-radius: 20px;
+  list-style-type: none;
+  margin-left: 2rem;
+  padding-inline-start: 0;
+  border-right: 1px solid var(--color-gray-500);
 }
 
 .navLinksWrapper a:visited {
-    color: inherit; /* Prevent visited links from turning purple */
+  color: inherit; /* Prevent visited links from turning purple */
 }
 
 .mainNavLink {
-    padding: 1rem 1rem;
-    border-right: 1px solid var(--color-gray-500); /* Keep the right border for all except the last */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
+  padding: 1rem 1rem;
+  border-right: 1px solid var(--color-gray-500); /* Keep the right border for all except the last */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
 }
 
 .navLinksWrapper a:hover {
-    background-color: var(--color-orange-primary);
-    /* border-radius: 0 0 0 0; */
+  background-color: var(--color-orange-primary);
+  /* border-radius: 0 0 0 0; */
 }
 
 .mainNavLink:last-child {
-    padding: 1rem 1rem;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0 20px 20px 0;
-    border-right: none;
-} 
+  padding: 1rem 1rem;
 
-.mainNavLink:first-child  {
-    
-    border-radius: 20px 0 0 20px;
-} 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 20px 20px 0;
+  border-right: none;
+}
 
-
+.mainNavLink:first-child {
+  border-radius: 20px 0 0 20px;
+}
 
 .mainNavLink a:visited {
-    color: inherit; /* Prevent visited links from turning purple */
+  color: inherit; /* Prevent visited links from turning purple */
 }
 
 .mainNavLink:hover {
-    background-color: var(--color-orange-primary);
+  background-color: var(--color-orange-primary);
 }
 
 /* Maintain border radius for the first and last link on hover */
 .navLinksWrapper a:first-child .mainNavLink:hover {
-    border-radius: 20px 0 0 20px; /* Maintain the first link's border radius */
+  border-radius: 20px 0 0 20px; /* Maintain the first link's border radius */
 }
 
 .navLinksWrapper a:last-child .mainNavLink:hover {
-    border-radius: 0 20px 20px 0; /* Maintain the last link's border radius */
+  border-radius: 0 20px 20px 0; /* Maintain the last link's border radius */
 }
 
 /* Add responsive styles */
 @media screen and (max-width: 1200px) {
-    .mainWrapper {
-        width: 70%;
-    }
+  .mainWrapper {
+    width: 70%;
+  }
 }
 
 @media screen and (max-width: 900px) {
-    .mainWrapper {
-        width: 85%;
-    }
-    
-    .mainNavLink {
-        padding: 0.8rem 0.8rem;
-        font-size: 0.9rem;
-    }
-    
-    .mainNavLink:last-child {
-        padding: 0.8rem 0.8rem;
-    }
+  .mainWrapper {
+    width: 85%;
+  }
+
+  .mainNavLink {
+    padding: 0.8rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .mainNavLink:last-child {
+    padding: 0.8rem 0.8rem;
+  }
 }
 
 @media screen and (max-width: 600px) {
-    .mainWrapper {
-        width: 95%;
-        padding: 15px 0;
-    }
-    
-    .navLinksWrapper {
-        margin-left: 1rem;
-    }
-    
-    .mainNavLink {
-        padding: 0.6rem 0.6rem;
-        font-size: 0.85rem;
-    }
-    
-    .mainNavLink:last-child {
-        padding: 0.6rem 0.6rem;
-    }
+  .mainWrapper {
+    width: 95%;
+    padding: 15px 0;
+  }
+
+  .navLinksWrapper {
+    margin-left: 1rem;
+  }
+
+  .mainNavLink {
+    padding: 0.6rem 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .mainNavLink:last-child {
+    padding: 0.6rem 0.6rem;
+  }
 }
 
 @media screen and (max-width: 480px) {
-    .mainWrapper {
-        width: 100%;
-        padding: 10px 0;
-    }
-    
-    .navLinksWrapper {
-        margin-left: 0.5rem;
-    }
-    
-    .mainNavLink {
-        padding: 0.5rem 0.5rem;
-        font-size: 0.8rem;
-    }
-    
-    .mainNavLink:last-child {
-        padding: 0.5rem 0.5rem;
-    }
+  .mainWrapper {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .navLinksWrapper {
+    margin-left: 0.5rem;
+  }
+
+  .mainNavLink {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .mainNavLink:last-child {
+    padding: 0.5rem 0.5rem;
+  }
 }
 
 /* Add hamburger menu styles */
 .hamburger {
-    display: none;
-    cursor: pointer;
-    padding: 10px;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
+  display: none;
+  cursor: pointer;
+  padding: 10px;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  z-index: 100;
+}
+
+.hamburgerLines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hamburgerLines span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background-color: var(--color-orange-primary);
+  transition: all 0.3s ease;
 }
 
 /* Mobile navigation styles */
 @media screen and (max-width: 800px) {
-    .mainWrapper {
-        width: 100%;
-        padding: 15px 0;
-        position: relative;
-    }
+  .mainWrapper {
+    width: 100%;
+    padding: 15px 0;
+    position: relative;
+  }
 
-    .hamburger {
-        display: block;
-    }
+  .hamburger {
+    display: block;
+  }
 
-    .navLinksWrapper {
-        display: none; /* Hide the regular nav links */
-        position: absolute;
-        top: 100%;
-        right: 0;
-        flex-direction: column;
-        width: 200px;
-        margin-left: 0;
-        border-right: none;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
+  .navLinksWrapper {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    flex-direction: column;
+    width: 200px;
+    margin-left: 0;
+    background-color: var(--color-gray-900);
+    border: 1px solid var(--color-gray-700);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
 
-    .navLinksWrapper.open {
-        display: flex;
-    }
+  .navLinksWrapper.open {
+    display: flex;
+  }
 
-    .mainNavLink,
-    .mainNavLink:first-child,
-    .mainNavLink:last-child {
-        width: 100%;
-        padding: 1rem;
-        border-right: none;
-        border-bottom: 1px solid var(--color-gray-500);
-        border-radius: 0;
-    }
+  .mainNavLink {
+    width: 100%;
+    padding: 1rem;
+    border-right: none;
+    border-bottom: 1px solid var(--color-gray-700);
+    transition: background-color 0.3s ease;
+  }
 
-    .mainNavLink:first-child {
-        border-radius: 10px 10px 0 0;
-    }
+  .mainNavLink:hover {
+    background-color: var(--color-gray-800);
+  }
 
-    .mainNavLink:last-child {
-        border-bottom: none;
-        border-radius: 0 0 10px 10px;
-    }
+  .mainNavLink:first-child {
+    border-radius: 10px 10px 0 0;
+  }
+
+  .mainNavLink:last-child {
+    border-bottom: none;
+    border-radius: 0 0 10px 10px;
+  }
+
+  /* Add hover effect for menu items */
+  .mainNavLink:hover {
+    background-color: var(--color-orange-primary);
+  }
 }
 
 /* Remove or modify previous mobile media queries that conflict */
 @media screen and (max-width: 600px) {
-    .mainWrapper {
-        padding: 15px 0;
-    }
+  .mainWrapper {
+    padding: 15px 0;
+  }
 }
 
 @media screen and (max-width: 480px) {
-    .mainWrapper {
-        padding: 10px 0;
-    }
+  .mainWrapper {
+    padding: 10px 0;
+  }
 }
