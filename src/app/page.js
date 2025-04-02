@@ -33,7 +33,7 @@ export default function Home() {
     }&response_type=code&redirect_uri=${encodeURIComponent(
       "http://localhost:3000/api/auth/callback"
     )}`;
-    console.log("Wix Auth URL:", wixAuthUrl); // Log the URL for debugging
+    // console.log("Wix Auth URL:", wixAuthUrl); // Log the URL for debugging
     window.location.href = wixAuthUrl;
   };
 
