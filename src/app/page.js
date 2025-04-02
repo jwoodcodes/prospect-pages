@@ -27,10 +27,17 @@ export default function Home() {
   }, []);
 
   const handleLogin = () => {
-    const siteId = process.env.NEXT_PUBLIC_WIX_SITE_ID;
-    const wixAuthUrl = `https://www.wix.com/oauth/authorize?client_id=${siteId}&response_type=code`;
+    console.log("Login button clicked"); // This should log when the button is clicked
+    const wixAuthUrl = `https://www.wix.com/oauth/authorize?client_id=${
+      process.env.NEXT_PUBLIC_WIX_CLIENT_ID
+    }&response_type=code&redirect_uri=${encodeURIComponent(
+      "http://localhost:3000/api/auth/callback"
+    )}`;
+    console.log("Wix Auth URL:", wixAuthUrl); // Log the URL for debugging
     window.location.href = wixAuthUrl;
   };
+
+  console.log("Client ID:", process.env.NEXT_PUBLIC_WIX_CLIENT_ID);
 
   if (isLoading) {
     return <div>Loading...</div>;
