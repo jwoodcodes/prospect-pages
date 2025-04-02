@@ -14,6 +14,12 @@ export async function GET(request) {
   }
 
   try {
+    // Determine the redirect URI based on the environment
+    const redirectUri =
+      process.env.NODE_ENV === "production"
+        ? "https://prospect-pages.vercel.app/api/auth/callback"
+        : "http://localhost:3000/api/auth/callback";
+
     // Exchange code for token with Wix
     const tokenResponse = await fetch("https://www.wix.com/_api/oauth/access", {
       method: "POST",
@@ -24,7 +30,7 @@ export async function GET(request) {
         client_id: process.env.NEXT_PUBLIC_WIX_CLIENT_ID,
         client_secret: process.env.WIX_API_KEY,
         code: code,
-        redirect_uri: "http://localhost:3000/api/auth/callback",
+        redirect_uri: redirectUri,
       }),
     });
 
