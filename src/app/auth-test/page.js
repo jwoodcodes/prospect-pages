@@ -18,11 +18,11 @@ export default function AuthTest() {
   }, []);
 
   const handleLogin = () => {
-    if (!siteId) {
-      console.error("WIX_SITE_ID not found");
-      return;
-    }
-    const wixAuthUrl = `https://www.wix.com/oauth/authorize?client_id=${siteId}&response_type=code`;
+    const wixAuthUrl = `https://www.wix.com/oauth/authorize?client_id=${
+      process.env.NEXT_PUBLIC_WIX_CLIENT_ID
+    }&response_type=code&redirect_uri=${encodeURIComponent(
+      "http://localhost:3000/api/auth/callback"
+    )}`;
     window.location.href = wixAuthUrl;
   };
 

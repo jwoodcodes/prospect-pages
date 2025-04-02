@@ -33,8 +33,11 @@ export function middleware(request) {
 
   // If there is no token and the path is protected, redirect to login
   if (!token) {
-    const siteId = process.env.NEXT_PUBLIC_WIX_SITE_ID;
-    const wixAuthUrl = `https://www.wix.com/oauth/authorize?client_id=${siteId}&response_type=code`;
+    const wixAuthUrl = `https://www.wix.com/oauth/authorize?client_id=${
+      process.env.NEXT_PUBLIC_WIX_CLIENT_ID
+    }&response_type=code&redirect_uri=${encodeURIComponent(
+      "http://localhost:3000/api/auth/callback"
+    )}`;
     return NextResponse.redirect(wixAuthUrl);
   }
 
