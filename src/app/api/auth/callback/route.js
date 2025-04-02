@@ -51,8 +51,10 @@ export async function GET(request) {
 
       return response;
     } else {
+      const errorData = await tokenResponse.json();
+      console.error("Error response from Wix:", errorData);
       return NextResponse.json(
-        { error: data },
+        { error: errorData },
         { status: tokenResponse.status }
       );
     }
