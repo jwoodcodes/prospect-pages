@@ -6,6 +6,8 @@ import styles from "./page.module.css";
 import MainNav from "./components/mainNav/MainNav";
 import dynamic from "next/dynamic";
 
+import { wixClient } from "../../lib/wix-client";
+
 // Dynamically import DataFetcher with no SSR to avoid server component issues
 const DataFetcher = dynamic(
   () => import("./components/dataTable/DataFetcher"),
@@ -26,21 +28,14 @@ export default function Home() {
     setIsLoading(false);
   }, []);
 
-  const handleLogin = () => {
-    console.log("Login button clicked"); // This should log when the button is clicked
+  const handleLogin = async () => {
+    const loginRequest  = wixClient.auth.generateOAuthData('http://localhost:3000')
 
-    // Determine the redirect URI based on the environment
-    const redirectUri =
-      process.env.NODE_ENV === "production"
-        ? "https://prospect-pages.vercel.app/api/auth/callback"
-        : "http://localhost:3000/api/auth/callback";
+    localStorage.setItem('oAuthRedirectData', JSON.stringify(loginRequest));
+    const { authUrl } = await wixClient.auth.getAuthUrl(loginRequest);
+    window.location.href = authUrl
 
-    const wixAuthUrl = `https://www.wix.com/oauth/authorize?client_id=${
-      process.env.NEXT_PUBLIC_WIX_CLIENT_ID
-    }&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}`; // Use the dynamic redirect URI
-
-    // console.log("Wix Auth URL:", wixAuthUrl); // Log the URL for debugging
-    window.location.href = wixAuthUrl;
+ 
   };
 
   console.log("Client ID:", process.env.NEXT_PUBLIC_WIX_CLIENT_ID);
@@ -67,13 +62,14 @@ export default function Home() {
             click players name to view full prospect profile
           </h2>
         </div>
+      
         {isAuthenticated ? (
-          <>
+           <> 
             <DataFetcher />
             <div style={{ padding: "1rem", textAlign: "center" }}>
               <p style={{ color: "green" }}>✓ Authenticated</p>
             </div>
-          </>
+          </> 
         ) : (
           <div
             style={{
@@ -99,7 +95,7 @@ export default function Home() {
             >
               Login to FFAstronauts
             </button>
-          </div>
+          </div> 
         )}
       </main>
     </div>
