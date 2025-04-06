@@ -7,6 +7,7 @@ module.exports = {
     extends: [
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
+        'plugin:next/recommended',
         'next/core-web-vitals',
     ],
     rules: {
