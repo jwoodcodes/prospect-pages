@@ -7,6 +7,11 @@ import MainNav from "./components/mainNav/MainNav";
 import dynamic from "next/dynamic";
 
 import { wixClient } from "../../lib/wix-client";
+import Cookies from "js-cookie";  
+
+import { getUser } from "../../lib/get-user";
+
+// import DataFetcher from "./components/dataTable/DataFetcher";
 
 // Dynamically import DataFetcher with no SSR to avoid server component issues
 const DataFetcher = dynamic(
@@ -16,17 +21,53 @@ const DataFetcher = dynamic(
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  
+  const [user, setUser] = useState(null); // State to hold user data
 
   useEffect(() => {
-    // Check if we have a token in cookies
-    const cookies = document.cookie.split(";");
-    const hasWixToken = cookies.some((cookie) =>
-      cookie.trim().startsWith("wixToken=")
-    );
-    setIsAuthenticated(hasWixToken);
-    setIsLoading(false);
+    // Fetch user data after the initial render
+    const fetchUser = async () => {
+      const userData = await getUser();
+      setUser(userData);
+      
+    };
+
+    fetchUser();
   }, []);
+
+  async function verifyLogin() {
+
+    const data = JSON.parse(localStorage.getItem('oAuthRedirectData'));
+
+
+    try {
+      
+      const {code, state} = wixClient.auth.parseFromUrl();
+      
+      console.log("Code:", code);
+      console.log("State:", state);
+      console.log("Data:", data);
+
+      console.log("Calling getMemberTokens with:", { code, state, data });
+      const tokens = await wixClient.auth.getMemberTokens(code, state, data);
+      console.log(tokens.accessToken)
+      Cookies.set('accessToken', JSON.stringify(tokens.accessToken))
+      Cookies.set('refreshToken', JSON.stringify(tokens.refreshToken))
+
+      // wixClient.auth.setTokens(tokens)
+      // console.log(tokens)
+
+    }
+    catch(e) {
+      console.error("Error fetching tokens:", e);
+    }
+  }
+
+  useEffect(() => {
+    
+    verifyLogin();
+    
+  }, [user]);
 
   const handleLogin = async () => {
     const loginRequest  = wixClient.auth.generateOAuthData('http://localhost:3000')
@@ -35,14 +76,11 @@ export default function Home() {
     const { authUrl } = await wixClient.auth.getAuthUrl(loginRequest);
     window.location.href = authUrl
 
+    
  
   };
 
-  console.log("Client ID:", process.env.NEXT_PUBLIC_WIX_CLIENT_ID);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  
 
   return (
     <div className={styles.page}>
@@ -56,6 +94,7 @@ export default function Home() {
           height={150}
           priority
         />
+        
         <div className={styles.titleWrapper}>
           <h1 className={styles.title}>Prospect Data By Class</h1>
           <h2 className={styles.secondTitle}>
@@ -63,7 +102,7 @@ export default function Home() {
           </h2>
         </div>
       
-        {isAuthenticated ? (
+        {wixClient.auth.loggedIn() ? (
            <> 
             <DataFetcher />
             <div style={{ padding: "1rem", textAlign: "center" }}>
@@ -97,6 +136,7 @@ export default function Home() {
             </button>
           </div> 
         )}
+
       </main>
     </div>
   );
