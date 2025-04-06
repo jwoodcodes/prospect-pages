@@ -4,8 +4,8 @@ import { createClient, OAuthStrategy } from "@wix/sdk"
 import { members } from "@wix/members"
 import Cookies from "js-cookie"
 
-let refreshToken = Cookies.get('refreshToken') ? JSON.parse(Cookies.get('refreshToken')) : null;
-let accessToken = Cookies.get('accessToken') ? JSON.parse(Cookies.get('accessToken')) : null;
+let refreshToken = Cookies.get('refreshToken') ? JSON.parse(Cookies.get('refreshToken')) : '';
+let accessToken = Cookies.get('accessToken') ? JSON.parse(Cookies.get('accessToken')) : '';
 
 export const wixClient = createClient({
     
@@ -13,10 +13,10 @@ export const wixClient = createClient({
         members
     },
     auth: OAuthStrategy({
-        clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID,
+        clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID || '',
         tokens: {
-            accessToken,
-            refreshToken
+            accessToken: accessToken || '',
+            refreshToken: refreshToken || ''
         }
     })
 
