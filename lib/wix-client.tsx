@@ -21,3 +21,6 @@ export const wixClient = createClient({
     })
 
 })
+
+// Export the wixClient instance
+export default wixClient;

@@ -1,7 +1,8 @@
 'use server'
 
-import DataTable from './DataTable';
+import DataTable from  "./DataTable"
 import { MongoClient } from 'mongodb';
+
 
 const uri = process.env.MONGODB_URI; // Ensure this is set in your .env.local file
 const dbName = 'astronauts-college';
@@ -31,6 +32,8 @@ export default async function DataFetcher() {
     let data = [];
     let data3 = [];
 
+    
+
     try {
         const client = await clientPromise;
         const database = client.db(dbName);
@@ -57,6 +60,7 @@ export default async function DataFetcher() {
         console.error('Error fetching data from MongoDB:', error);
         return <DataTable data={[]} />;
     }
+    // console.log(data3)
 
     return <DataTable data={data3} />;
 }
