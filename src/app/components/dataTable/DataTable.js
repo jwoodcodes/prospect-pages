@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, use } from "react";
 import { AgGridReact } from "ag-grid-react"; // React Data Grid Component
 import {
     AllCommunityModule,
@@ -34,16 +34,14 @@ export default function DataTable({ data }) {
     return myTheme;
   }, []);
   
-    React.useEffect(() => {
-      const [classYear, setClassYear] = React.useState("all")
+    
+    const [classYear, setClassYear] = React.useState("all")
 
     const [positionForDataTable,setPositionForDataTable] = React.useState("all")
 
     const [dataSetToDisplay, setDataSetToDisplay] = React.useState("prospect grades")
 
     const [rowData, setRowData] = React.useState([]);
-    }, [])
-    
 
 
     let dataToUse = data
@@ -188,7 +186,7 @@ export default function DataTable({ data }) {
 
     setRowData(newPlayerArray)
 
-}, [])
+}, [data, classYear, positionForDataTable])
 
 
 let baseColDefs = []
@@ -760,10 +758,7 @@ function changeDataTableData(value) {
 //   setColDefs(getResponsiveColumnDefs(windowWidth));
 // }, [windowWidth]);
 
-
-  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
-
-
+const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
 useEffect(() => {
   const handleResize = () => {
@@ -774,10 +769,7 @@ useEffect(() => {
   return () => window.removeEventListener('resize', handleResize);
 }, []);
 
-
-  const [colDefs, setColDefs] = useState(getResponsiveColumnDefs(windowWidth));
-
-
+const [colDefs, setColDefs] = useState(getResponsiveColumnDefs(windowWidth));
 
 
 
@@ -801,21 +793,13 @@ const defaultColDef = useMemo(() => ({
         setIsDialogOpen(true); // Open the dialog
     };
 
-   
-    React.useEffect(() => {
-      const [comparePlayer, setComparePlayer] = useState(null);
-    }, [])
-      
-    
-   
+    const [comparePlayer, setComparePlayer] = useState(null);
 
     const closeDialog = () => {
         setIsDialogOpen(false); // Close the dialog
         setSelectedPlayer(null); // Clear the selected player
         setComparePlayer(null)
     };
-
-    console.log('Data received in DataTable:', data);
 
     return (
         <div style={containerStyle}>
