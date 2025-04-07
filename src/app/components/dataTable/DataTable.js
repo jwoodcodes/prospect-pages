@@ -12,7 +12,8 @@ import {
   
   
 import styles from './dataTable.module.css'
-import PlayerDialog from './PlayerDialog'; 
+import PlayerDialog from './PlayerDialog'; // Import the dialog component
+
 export default function DataTable({ data }) {
     const [selectedPlayer, setSelectedPlayer] = useState(null); // State to hold selected player
     const [isDialogOpen, setIsDialogOpen] = useState(false); // State to manage dialog visibility
