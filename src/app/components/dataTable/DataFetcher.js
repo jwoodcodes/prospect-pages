@@ -3,7 +3,7 @@
 import DataTable from './DataTable';
 import { MongoClient } from 'mongodb';
 
-const uri = process.env.MONGODB_URI; // Ensure this is set in your .env.local file
+const uri = process.env.MONGODB_URI; 
 const dbName = 'astronauts-college';
 const collectionName = 'all-rookie-guide-years';
 
