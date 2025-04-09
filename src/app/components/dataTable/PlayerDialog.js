@@ -117,6 +117,10 @@ export default function PlayerDialog({
   let playersTeam = player.PlayerBio.NFL_Team.replace(" ", "");
   playersTeam = playersTeam.replace(" ", "");
 
+  if(player.name === 'Justin Fields') {
+    playersTeam = "NewYorkJets"
+  }
+
   // console.log(`/${playersTeam}.png`)
   //
   ///

@@ -12,8 +12,8 @@ export default function MainNav() {
       <div className={styles.logo}>
         <a href="https://www.ffastronauts.com/">
           <Image
-            src="/astronauts-main-logo.avif"
-            alt="Vercel Logo"
+            src="/ffAstronautsMainLogo.png"
+            alt="FFAstronauts Logo"
             className={styles.logo}
             width={75}
             height={75}

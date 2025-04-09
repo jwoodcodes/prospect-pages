@@ -1,6 +1,14 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
+const hemiHead = localFont({
+  src: "./fonts/hemi head bd it.ttf",
+});
+
+const playRegular = localFont({
+  src: "./fonts/Play-Regular.ttf",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,7 +28,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${hemiHead.className} ${playRegular.className}`}>
         
           {children}
        
