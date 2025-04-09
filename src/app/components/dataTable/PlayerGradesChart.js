@@ -34,6 +34,8 @@ const PlayerGradesChart = ({
   const { Film_Grade, Analytical_Grade, Landing_Spot, Overall_Grade } =
     rookieGuideData;
 
+    console.log(rookieGuideData)
+
     // Get position from first film grade entry
     const position = filmGrades?.[0]?.Position;
 
@@ -191,7 +193,9 @@ const PlayerGradesChart = ({
                     const playerName = context.dataset.label;
           const initials = getInitials(playerName || "");
                     const safeValue = safeNumber(value);
-                    return `${initials}\n${safeValue.toFixed(1)}`;
+                    // console.log('Value before toFixed:', value);
+                    const formattedValue = safeValue.toFixed(1);
+                    return `${initials}\n${formattedValue}`;
                 },
         color: "white",
                 font: {
@@ -241,7 +245,12 @@ const PlayerGradesChart = ({
                 formatter: (value, context) => {
                     const playerName = context.dataset.label;
                     const initials = getInitials(playerName);
-                    return `${initials}\n${value?.toFixed(1)}`;
+                    
+                    // Ensure value is a number
+                    const safeValue = typeof value === 'number' ? value : parseFloat(value);
+                    const formattedValue = !isNaN(safeValue) ? safeValue.toFixed(1) : "0.0"; // Default to "0.0" if not a number
+                    
+                    return `${initials}\n${formattedValue}`;
                 },
         color: "white",
                 font: {
@@ -311,7 +320,10 @@ const PlayerGradesChart = ({
           (value) => getColor(value)
         ),
         pointLabels: Object.values(selectedRookieGuideFields).map((value) =>
-          value.toFixed(1)
+          
+          
+          value
+          
         ),
             pointRadius: 7,
             pointHoverRadius: 7,
@@ -457,7 +469,8 @@ const PlayerGradesChart = ({
               const grade = getUniqueFilmGrades(
                 comparePlayerData.filmGrades
               ).find((g) => g.Metric === metric);
-              return grade ? grade.Grade.toFixed(1) : "0.0";
+              const safeGrade = grade ? parseFloat(grade.Grade) : 0;
+              return !isNaN(safeGrade) ? safeGrade.toFixed(1) : "0.0";
             }),
             pointRadius: 7,
             pointHoverRadius: 7,
@@ -564,7 +577,10 @@ const PlayerGradesChart = ({
                 font: {
           weight: "bold",
                 },
-        formatter: (value) => value?.toFixed(1) ?? "0.0",
+        formatter: (value) => {
+            const safeValue = typeof value === 'number' ? value : parseFloat(value);
+            return !isNaN(safeValue) ? safeValue.toFixed(1) : "0.0"; // Default to "0.0" if not a number
+        },
         anchor: "center",
                 align: (context) => {
                     // The first label (index 0) is typically at the top of the radar chart
@@ -622,7 +638,10 @@ const PlayerGradesChart = ({
                 font: {
           weight: "bold",
                 },
-        formatter: (value) => value?.toFixed(1) ?? "0.0",
+        formatter: (value) => {
+            const safeValue = typeof value === 'number' ? value : parseFloat(value);
+            return !isNaN(safeValue) ? safeValue.toFixed(1) : "0.0"; // Default to "0.0" if not a number
+        },
         anchor: "center",
                 align: (context) => {
                     // The first label (index 0) is typically at the top of the radar chart
