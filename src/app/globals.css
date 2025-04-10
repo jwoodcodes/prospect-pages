@@ -1,7 +1,9 @@
 /*
   1. Use a more-intuitive box-sizing model.
 */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -15,7 +17,8 @@
 /*
   3. Allow percentage-based heights in the application
 */
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -32,7 +35,11 @@ body {
 /*
   6. Improve media defaults
 */
-img, picture, video, canvas, svg {
+img,
+picture,
+video,
+canvas,
+svg {
   display: block;
   max-width: 100%;
 }
@@ -40,21 +47,31 @@ img, picture, video, canvas, svg {
 /*
   7. Remove built-in form typography styles
 */
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   font: inherit;
 }
 
 /*
   8. Avoid text overflows
 */
-p, h1, h2, h3, h4, h5, h6 {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   overflow-wrap: break-word;
 }
 
 /*
   9. Create a root stacking context
 */
-#root, #__next {
+#root,
+#__next {
   isolation: isolate;
 }
 
@@ -67,6 +84,7 @@ html {
 
   /* greys */
   --color-gray-50: hsl(210deg, 19%, 10%);
+  --color-gray-75: hsl(210deg, 17%, 15%);
   --color-gray-100: hsl(210deg, 15%, 20%);
   --color-gray-200: hsl(210deg, 15%, 25%);
   --color-gray-300: hsl(210deg, 10%, 40%);
@@ -81,14 +99,14 @@ html {
   --color-green-primary: #004643;
   --color-green-light: #9ad0d6;
   --color-green-dark: #003d27;
-  
-  --color-blue-light: #03A9F4;
-  --color-blue-primary: #1976D2;
-  --color-blue-dark: #0D4770;
 
-  --color-purple-light: #9575CD;
-  --color-purple-primary: #311B92;
-  --color-purple-dark: #1A237E;
+  --color-blue-light: #03a9f4;
+  --color-blue-primary: #1976d2;
+  --color-blue-dark: #0d4770;
 
-  --color-orange-primary: #f60
+  --color-purple-light: #9575cd;
+  --color-purple-primary: #311b92;
+  --color-purple-dark: #1a237e;
+
+  --color-orange-primary: #f60;
 }
