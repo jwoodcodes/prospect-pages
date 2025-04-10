@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./dataTable.module.css";
 import PlayerGradesChart from "./PlayerGradesChart"; // Adjust the import path as necessary
 import Image from "next/image";
+import PlayerBarChart from "./PlayerBarChart";
 
 export default function PlayerDialog({
   player,
@@ -117,9 +118,11 @@ export default function PlayerDialog({
   let playersTeam = player.PlayerBio.NFL_Team.replace(" ", "");
   playersTeam = playersTeam.replace(" ", "");
 
-  if(player.name === 'Justin Fields') {
-    playersTeam = "NewYorkJets"
+  if (player.name === "Justin Fields") {
+    playersTeam = "NewYorkJets";
   }
+
+  console.log(player);
 
   // console.log(`/${playersTeam}.png`)
   //
@@ -144,51 +147,57 @@ export default function PlayerDialog({
               className={styles.teamLogo}
             />
             <h2 className={styles.playerName}>{player.Player_Name}</h2>
-          </div>
 
-          <div className={styles.infoBox}>
-            {playerBio.Position && (
-              <p>
-                <strong>{playerBio.Position}: </strong> {playerBio.NFL_Team}
-              </p>
-            )}
-            {playerBio.Height && (
-              <p>
-                <strong>
-                  {playerBio.Height} {playerBio.Weight}
-                </strong>{" "}
-              </p>
-            )}
-            {playerAge && (
-              <p>
-                <strong>Age:</strong> {playerAge}
-              </p>
-            )}
-            {playerBio.Draft_Year && (
-              <p>
-                <strong>Draft Class:</strong> {playerBio.Draft_Year}
-              </p>
-            )}
-            {playerAge && (
-              <p>
-                <strong>Experience:</strong> {yearsSincePlayersDraft} years
-              </p>
-            )}
-            {playerBio.Draft_Pick && (
-              <p>
-                <strong>Draft Pick:</strong> {playerBio.Draft_Pick}
-              </p>
-            )}
+            <div className={styles.infoBox}>
+              {playerBio.Position && (
+                <p>
+                  <strong>{playerBio.Position}: </strong> {playerBio.NFL_Team}
+                </p>
+              )}
+              {playerBio.Height && (
+                <p>
+                  <strong>
+                    {playerBio.Height} {playerBio.Weight}
+                  </strong>{" "}
+                </p>
+              )}
+              {playerAge && (
+                <p>
+                  <strong>Age:</strong> {playerAge}
+                </p>
+              )}
+              {playerBio.Draft_Year && (
+                <p>
+                  <strong>Draft Class:</strong> {playerBio.Draft_Year}
+                </p>
+              )}
+              {playerAge && (
+                <p>
+                  <strong>Experience:</strong> {yearsSincePlayersDraft} years
+                </p>
+              )}
+              {playerBio.Draft_Pick && (
+                <p>
+                  <strong>Draft Pick:</strong> {playerBio.Draft_Pick}
+                </p>
+              )}
 
-            {playerBio.School && (
-              <p>
-                <strong>College:</strong> {playerBio.School}
-              </p>
-            )}
+              {playerBio.School && (
+                <p>
+                  <strong>College:</strong> {playerBio.School}
+                </p>
+              )}
+            </div>
+            <PlayerBarChart
+              overallGrade={player.rookieGuideData.Overall_Grade}
+              filmGrade={player.rookieGuideData.Film_Grade}
+              analyticalGrade={player.rookieGuideData.Analytical_Grade}
+              className={styles.playerBarChart}
+            />
           </div>
         </div>
 
-        <form
+        {/* <form
           onSubmit={() => onPlayerSelectFromList(player.Player_Name, player)}
           className={styles.searchForm}
         >
@@ -199,14 +208,14 @@ export default function PlayerDialog({
               onChange={teamOneSearchOnChange}
               placeholder="Search player to compare"
               className={styles.teamOneSearchInput}
-            />
-            {/* <button
+            /> */}
+        {/* <button
                         onClick={() => onPlayerSelectFromList(player.Player_Name, player)}
                         className={styles.addPlayerButton}
                         >
                          Compare
                         </button> */}
-          </div>
+        {/* </div>
 
           {data
             .filter((player) => {
@@ -237,10 +246,11 @@ export default function PlayerDialog({
                 </div>
               );
             })}
-        </form>
+        </form> */}
 
         <PlayerGradesChart
           rookieGuideData={player.rookieGuideData}
+          playerBio
           filmGrades={player.filmGrades}
           isSelectedPlayer={true}
           name={player.Player_Name}
@@ -263,7 +273,7 @@ export default function PlayerDialog({
           spiderComparePlayersList={spiderComparePlayersList}
         />
 
-        <div className={styles.breakdownAndDataTablesWrapper}>
+        {/* <div className={styles.breakdownAndDataTablesWrapper}>
           <div>
             <h3 className={styles.BreakdownHeading}>Scouting Report</h3>
             <p
@@ -278,443 +288,428 @@ export default function PlayerDialog({
                     : "",
               }}
             />
-          </div>
+          </div> */}
 
-          {/* Container for tables */}
-          <div className={styles.tablesContainer}>
-            {isQuarterback && (
-              <>
-                <div className={styles.tableWrapper}>
-                  <h3 className={styles.heading}>Passing Statistics</h3>
-                  <table className={styles.table}>
-                    <thead>
-                      <tr>
-                        <th className={styles.tableCell}>Year</th>
-                        <th className={styles.tableCell}>Games</th>
-                        <th className={styles.tableCell}>Cmp</th>
-                        <th className={styles.tableCell}>Att</th>
-                        <th className={styles.tableCell}>cmp%</th>
-                        <th className={styles.tableCell}>Yards</th>
-                        <th className={styles.tableCell}>Y/G</th>
-                        <th className={styles.tableCell}>Y/A</th>
-                        <th className={styles.tableCell}>TDs</th>
-                        <th className={styles.tableCell}>INTs</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Object.keys(player)
-                        .filter((key) => key.startsWith("year"))
-                        .map((yearKey, index) => {
-                          const yearData = player[yearKey].passing; // Access the passing data for each year
-                          const season = player[yearKey].season;
-                          return (
-                            <tr key={index}>
-                              <td className={styles.tableCell}>{season}</td>
-                              <td className={styles.tableCell}>{yearData.G}</td>
-                              <td className={styles.tableCell}>
-                                {yearData.Cmp}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData.Att}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData["Cmp%"]}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData.Yds}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData["Y/G"]}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData["Y/A"]}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData.TD}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData.Int}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      {/* Add career statistics row */}
-                      <tr>
-                        <td className={styles.tableCell}>Career</td>
-                        <td className={styles.tableCell}>
-                          {player.careerPassing.totalGames}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerPassing.totalCmp}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerPassing.totalAtt}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerPassing.totalCmpPercentage}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerPassing.totalYards}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerPassing.totalYG}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerPassing.totalYA}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerPassing.totalTDs}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerPassing.totalInt}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+        {/* Container for tables */}
+        <div className={styles.tablesContainer}>
+          {isQuarterback && (
+            <>
+              <div className={styles.tableWrapper}>
+                <h3 className={styles.heading}>Passing Statistics</h3>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th className={styles.tableCell}>Year</th>
+                      <th className={styles.tableCell}>Games</th>
+                      <th className={styles.tableCell}>Cmp</th>
+                      <th className={styles.tableCell}>Att</th>
+                      <th className={styles.tableCell}>cmp%</th>
+                      <th className={styles.tableCell}>Yards</th>
+                      <th className={styles.tableCell}>Y/G</th>
+                      <th className={styles.tableCell}>Y/A</th>
+                      <th className={styles.tableCell}>TDs</th>
+                      <th className={styles.tableCell}>INTs</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.keys(player)
+                      .filter((key) => key.startsWith("year"))
+                      .map((yearKey, index) => {
+                        const yearData = player[yearKey].passing; // Access the passing data for each year
+                        const season = player[yearKey].season;
+                        return (
+                          <tr key={index}>
+                            <td className={styles.tableCell}>{season}</td>
+                            <td className={styles.tableCell}>{yearData.G}</td>
+                            <td className={styles.tableCell}>{yearData.Cmp}</td>
+                            <td className={styles.tableCell}>{yearData.Att}</td>
+                            <td className={styles.tableCell}>
+                              {yearData["Cmp%"]}
+                            </td>
+                            <td className={styles.tableCell}>{yearData.Yds}</td>
+                            <td className={styles.tableCell}>
+                              {yearData["Y/G"]}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData["Y/A"]}
+                            </td>
+                            <td className={styles.tableCell}>{yearData.TD}</td>
+                            <td className={styles.tableCell}>{yearData.Int}</td>
+                          </tr>
+                        );
+                      })}
+                    {/* Add career statistics row */}
+                    <tr>
+                      <td className={styles.tableCell}>Career</td>
+                      <td className={styles.tableCell}>
+                        {player.careerPassing.totalGames}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerPassing.totalCmp}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerPassing.totalAtt}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerPassing.totalCmpPercentage}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerPassing.totalYards}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerPassing.totalYG}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerPassing.totalYA}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerPassing.totalTDs}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerPassing.totalInt}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-                <div className={styles.tableWrapper}>
-                  <h3 className={styles.heading}>Rushing Statistics</h3>
-                  <table className={styles.table}>
-                    <thead>
-                      <tr>
-                        <th className={styles.tableCell}>Year</th>
-                        <th className={styles.tableCell}>Games</th>
-                        <th className={styles.tableCell}>Att</th>
-                        <th className={styles.tableCell}>Yards</th>
-                        <th className={styles.tableCell}>Y/G</th>
-                        <th className={styles.tableCell}>Y/A</th>
-                        <th className={styles.tableCell}>TDs</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Object.keys(player)
-                        .filter((key) => key.startsWith("year"))
-                        .map((yearKey, index) => {
-                          const yearData = player[yearKey].rushing; // Access the rushing data for each year
-                          const season = player[yearKey].season;
-                          return (
-                            <tr key={index}>
-                              <td className={styles.tableCell}>{season}</td>
-                              <td className={styles.tableCell}>{yearData.G}</td>
-                              <td className={styles.tableCell}>
-                                {yearData.RushAtt}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData.RushYds}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData["RushY/G"]}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData["RushY/A"]}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData.RushTD}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      {/* Add career statistics row */}
-                      <tr>
-                        <td className={styles.tableCell}>Career</td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing.totalGames}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing.totalRushAtt}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing.totalRushYds}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing["totalRushY_G"]}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing["totalRushY_A"]}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing.totalRushTD}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </>
-            )}
+              <div className={styles.tableWrapper}>
+                <h3 className={styles.heading}>Rushing Statistics</h3>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th className={styles.tableCell}>Year</th>
+                      <th className={styles.tableCell}>Games</th>
+                      <th className={styles.tableCell}>Att</th>
+                      <th className={styles.tableCell}>Yards</th>
+                      <th className={styles.tableCell}>Y/G</th>
+                      <th className={styles.tableCell}>Y/A</th>
+                      <th className={styles.tableCell}>TDs</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.keys(player)
+                      .filter((key) => key.startsWith("year"))
+                      .map((yearKey, index) => {
+                        const yearData = player[yearKey].rushing; // Access the rushing data for each year
+                        const season = player[yearKey].season;
+                        return (
+                          <tr key={index}>
+                            <td className={styles.tableCell}>{season}</td>
+                            <td className={styles.tableCell}>{yearData.G}</td>
+                            <td className={styles.tableCell}>
+                              {yearData.RushAtt}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData.RushYds}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData["RushY/G"]}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData["RushY/A"]}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData.RushTD}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    {/* Add career statistics row */}
+                    <tr>
+                      <td className={styles.tableCell}>Career</td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing.totalGames}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing.totalRushAtt}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing.totalRushYds}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing["totalRushY_G"]}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing["totalRushY_A"]}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing.totalRushTD}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
 
-            {isRunningBack && (
-              <>
-                <div className={styles.tableWrapper}>
-                  <h3 className={styles.heading}>Rushing Statistics</h3>
-                  <table className={styles.table}>
-                    <thead>
-                      <tr>
-                        <th className={styles.tableCell}>Year</th>
-                        <th className={styles.tableCell}>Games</th>
-                        <th className={styles.tableCell}>Attempts</th>
-                        <th className={styles.tableCell}>Yards</th>
-                        <th className={styles.tableCell}>Y/G</th>
-                        <th className={styles.tableCell}>Y/A</th>
-                        <th className={styles.tableCell}>TDs</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Object.keys(player)
-                        .filter((key) => key.startsWith("year"))
-                        .map((yearKey, index) => {
-                          const yearData = player[yearKey].rushing; // Access the rushing data for each year
-                          const season = player[yearKey].season;
-                          return (
-                            <tr key={index}>
-                              <td className={styles.tableCell}>{season}</td>
-                              <td className={styles.tableCell}>{yearData.G}</td>
-                              <td className={styles.tableCell}>
-                                {yearData.RushAtt}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData.RushYds}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData["RushY/G"]}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData["RushY/A"]}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData.RushTD}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      {/* Add career statistics row */}
-                      <tr>
-                        <td className={styles.tableCell}>Career</td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing.totalGames}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing.totalRushAtt}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing.totalRushYds}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing["totalRushY_G"]}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing["totalRushY_A"]}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing.totalRushTD}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+          {isRunningBack && (
+            <>
+              <div className={styles.tableWrapper}>
+                <h3 className={styles.heading}>Rushing Statistics</h3>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th className={styles.tableCell}>Year</th>
+                      <th className={styles.tableCell}>Games</th>
+                      <th className={styles.tableCell}>Attempts</th>
+                      <th className={styles.tableCell}>Yards</th>
+                      <th className={styles.tableCell}>Y/G</th>
+                      <th className={styles.tableCell}>Y/A</th>
+                      <th className={styles.tableCell}>TDs</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.keys(player)
+                      .filter((key) => key.startsWith("year"))
+                      .map((yearKey, index) => {
+                        const yearData = player[yearKey].rushing; // Access the rushing data for each year
+                        const season = player[yearKey].season;
+                        return (
+                          <tr key={index}>
+                            <td className={styles.tableCell}>{season}</td>
+                            <td className={styles.tableCell}>{yearData.G}</td>
+                            <td className={styles.tableCell}>
+                              {yearData.RushAtt}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData.RushYds}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData["RushY/G"]}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData["RushY/A"]}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData.RushTD}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    {/* Add career statistics row */}
+                    <tr>
+                      <td className={styles.tableCell}>Career</td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing.totalGames}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing.totalRushAtt}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing.totalRushYds}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing["totalRushY_G"]}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing["totalRushY_A"]}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing.totalRushTD}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-                <div className={styles.tableWrapper}>
-                  <h3 className={styles.heading}>Receiving Statistics</h3>
-                  <table className={styles.table}>
-                    <thead>
-                      <tr>
-                        <th className={styles.tableCell}>Year</th>
-                        <th className={styles.tableCell}>Games</th>
-                        <th className={styles.tableCell}>Receptions</th>
-                        <th className={styles.tableCell}>Yards</th>
-                        <th className={styles.tableCell}>Y/G</th>
-                        <th className={styles.tableCell}>TDs</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Object.keys(player)
-                        .filter((key) => key.startsWith("year"))
-                        .map((yearKey, index) => {
-                          const yearData = player[yearKey].receiving; // Access the receiving data for each year
-                          const season = player[yearKey].season;
-                          return (
-                            <tr key={index}>
-                              <td className={styles.tableCell}>{season}</td>
-                              <td className={styles.tableCell}>{yearData.G}</td>
-                              <td className={styles.tableCell}>
-                                {yearData.Rec}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData.RecYds}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData["RecY/G"]}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData.RecTD}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      {/* Add career statistics row */}
-                      <tr>
-                        <td className={styles.tableCell}>Career</td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing.totalGames}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerReceiving.totalRec}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerReceiving.totalRecYds}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerReceiving["totalRecY_G"]}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerReceiving.totalRecTD || 0}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </>
-            )}
+              <div className={styles.tableWrapper}>
+                <h3 className={styles.heading}>Receiving Statistics</h3>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th className={styles.tableCell}>Year</th>
+                      <th className={styles.tableCell}>Games</th>
+                      <th className={styles.tableCell}>Receptions</th>
+                      <th className={styles.tableCell}>Yards</th>
+                      <th className={styles.tableCell}>Y/G</th>
+                      <th className={styles.tableCell}>TDs</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.keys(player)
+                      .filter((key) => key.startsWith("year"))
+                      .map((yearKey, index) => {
+                        const yearData = player[yearKey].receiving; // Access the receiving data for each year
+                        const season = player[yearKey].season;
+                        return (
+                          <tr key={index}>
+                            <td className={styles.tableCell}>{season}</td>
+                            <td className={styles.tableCell}>{yearData.G}</td>
+                            <td className={styles.tableCell}>{yearData.Rec}</td>
+                            <td className={styles.tableCell}>
+                              {yearData.RecYds}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData["RecY/G"]}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData.RecTD}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    {/* Add career statistics row */}
+                    <tr>
+                      <td className={styles.tableCell}>Career</td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing.totalGames}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerReceiving.totalRec}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerReceiving.totalRecYds}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerReceiving["totalRecY_G"]}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerReceiving.totalRecTD || 0}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
 
-            {isReceiverOrTE && (
-              <>
-                <div className={styles.tableWrapper}>
-                  <h3 className={styles.heading}>Receiving Statistics</h3>
-                  <table className={styles.table}>
-                    <thead>
-                      <tr>
-                        <th className={styles.tableCell}>Year</th>
-                        <th className={styles.tableCell}>Games</th>
-                        <th className={styles.tableCell}>Receptions</th>
-                        <th className={styles.tableCell}>Yards</th>
-                        <th className={styles.tableCell}>Y/G</th>
-                        <th className={styles.tableCell}>TDs</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Object.keys(player)
-                        .filter((key) => key.startsWith("year"))
-                        .map((yearKey, index) => {
-                          const yearData = player[yearKey].receiving; // Access the receiving data for each year
-                          const season = player[yearKey].season;
-                          return (
-                            <tr key={index}>
-                              <td className={styles.tableCell}>{season}</td>
-                              <td className={styles.tableCell}>{yearData.G}</td>
-                              <td className={styles.tableCell}>
-                                {yearData.Rec}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData.RecYds}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData["RecY/G"]}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData.RecTD}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      {/* Add career statistics row */}
-                      <tr>
-                        <td className={styles.tableCell}>Career</td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing.totalGames}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerReceiving.totalRec}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerReceiving.totalRecYds}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerReceiving["totalRecY_G"]}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerReceiving.totalRecTD || 0}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+          {isReceiverOrTE && (
+            <>
+              <div className={styles.tableWrapper}>
+                <h3 className={styles.heading}>Receiving Statistics</h3>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th className={styles.tableCell}>Year</th>
+                      <th className={styles.tableCell}>Games</th>
+                      <th className={styles.tableCell}>Receptions</th>
+                      <th className={styles.tableCell}>Yards</th>
+                      <th className={styles.tableCell}>Y/G</th>
+                      <th className={styles.tableCell}>TDs</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.keys(player)
+                      .filter((key) => key.startsWith("year"))
+                      .map((yearKey, index) => {
+                        const yearData = player[yearKey].receiving; // Access the receiving data for each year
+                        const season = player[yearKey].season;
+                        return (
+                          <tr key={index}>
+                            <td className={styles.tableCell}>{season}</td>
+                            <td className={styles.tableCell}>{yearData.G}</td>
+                            <td className={styles.tableCell}>{yearData.Rec}</td>
+                            <td className={styles.tableCell}>
+                              {yearData.RecYds}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData["RecY/G"]}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData.RecTD}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    {/* Add career statistics row */}
+                    <tr>
+                      <td className={styles.tableCell}>Career</td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing.totalGames}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerReceiving.totalRec}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerReceiving.totalRecYds}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerReceiving["totalRecY_G"]}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerReceiving.totalRecTD || 0}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-                <div className={styles.tableWrapper}>
-                  <h3 className={styles.heading}>Rushing Statistics</h3>
-                  <table className={styles.table}>
-                    <thead>
-                      <tr>
-                        <th className={styles.tableCell}>Year</th>
-                        <th className={styles.tableCell}>Games</th>
-                        <th className={styles.tableCell}>Attempts</th>
-                        <th className={styles.tableCell}>Yards</th>
-                        <th className={styles.tableCell}>Y/G</th>
-                        <th className={styles.tableCell}>Y/A</th>
-                        <th className={styles.tableCell}>TDs</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Object.keys(player)
-                        .filter((key) => key.startsWith("year"))
-                        .map((yearKey, index) => {
-                          const yearData = player[yearKey].rushing; // Access the rushing data for each year
-                          const season = player[yearKey].season;
-                          let temp = yearData.G;
-                          if (!yearData.RushAtt || yearData.RushAtt === "0") {
-                            temp = 0;
-                          }
-                          return (
-                            <tr key={index}>
-                              <td className={styles.tableCell}>{season}</td>
-                              <td className={styles.tableCell}>
-                                {yearData.G || temp}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData.RushAtt || 0}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData.RushYds || 0}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData["RushY/G"] || 0}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData["RushY/A"] || 0}
-                              </td>
-                              <td className={styles.tableCell}>
-                                {yearData.RushTD || 0}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      {/* Add career statistics row */}
-                      <tr>
-                        <td className={styles.tableCell}>Career</td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing.totalGames}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing.totalRushAtt}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing.totalRushYds}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing["totalRushY_G"]}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing["totalRushY_A"]}
-                        </td>
-                        <td className={styles.tableCell}>
-                          {player.careerRushing.totalRushTD}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </>
-            )}
-          </div>
+              <div className={styles.tableWrapper}>
+                <h3 className={styles.heading}>Rushing Statistics</h3>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th className={styles.tableCell}>Year</th>
+                      <th className={styles.tableCell}>Games</th>
+                      <th className={styles.tableCell}>Attempts</th>
+                      <th className={styles.tableCell}>Yards</th>
+                      <th className={styles.tableCell}>Y/G</th>
+                      <th className={styles.tableCell}>Y/A</th>
+                      <th className={styles.tableCell}>TDs</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.keys(player)
+                      .filter((key) => key.startsWith("year"))
+                      .map((yearKey, index) => {
+                        const yearData = player[yearKey].rushing; // Access the rushing data for each year
+                        const season = player[yearKey].season;
+                        let temp = yearData.G;
+                        if (!yearData.RushAtt || yearData.RushAtt === "0") {
+                          temp = 0;
+                        }
+                        return (
+                          <tr key={index}>
+                            <td className={styles.tableCell}>{season}</td>
+                            <td className={styles.tableCell}>
+                              {yearData.G || temp}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData.RushAtt || 0}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData.RushYds || 0}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData["RushY/G"] || 0}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData["RushY/A"] || 0}
+                            </td>
+                            <td className={styles.tableCell}>
+                              {yearData.RushTD || 0}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    {/* Add career statistics row */}
+                    <tr>
+                      <td className={styles.tableCell}>Career</td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing.totalGames}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing.totalRushAtt}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing.totalRushYds}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing["totalRushY_G"]}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing["totalRushY_A"]}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {player.careerRushing.totalRushTD}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

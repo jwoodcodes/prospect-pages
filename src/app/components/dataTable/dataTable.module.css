@@ -38,6 +38,16 @@
   margin-bottom: 5rem;
 }
 
+.barChartSelectForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-orange-primary);
+  font-family: HemiHead;
+  margin-top: 2rem;
+}
+
 .clsSelectLabel {
   margin-bottom: 0.5rem;
   font-size: 1.25rem;
@@ -104,12 +114,13 @@
 .dialogContent {
   border-bottom: 0.5rem solid var(--color-orange-primary);
   /* background-image: linear-gradient(to bottom right, var(--color-gray-50), var(--color-blue-dark)); */
-  background-image: linear-gradient(
+  /* background-image: linear-gradient(
     to bottom right,
     var(--color-green-primary),
     var(--color-blue-dark),
     var(--color-green-dark)
-  );
+  ); */
+  background-color: var(--color-gray-75);
   font-family: playRegular;
   padding: 15px;
   border-radius: 8px;
@@ -174,42 +185,48 @@
 
 .teamLogoPlayerNameAndInfoboxWrapper {
   display: flex;
-  width: 70%;
-  justify-content: center;
+  width: 100%;
+  text-align: left;
+  justify-content: space-evenly;
   align-items: center;
   margin: 3rem auto;
 }
 
 .logoAndPlayerNameWrapper {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   align-items: center;
-  border-right: 1px solid var(--color-orange-primary);
-  margin-right: 4rem;
+  text-align: left;
+  /* margin-right: 4rem; */
+  width: 90%;
 }
 
 .nameAndInfoboxAndGradesChartWrapper {
   width: 50%;
   margin-bottom: 5rem;
+  text-align: left;
 }
 
 .playerName {
-  font-size: 3rem;
-  letter-spacing: 0.2rem;
-  text-align: center;
+  font-size: 3.25rem;
+  letter-spacing: 0.1rem;
+  text-align: left;
   flex: 1;
+  max-width: 17rem;
   /* margin: 1rem 0; */
-  margin: 0 3rem 0 1rem;
+  /* margin: 0 3rem 0 1rem; */
   font-family: HemiHead;
-  color: var(--color-orange-primary);
+  color: var(--color-white);
   font-weight: 400;
 }
 
 .infoBox {
-  text-align: center;
   font-family: playRegular;
   font-size: 1rem;
   letter-spacing: 0.05rem;
+  border-right: 1px solid var(--color-orange-primary);
+  padding-right: 2rem;
+  text-align: left;
 }
 
 .searchForm {
@@ -298,21 +315,24 @@
 
 .BreakdownHeading {
   text-align: center;
-
-  font-size: 1.5rem;
-  letter-spacing: 0.05rem;
-  color: var(--color-orange-primary);
+  width: fit-content;
+  margin: 1rem auto;
+  padding: 0rem 2rem;
+  font-size: 3.5rem;
+  letter-spacing: 0.1rem;
+  color: var(--color-white);
+  border: 2px solid var(--color-orange-primary);
   font-family: HemiHead;
 }
 
 .breakdown {
   margin: 2rem auto;
   line-height: 1.5rem;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   letter-spacing: 0.075rem;
   /* color: var(--color-gray-800); */
   color: var(--color-gray-800);
-  max-width: 80%;
+  max-width: 90%;
   font-family: playRegular;
 }
 
@@ -768,7 +788,7 @@
 
 .wholeScatterSectionWrapper {
   margin-top: 4rem;
-  width: 50%;
+  width: 100%;
 }
 
 .outerSpiderChartWrapper {
@@ -993,4 +1013,10 @@
     width: 400px;
     margin: 0 auto;
   }
+}
+
+.playerBarChart {
+  flex: 1;
+  min-width: fit-content;
+  font-size: 2rem;
 }
