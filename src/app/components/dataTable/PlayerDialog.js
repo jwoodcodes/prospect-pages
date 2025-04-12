@@ -138,6 +138,7 @@ export default function PlayerDialog({
           X
         </button>
         <div className={styles.teamLogoPlayerNameAndInfoboxWrapper}>
+          <div className={styles.teamLogoPlayerNameanInfoboxWrapper}>
           <div className={styles.logoAndPlayerNameWrapper}>
             <Image
               src={`/${playersTeam}.png`}
@@ -188,9 +189,10 @@ export default function PlayerDialog({
                 </p>
               )}
             </div>
+            </div>
             <PlayerBarChart
               overallGrade={player.rookieGuideData.Overall_Grade}
-              filmGrade={player.rookieGuideData.Film_Grade}
+              talentGrade={player.rookieGuideData.Film_Grade}
               analyticalGrade={player.rookieGuideData.Analytical_Grade}
               className={styles.playerBarChart}
             />
@@ -250,15 +252,15 @@ export default function PlayerDialog({
 
         <PlayerGradesChart
           rookieGuideData={player.rookieGuideData}
-          playerBio
-          filmGrades={player.filmGrades}
+          playerBio ={player.PlayerBio}
+          talentGrades={player.talentGrades}
           isSelectedPlayer={true}
           name={player.Player_Name}
           comparePlayerData={
             comparePlayer
               ? {
                   rookieGuideData: comparePlayer.rookieGuideData,
-                  filmGrades: comparePlayer.filmGrades,
+                  talentGrades: comparePlayer.talentGrades,
                   name: comparePlayer.Player_Name,
                 }
               : null

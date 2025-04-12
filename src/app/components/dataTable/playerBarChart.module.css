@@ -21,9 +21,11 @@
   font-family: HemiHead;
 }
 
+
+
 .barContainer {
   /* flex-grow: 1;  */
-  width: 75%;
+  width: 100%;
   background-color: #e0e0e0; /* Light gray background for the bar container */
   border-radius: 5px; /* Optional: rounded corners for the container */
   margin-left: 2rem; /* Space between label and bar */
@@ -36,7 +38,29 @@
 
 .TESTouterWrapper {
   display: flex;
-  width: 30%;
+  width: 55%;
   justify-content: center;
   align-items: center;
+}
+
+@media  (max-width: 1500px) {
+  .metricColumn {
+    /* font-size: 1.25rem; */
+    
+  }
+  .barContainer {
+    /* flex-grow: 1;  */
+    width: 75%;
+    background-color: #e0e0e0; /* Light gray background for the bar container */
+    border-radius: 5px; /* Optional: rounded corners for the container */
+    margin-left: 4rem; /* Space between label and bar */
+  }
+
+  .TESTouterWrapper {
+    display: flex;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    padding-left: 2rem;
+  }
 }

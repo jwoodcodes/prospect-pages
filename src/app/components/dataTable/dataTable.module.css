@@ -220,6 +220,12 @@
   font-weight: 400;
 }
 
+@media(max-width: 1500px) {
+  .playerName {
+    font-size: 2.75rem;
+  }
+}
+
 .infoBox {
   font-family: playRegular;
   font-size: 1rem;
@@ -302,6 +308,28 @@
   font-family: playRegular;
 }
 
+.talentBarChartWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  width: 100%; /* Take full width of dialog content */
+  max-width: 100%; /* Ensure it never exceeds dialog width */
+  padding: 10px;
+  gap: 5rem;
+  font-family: playRegular;
+}
+
+.talentBarChartAnalysisWrapper {
+  margin-bottom: 1rem;
+  margin-left: -2rem;
+}
+
+.talentBarChartAnalysisIndividualMetric {
+  padding: .5rem 0 .8rem 0;
+  border-bottom: 1px solid var(--color-gray-300);
+}
+
 .prospectGradesChart {
   width: 100%;
   max-width: 100%;
@@ -337,17 +365,17 @@
 }
 
 .tablesContainer {
-  /* display: flex;
+  display: flex;
     flex-wrap: wrap; 
     justify-content: center; 
     align-items: center;
-    flex-direction: column; */
+    flex-direction: column;
   text-align: center;
   letter-spacing: 0.05rem;
   width: 60%;
   color: var(--color-white);
   font-size: 0.8rem;
-  margin-right: 2rem;
+  margin: 2rem auto;
 }
 
 .tableWrapper {
@@ -359,8 +387,69 @@
 
   flex: 1 1 50%;
   align-items: center;
-  margin: 4rem auto;
+  margin: 2rem auto;
 }
+
+.teamLogoPlayerNameanInfoboxWrapper {
+  display: flex;
+  width: 90%;
+}
+
+@media(max-width: 1500px) {
+  .playerName {
+    font-size: 2.75rem;
+    margin-left: 2rem;
+  }
+
+  .infoBox {
+    font-family: playRegular;
+    font-size: .9rem;
+    letter-spacing: 0;
+    border-right: 1px solid var(--color-orange-primary);
+    padding-right: 1rem;
+    text-align: left;
+  }
+}
+
+@media(max-width: 1325px) {
+  .playerName {
+    font-size: 2.5rem;
+    margin-left: 2rem;
+  }
+
+  .infoBox {
+    font-family: playRegular;
+    font-size: .8rem;
+    letter-spacing: 0;
+    border-right: 1px solid var(--color-orange-primary);
+    padding-right: 1rem;
+    text-align: center;
+  }
+}
+
+@media(max-width: 1250px) {
+
+  .teamLogoPlayerNameanInfoboxWrapper {
+    display: flex;
+    flex-direction: column;
+  
+  }
+  .playerName {
+    font-size: 2rem;
+    margin-left: 1rem;
+  }
+
+  .infoBox {
+    font-family: playRegular;
+    font-size: .75rem;
+    letter-spacing: 0;
+    border-right: 1px solid var(--color-orange-primary);
+    padding-right: 1rem;
+    text-align: center;
+  }
+}
+
+
 
 @media (max-width: 700px) {
   .tableWrapper {
@@ -530,7 +619,7 @@
     align-items: center !important;
   }
 
-  .outerFilmGradesSpiderWrapper {
+  .outerTalentGradesSpiderWrapper {
     flex-direction: column !important;
     justify-content: center !important;
     align-items: center !important;
@@ -617,7 +706,7 @@
     max-height: 200px;
   }
 
-  .filmGradesChart {
+  .talentGradesChart {
     width: 75%; /* Slightly smaller than container on mobile */
     max-height: 200px;
   }
@@ -646,7 +735,7 @@
     margin: 0 auto;
   }
 
-  .filmGradesChart {
+  .talentGradesChart {
     width: 75%; /* Slightly smaller than container on mobile */
     max-height: 50px;
     max-width: 350px;
@@ -730,7 +819,7 @@
     margin: 0 auto;
   }
 
-  .filmGradesChart {
+  .talentGradesChart {
     width: 75%; /* Slightly smaller than container on mobile */
     max-height: 250px;
     max-width: 300px;

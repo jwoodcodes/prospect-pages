@@ -2,7 +2,7 @@
 
 // export default function PlayerBarChart({
 //   overallGrade,
-//   filmGrade,
+//   talentGrade,
 //   analyticalGrade,
 // }) {
 //   return (
@@ -22,7 +22,7 @@
 import React from "react";
 import styles from "./playerBarChart.module.css"; // Adjust the import path as necessary
 
-const PlayerBarDisplay = ({ overallGrade, filmGrade, analyticalGrade }) => {
+const PlayerBarDisplay = ({ overallGrade, talentGrade, analyticalGrade }) => {
   // Function to determine the color based on the value
   const getColor = (value) => {
     if (value <= 35) {
@@ -81,6 +81,8 @@ const PlayerBarDisplay = ({ overallGrade, filmGrade, analyticalGrade }) => {
     height: "28px", // Set the height of the bar
     borderRadius: "5px", // Optional: rounded corners
     margin: ".75rem 0",
+
+   
   });
 
   return (
@@ -95,8 +97,8 @@ const PlayerBarDisplay = ({ overallGrade, filmGrade, analyticalGrade }) => {
         <div style={createContainerStyle(overallGrade)}>
           <div style={createBarStyle(overallGrade)}>{overallGrade}</div>
         </div>
-        <div style={createContainerStyle(filmGrade)}>
-          <div style={createBarStyle(filmGrade)}>{filmGrade}</div>
+        <div style={createContainerStyle(talentGrade)}>
+          <div style={createBarStyle(talentGrade)}>{talentGrade}</div>
         </div>
         <div style={createContainerStyle(analyticalGrade)}>
           <div style={createBarStyle(analyticalGrade)}>{analyticalGrade}</div>

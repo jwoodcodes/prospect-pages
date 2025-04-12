@@ -119,7 +119,7 @@ export default function DataTable({ data }) {
         p.Grade = "0.0";
       }
 
-      p.film = player.rookieGuideData.Film_Grade;
+      p.talent= player.rookieGuideData.Film_Grade;
 
       if (player.rookieGuideData.Analytical_Grade) {
         let tempAnalytical = +player.rookieGuideData.Analytical_Grade;
@@ -257,7 +257,7 @@ export default function DataTable({ data }) {
           sortable: true,
         },
         {
-          field: "film",
+          field: "talent",
           filter: true,
           floatingFilter: true,
           flex: 1,
@@ -344,7 +344,7 @@ export default function DataTable({ data }) {
           cellStyle: { textAlign: "center" },
         },
         {
-          field: "film",
+          field: "talent",
           filter: true,
           floatingFilter: true,
           flex: 1,
