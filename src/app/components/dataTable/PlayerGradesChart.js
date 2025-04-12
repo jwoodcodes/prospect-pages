@@ -18,7 +18,7 @@ ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler);
 const PlayerGradesChart = ({
   rookieGuideData,
   playerBio,
-  filmGrades = [],
+  talentGrades = [],
   isSelectedPlayer,
   name = "Player",
   comparePlayerData,
@@ -43,8 +43,10 @@ const PlayerGradesChart = ({
 
   // console.log(rookieGuideData);
 
-  // Get position from first film grade entry
-  const position = filmGrades?.[0]?.Position;
+  // console.log(playerBio)
+
+  // Get position from first talent grade entry
+  const position = talentGrades?.[0]?.Position;
 
   // Define metrics based on position first
   let metrics = [];
@@ -76,7 +78,7 @@ const PlayerGradesChart = ({
     }
   };
 
-  const getFilmColor = (value) => {
+  const getTalentColor = (value) => {
     if (value >= 4.5) {
       return "oklch(76.47% 0.2763 141.53 / 83.04%)"; // Bright neon green
     } else if (value >= 4) {
@@ -94,8 +96,8 @@ const PlayerGradesChart = ({
     }
   };
 
-  // Function to filter unique film grades by Metric
-  const getUniqueFilmGrades = (grades) => {
+  // Function to filter unique talentgrades by Metric
+  const getUniqueTalentGrades = (grades) => {
     const seenMetrics = new Set();
     return grades.filter((grade) => {
       if (!seenMetrics.has(grade.Metric)) {
@@ -106,12 +108,12 @@ const PlayerGradesChart = ({
     });
   };
 
-  // Filter unique film grades
-  const uniqueFilmGrades = getUniqueFilmGrades(filmGrades);
+  // Filter unique talent grades
+  const uniqueTalentGrades = getUniqueTalentGrades(talentGrades);
 
   // Modify the data object for the prospect grades bar chart
   const data = {
-    labels: ["Film Grade", "Analytical Grade", "Landing Spot", "Overall Grade"],
+    labels: ["Talent Grade", "Analytical Grade", "Landing Spot", "Overall Grade"],
     datasets: [
       {
         label: name,
@@ -145,26 +147,26 @@ const PlayerGradesChart = ({
     ].filter(Boolean),
   };
 
-  // Modify the film grades data
-  const filmGradesData = {
-    labels: uniqueFilmGrades.map((grade) => grade.Metric),
+  // Modify the talent data
+  const talentGradesData = {
+    labels: uniqueTalentGrades.map((grade) => grade.Metric),
     datasets: [
       {
         label: name,
-        data: uniqueFilmGrades.map((grade) => grade.Grade),
-        backgroundColor: uniqueFilmGrades.map((grade) =>
-          getFilmColor(grade.Grade)
+        data: uniqueTalentGrades.map((grade) => grade.Grade),
+        backgroundColor: uniqueTalentGrades.map((grade) =>
+          getTalentColor(grade.Grade)
         ),
         borderColor: "rgba(0, 0, 0, 1)",
         borderWidth: 1,
       },
       comparePlayerData && {
         label: comparePlayerData.name,
-        data: getUniqueFilmGrades(comparePlayerData.filmGrades).map(
+        data: getUniqueTalentGrades(comparePlayerData.talentGrades).map(
           (grade) => grade.Grade
         ),
-        backgroundColor: getUniqueFilmGrades(comparePlayerData.filmGrades).map(
-          (grade) => getFilmColor(grade.Grade)
+        backgroundColor: getUniqueTalentGrades(comparePlayerData.talentGrades).map(
+          (grade) => getTalentColor(grade.Grade)
         ),
         borderColor: "rgba(0, 0, 0, 1)",
         borderWidth: 1,
@@ -240,8 +242,8 @@ const PlayerGradesChart = ({
     categoryPercentage: 0.9,
   };
 
-  // Update the options for film grades chart
-  const filmGradesOptions = {
+  // Update the options for talent grades chart
+  const talentGradesOptions = {
     responsive: true,
     maintainAspectRatio: false,
     indexAxis: "y",
@@ -299,12 +301,12 @@ const PlayerGradesChart = ({
     categoryPercentage: 0.9,
   };
 
-  // Debugging: Log filmGrades to check its structure
-  // console.log('Film Grades:', uniqueFilmGrades);
+  // Debugging: Log talentGrades to check its structure
+  // console.log('Talent Grades:', uniquetalentGrades);
 
   // Create filtered data for prospect grades spider chart
   const selectedRookieGuideFields = {
-    Film: rookieGuideData?.Film_Grade || 0,
+    Talent: rookieGuideData?.Film_Grade || 0,
     Analytical: rookieGuideData?.Analytical_Grade || 0,
     "Landing Spot": rookieGuideData?.Landing_Spot || 0,
     Overall: rookieGuideData?.Overall_Grade || 0,
@@ -435,15 +437,15 @@ const PlayerGradesChart = ({
       }
     : null;
 
-  const compareFilmSpiderData = comparePlayerData
+  const compareTalentSpiderData = comparePlayerData
     ? {
         labels: metrics,
         datasets: [
           {
             label: "Film Grades",
             data: metrics.map((metric) => {
-              const grade = getUniqueFilmGrades(
-                comparePlayerData.filmGrades
+              const grade = getUniqueTalentGrades(
+                comparePlayerData.talentGrades
               ).find((g) => g.Metric === metric);
               return grade ? grade.Grade : 0;
             }),
@@ -452,32 +454,32 @@ const PlayerGradesChart = ({
             borderWidth: 1,
             fill: true,
             pointBackgroundColor: metrics.map((metric) => {
-              const grade = getUniqueFilmGrades(
-                comparePlayerData.filmGrades
+              const grade = getUniqueTalentGrades(
+                comparePlayerData.talentGrades
               ).find((g) => g.Metric === metric);
               return getFilmColor(grade ? grade.Grade : 0);
             }),
             pointBorderColor: metrics.map((metric) => {
-              const grade = getUniqueFilmGrades(
-                comparePlayerData.filmGrades
+              const grade = getUniqueTalentGrades(
+                comparePlayerData.talentGrades
               ).find((g) => g.Metric === metric);
               return getFilmColor(grade ? grade.Grade : 0);
             }),
             pointHoverBackgroundColor: metrics.map((metric) => {
-              const grade = getUniqueFilmGrades(
-                comparePlayerData.filmGrades
+              const grade = getUniqueTalentGrades(
+                comparePlayerData.talentGrades
               ).find((g) => g.Metric === metric);
               return getFilmColor(grade ? grade.Grade : 0);
             }),
             pointHoverBorderColor: metrics.map((metric) => {
-              const grade = getUniqueFilmGrades(
-                comparePlayerData.filmGrades
+              const grade = getUniqueTalentGrades(
+                comparePlayerData.talentGrades
               ).find((g) => g.Metric === metric);
               return getFilmColor(grade ? grade.Grade : 0);
             }),
             pointLabels: metrics.map((metric) => {
-              const grade = getUniqueFilmGrades(
-                comparePlayerData.filmGrades
+              const grade = getUniqueTalentGrades(
+                comparePlayerData.talentGrades
               ).find((g) => g.Metric === metric);
               const safeGrade = grade ? parseFloat(grade.Grade) : 0;
               return !isNaN(safeGrade) ? safeGrade.toFixed(1) : "0.0";
@@ -490,8 +492,8 @@ const PlayerGradesChart = ({
     : null;
 
   // Remove duplicate entries (appears data is duplicated in array)
-  const uniqueFilmGradesFiltered = filmGrades
-    ? filmGrades.filter(
+  const uniqueTalentGradesFiltered = talentGrades
+    ? talentGrades.filter(
         (grade, index, self) =>
           index === self.findIndex((t) => t.Metric === grade.Metric)
       )
@@ -500,35 +502,35 @@ const PlayerGradesChart = ({
   // Create data object with position-specific metrics
   const processedData = {};
   metrics.forEach((metric) => {
-    const grade = uniqueFilmGradesFiltered.find((g) => g.Metric === metric);
+    const grade = uniqueTalentGradesFiltered.find((g) => g.Metric === metric);
     processedData[metric] = grade ? parseFloat(grade.Grade) : 0;
   });
 
   // console.log('Position:', position);
   // console.log('Processed Data:', processedData);
 
-  // Film spider data with point colors
-  const filmSpiderData = {
+  // Talent spider data with point colors
+  const talentSpiderData = {
     labels: metrics,
     datasets: [
       {
-        label: "Film Grades",
+        label: "Talent Grades",
         data: metrics.map((metric) => processedData[metric]),
         backgroundColor: "rgba(255, 99, 132, 0.6)",
         borderColor: "rgba(255, 99, 132, 1)",
         borderWidth: 1,
         fill: true,
         pointBackgroundColor: metrics.map((metric) =>
-          getFilmColor(processedData[metric])
+          getTalentColor(processedData[metric])
         ),
         pointBorderColor: metrics.map((metric) =>
-          getFilmColor(processedData[metric])
+          getTalentColor(processedData[metric])
         ),
         pointHoverBackgroundColor: metrics.map((metric) =>
-          getFilmColor(processedData[metric])
+          getTalentColor(processedData[metric])
         ),
         pointHoverBorderColor: metrics.map((metric) =>
-          getFilmColor(processedData[metric])
+          getTalentColor(processedData[metric])
         ),
         pointLabels: metrics.map((metric) => processedData[metric].toFixed(1)),
         pointRadius: 7,
@@ -537,7 +539,7 @@ const PlayerGradesChart = ({
     ],
   };
 
-  // console.log('Spider Chart Data:', filmSpiderData);
+  // console.log('Spider Chart Data:', talentSpiderData);
 
   // Options for prospect grades (0-100 scale)
   const prospectSpiderOptions = {
@@ -602,8 +604,8 @@ const PlayerGradesChart = ({
     },
   };
 
-  // Film grades options
-  const filmSpiderOptions = {
+  // talent grades options
+  const talentSpiderOptions = {
     scales: {
       r: {
         beginAtZero: true,
@@ -635,7 +637,7 @@ const PlayerGradesChart = ({
         callbacks: {
           label: (context) => {
             const metric = metrics[context.dataIndex];
-            const grade = uniqueFilmGradesFiltered.find(
+            const grade = uniqueTalentGradesFiltered.find(
               (g) => g.Metric === metric
             );
             return grade
@@ -664,8 +666,8 @@ const PlayerGradesChart = ({
     },
   };
 
-  // Grade labels for film grades
-  const filmGradeLabels = {
+  // Grade labels for talent grades
+  const talentGradeLabels = {
     0: "No Grade",
     1: "Poor",
     2: "Below Average",
@@ -904,9 +906,11 @@ const PlayerGradesChart = ({
     setSelectedVariables(newVariables);
   };
 
+ 
+
   // Define an array of options with display labels and corresponding data keys
   const variableOptions = [
-    { label: "Film Grade", value: "Film_Grade" },
+    { label: "Talent Grade", value: "Film_Grade" },
     { label: "Analytical Grade", value: "Analytical_Grade" },
     { label: "Landing Spot", value: "Landing_Spot" },
     { label: "Overall Grade", value: "Overall_Grade" },
@@ -935,7 +939,7 @@ const PlayerGradesChart = ({
         case "Analytical_Grade":
           return "Analytical";
         case "Film_Grade":
-          return "Film";
+          return "Talent";
         case "Overall_Grade":
           return "Overall";
         case "Landing_Spot":
@@ -952,7 +956,7 @@ const PlayerGradesChart = ({
           label: player.Player_Name,
           data: selectedVariables.map((variable) => {
             // Keep original variable names for data lookup
-            const filmGradeVariables = [
+            const talentGradeVariables = [
               "Processing",
               "Accuracy",
               "Arm Talent",
@@ -970,12 +974,12 @@ const PlayerGradesChart = ({
               "Blocking",
             ];
 
-            if (filmGradeVariables.includes(variable)) {
-              const filmGradeEntry = getUniqueFilmGrades(
-                player.filmGrades
+            if (talentGradeVariables.includes(variable)) {
+              const talentGradeEntry = getUniqueTalentGrades(
+                player.talentGrades
               ).find((grade) => grade.Metric === variable);
-              return filmGradeEntry
-                ? (parseFloat(filmGradeEntry.Grade) / 5) * 100
+              return talentGradeEntry
+                ? (parseFloat(talentGradeEntry.Grade) / 5) * 100
                 : 0;
             } else {
               return player.rookieGuideData[variable] !== undefined
@@ -988,7 +992,7 @@ const PlayerGradesChart = ({
           borderWidth: 1,
           fill: true,
           pointBackgroundColor: selectedVariables.map((variable) => {
-            const filmGradeVariables = [
+            const talentGradeVariables = [
               "Processing",
               "Accuracy",
               "Arm Talent",
@@ -1006,17 +1010,17 @@ const PlayerGradesChart = ({
               "Blocking",
             ];
 
-            if (filmGradeVariables.includes(variable)) {
-              const filmGradeEntry = getUniqueFilmGrades(
-                player.filmGrades
+            if (talentGradeVariables.includes(variable)) {
+              const talentGradeEntry = getUniqueTalentGrades(
+                player.talentGrades
               ).find((grade) => grade.Metric === variable);
-              return getFilmColor(filmGradeEntry ? filmGradeEntry.Grade : 0);
+              return getTalentColor(talentGradeEntry ? talentGradeEntry.Grade : 0);
             } else {
               return getColor(player.rookieGuideData[variable] || 0);
             }
           }),
           pointBorderColor: selectedVariables.map((variable) => {
-            const filmGradeVariables = [
+            const talentGradeVariables = [
               "Processing",
               "Accuracy",
               "Arm Talent",
@@ -1034,17 +1038,17 @@ const PlayerGradesChart = ({
               "Blocking",
             ];
 
-            if (filmGradeVariables.includes(variable)) {
-              const filmGradeEntry = getUniqueFilmGrades(
-                player.filmGrades
+            if (talentGradeVariables.includes(variable)) {
+              const talentGradeEntry = getUniqueTalentGrades(
+                player.talentGrades
               ).find((grade) => grade.Metric === variable);
-              return getFilmColor(filmGradeEntry ? filmGradeEntry.Grade : 0);
+              return getTalentColor(talentGradeEntry ? talentGradeEntry.Grade : 0);
             } else {
               return getColor(player.rookieGuideData[variable] || 0);
             }
           }),
           pointHoverBackgroundColor: selectedVariables.map((variable) => {
-            const filmGradeVariables = [
+            const talentGradeVariables = [
               "Processing",
               "Accuracy",
               "Arm Talent",
@@ -1062,17 +1066,17 @@ const PlayerGradesChart = ({
               "Blocking",
             ];
 
-            if (filmGradeVariables.includes(variable)) {
-              const filmGradeEntry = getUniqueFilmGrades(
-                player.filmGrades
+            if (talentGradeVariables.includes(variable)) {
+              const talentGradeEntry = getUniqueTalentGrades(
+                player.talentGrades
               ).find((grade) => grade.Metric === variable);
-              return getFilmColor(filmGradeEntry ? filmGradeEntry.Grade : 0);
+              return getTalentColor(talentGradeEntry ? talentGradeEntry.Grade : 0);
             } else {
               return getColor(player.rookieGuideData[variable] || 0);
             }
           }),
           pointHoverBorderColor: selectedVariables.map((variable) => {
-            const filmGradeVariables = [
+            const talentGradeVariables = [
               "Processing",
               "Accuracy",
               "Arm Talent",
@@ -1090,11 +1094,11 @@ const PlayerGradesChart = ({
               "Blocking",
             ];
 
-            if (filmGradeVariables.includes(variable)) {
-              const filmGradeEntry = getUniqueFilmGrades(
-                player.filmGrades
+            if (talentGradeVariables.includes(variable)) {
+              const talentGradeEntry = getUniqueTalentGrades(
+                player.talentGrades
               ).find((grade) => grade.Metric === variable);
-              return getFilmColor(filmGradeEntry ? filmGradeEntry.Grade : 0);
+              return getTalentColor(talentGradeEntry ? talentGradeEntry.Grade : 0);
             } else {
               return getColor(player.rookieGuideData[variable] || 0);
             }
@@ -1117,11 +1121,11 @@ const PlayerGradesChart = ({
                 callbacks: {
                   label: (context) => {
                     const variable = selectedVariables[context.dataIndex];
-                    const filmGradeEntry = getUniqueFilmGrades(
-                      player.filmGrades
+                    const talentGradeEntry = getUniqueTalentGrades(
+                      player.talentGrades
                     ).find((grade) => grade.Metric === variable);
-                    const originalValue = filmGradeEntry
-                      ? filmGradeEntry.Grade
+                    const originalValue = talentGradeEntry
+                      ? talentGradeEntry.Grade
                       : player.rookieGuideData[variable] || 0;
                     return `${variable}: ${originalValue}`; // Show original value in tooltip
                   },
@@ -1147,7 +1151,7 @@ const PlayerGradesChart = ({
         {renderNewSpiderChart({
           Player_Name: name,
           rookieGuideData,
-          filmGrades,
+          talentGrades,
         })}
       </div>
     );
@@ -1230,17 +1234,29 @@ const PlayerGradesChart = ({
           </form>
 
           {showTalentBarChart && (
-            <div className={styles.chartsWrapper}>
+            <div className={styles.talentBarChartWrapper}>
               <div style={{ width: "500px", height: "300px", display: "flex" }}>
-                {uniqueFilmGradesFiltered.length > 0 && (
+                {uniqueTalentGradesFiltered.length > 0 && (
                   <Bar
-                    data={filmGradesData}
-                    options={filmGradesOptions}
+                    data={talentGradesData}
+                    options={talentGradesOptions}
                     plugins={[ChartDataLabels]}
-                    className={styles.filmGradesChart}
+                    className={styles.talentGradesChart}
                   />
                 )}
               </div>
+              <div className={styles.talentBarChartAnalysisWrapper}>
+                {uniqueTalentGradesFiltered.length > 0 && (
+                  uniqueTalentGradesFiltered.map((grade, index) => (
+                    
+                      <div key={index} className={styles.talentBarChartAnalysisIndividualMetric}>
+                        <div>{grade.Analysis}</div>
+                      </div>
+                    
+                  ))
+                )}
+              </div>
+              
             </div>
           )}
 
@@ -1309,7 +1325,7 @@ const PlayerGradesChart = ({
               className={styles.scatterSelects}
               value={xAxisVariable}
             >
-              <option value="Film_Grade">Film Grade</option>
+              <option value="Film_Grade">Talent Grade</option>
               <option value="Analytical_Grade">Analytical Grade</option>
               <option value="Landing_Spot">Landing Spot</option>
               <option value="Overall_Grade">Overall Grade</option>
@@ -1319,7 +1335,7 @@ const PlayerGradesChart = ({
               className={styles.scatterSelects}
               value={yAxisVariable}
             >
-              <option value="Film_Grade">Film Grade</option>
+              <option value="Film_Grade">Talent Grade</option>
               <option value="Analytical_Grade">Analytical Grade</option>
               <option value="Landing_Spot">Landing Spot</option>
               <option value="Overall_Grade">Overall Grade</option>
@@ -1464,7 +1480,7 @@ const PlayerGradesChart = ({
                         // Add safety check for required data
                 if (
                   !comparePlayer?.rookieGuideData ||
-                  !comparePlayer?.filmGrades
+                  !comparePlayer?.talentGrades
                 ) {
                             return null;
                         }
@@ -1581,7 +1597,7 @@ const PlayerGradesChart = ({
             flexWrap: "wrap",
             gap: "2rem",
           }}
-          className={styles.outerFilmGradesSpiderWrapper}
+          className={styles.outerTalentGradesSpiderWrapper}
             > */}
           {/* Main player's film grades */}
           {/* <div
@@ -1614,7 +1630,7 @@ const PlayerGradesChart = ({
 
           {/* //       if (
           //         !comparePlayer?.rookieGuideData ||
-          //         !comparePlayer?.filmGrades
+          //         !comparePlayer?.talentGrades
           //       ) {
           //                   return null;
           //               }
@@ -1647,8 +1663,8 @@ const PlayerGradesChart = ({
           //                 {
           //                   label: "Film Grades",
           //                   data: metrics.map((metric) => {
-          //                     const grade = getUniqueFilmGrades(
-          //                       comparePlayer.filmGrades
+          //                     const grade = getUniqueTalentrades(
+          //                       comparePlayer.talentGrades
           //                     ).find((g) => g.Metric === metric);
           //                                       return grade ? grade.Grade : 0;
           //                                   }),
@@ -1657,14 +1673,14 @@ const PlayerGradesChart = ({
           //                                   borderWidth: 1,
           //                                   fill: true,
           //                   pointBackgroundColor: metrics.map((metric) => {
-          //                     const grade = getUniqueFilmGrades(
-          //                       comparePlayer.filmGrades
+          //                     const grade = getUniqueTalentGrades(
+          //                       comparePlayer.talentGrades
           //                     ).find((g) => g.Metric === metric);
           //                                       return getFilmColor(grade ? grade.Grade : 0);
           //                                   }),
           //                   pointBorderColor: metrics.map((metric) => {
-          //                     const grade = getUniqueFilmGrades(
-          //                       comparePlayer.filmGrades
+          //                     const grade = getUniqueTalentGrades(
+          //                       comparePlayer.talentGrades
           //                     ).find((g) => g.Metric === metric);
           //                                       return getFilmColor(grade ? grade.Grade : 0);
           //                                   }),
