@@ -321,8 +321,9 @@
 }
 
 .talentBarChartAnalysisWrapper {
-  margin-bottom: 1rem;
+  margin-bottom: 4rem;
   margin-left: -2rem;
+  font-size: .9rem;
 }
 
 .talentBarChartAnalysisIndividualMetric {
@@ -709,6 +710,7 @@
   .talentGradesChart {
     width: 75%; /* Slightly smaller than container on mobile */
     max-height: 200px;
+    
   }
 }
 
