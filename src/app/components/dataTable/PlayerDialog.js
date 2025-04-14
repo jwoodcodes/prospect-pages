@@ -124,7 +124,69 @@ export default function PlayerDialog({
 
   console.log(player);
 
+  // let sortedPlayersByAlltimeOverallGrade = data.sort(
+  //   (a, b) => b.rookieGuideData.Overall_Grade - a.rookieGuideData.Overall_Grade
+
+  // )
+
+  let sortedPlayersByAlltimeOverallGrade = data.sort((a, b) => {
+    if (a.rookieGuideData.Overall_Grade > b.rookieGuideData.Overall_Grade) {
+      return -1;
+    }
+    if (a.rookieGuideData.Overall_Grade < b.rookieGuideData.Overall_Grade) {
+      return 1;
+    }
+    return 0;
+  });
+
+  let classArray2021 = data.filter((player) => player.rookieGuideData.Class === "2021");
+  classArray2021.sort((a, b) =>   b.rookieGuideData.Overall_Grade - a.rookieGuideData.Overall_Grade);
+
+  let classArray2022 = data.filter((player) => player.rookieGuideData.Class === "2022");
+  classArray2022.sort((a, b) => b.rookieGuideData.Overall_Grade - a.rookieGuideData.Overall_Grade);
+
+  let classArray2023 = data.filter((player) => player.rookieGuideData.Class === "2023");
+  classArray2023.sort((a, b) => b.rookieGuideData.Overall_Grade - a.rookieGuideData.Overall_Grade);
+
+  let classArray2024 = data.filter((player) => player.rookieGuideData.Class === "2024");
+  classArray2024.sort((a, b) => b.rookieGuideData.Overall_Grade - a.rookieGuideData.Overall_Grade);
+
+  let classArray2025 = data.filter((player) => player.rookieGuideData.Class === "2025");
+  classArray2025.sort((a, b) => b.rookieGuideData.Overall_Grade - a.rookieGuideData.Overall_Grade);
+
+  // console.log(sortedPlayersByAlltimeOverallGrade)
+  sortedPlayersByAlltimeOverallGrade.forEach((player, index) => {
+    player.AlltimeRank = index + 1;
+  })
+
+  classArray2021.forEach((player, index) => {
+    player.ClassRank = index + 1;
+  })
+  
+  classArray2022.forEach((player, index) => {
+    player.ClassRank = index + 1;
+  })
+  classArray2023.forEach((player, index) => {
+    player.ClassRank = index + 1;
+  })
+  classArray2024.forEach((player, index) => {
+    player.ClassRank = index + 1;
+  })
+  classArray2025.forEach((player, index) => {
+    player.ClassRank = index + 1;
+  })
+
+  player.firstName = player.Player_Name.split(' ').slice(0, -1).join(' ');
+player.lastName = player.Player_Name.split(' ').slice(-1).join(' ');
   // console.log(`/${playersTeam}.png`)
+
+  let productionGradeForGraphic = player.playerDataProductionGrades[0]["Production Grade"]
+
+  if(player.playerDataProductionGrades[0]["Production Grade"] >99.9) {
+    productionGradeForGraphic = "99.9"
+  }
+
+  console.log(typeof player.playerDataProductionGrades[0]["Production Grade"], typeof player.productionGradeForGraphic)
   //
   ///
   ////
@@ -139,7 +201,7 @@ export default function PlayerDialog({
         </button>
         <div className={styles.teamLogoPlayerNameAndInfoboxWrapper}>
           <div className={styles.teamLogoPlayerNameanInfoboxWrapper}>
-          <div className={styles.logoAndPlayerNameWrapper}>
+          
             <Image
               src={`/${playersTeam}.png`}
               height={100}
@@ -147,14 +209,14 @@ export default function PlayerDialog({
               alt="team logo"
               className={styles.teamLogo}
             />
-            <h2 className={styles.playerName}>{player.Player_Name}</h2>
+            <div className={styles.playerName}><div className={styles.firstName}>{player.firstName}</div><br /><div className={styles.lastName}>{player.lastName}</div></div>
 
             <div className={styles.infoBox}>
-              {playerBio.Position && (
+              {/* {playerBio.Position && (
                 <p>
                   <strong>{playerBio.Position}: </strong> {playerBio.NFL_Team}
                 </p>
-              )}
+              )} */}
               {playerBio.Height && (
                 <p>
                   <strong>
@@ -177,11 +239,11 @@ export default function PlayerDialog({
                   <strong>Experience:</strong> {yearsSincePlayersDraft} years
                 </p>
               )}
-              {playerBio.Draft_Pick && (
+              {/* {playerBio.Draft_Pick && (
                 <p>
                   <strong>Draft Pick:</strong> {playerBio.Draft_Pick}
                 </p>
-              )}
+              )} */}
 
               {playerBio.School && (
                 <p>
@@ -189,15 +251,54 @@ export default function PlayerDialog({
                 </p>
               )}
             </div>
+            
+            <div className={styles.ranksSection}>
+            <p>Overall Rank:  {player.ClassRank}</p>
+              <p>Position Rank: {player.rookieGuideData.Position_Rank}</p>
+              <p>Historic Rank:  {player.AlltimeRank}</p>
             </div>
-            <PlayerBarChart
+           
+          </div>
+          
+        </div>
+        <div className={styles.playerGradesGraphicsSectionWrapper}>
+          <div>
+          <Image
+            src={`/${player.rookieGuideData.Overall_Grade} Rookie Grade Trap.png`}
+            height={100}
+            width={150}
+            alt="team logo"
+            className={styles.teamLogo}
+          />
+          <div className={styles.gradeGraphicLabel}>Overall</div>
+          </div>
+          <div>
+          <Image
+            src={`/${player.rookieGuideData.Film_Grade} Rookie Grade Trap.png`}
+            height={100}
+            width={150}
+            alt="team logo"
+            className={styles.teamLogo}
+          />
+          <div className={styles.gradeGraphicLabel}>Talent</div>
+          </div>
+          <div>
+          <Image
+            src={`/${productionGradeForGraphic} Rookie Grade Trap.png`}
+            height={100}
+            width={150}
+            alt="team logo"
+            className={styles.teamLogo}
+          />
+          <div className={styles.gradeGraphicLabel}>Production</div>
+          </div>
+        </div>
+        {/* <PlayerBarChart
               overallGrade={player.rookieGuideData.Overall_Grade}
               talentGrade={player.rookieGuideData.Film_Grade}
               analyticalGrade={player.rookieGuideData.Analytical_Grade}
               className={styles.playerBarChart}
-            />
-          </div>
-        </div>
+            /> */}
 
         {/* <form
           onSubmit={() => onPlayerSelectFromList(player.Player_Name, player)}
@@ -254,6 +355,7 @@ export default function PlayerDialog({
           rookieGuideData={player.rookieGuideData}
           playerBio ={player.PlayerBio}
           talentGrades={player.talentGrades}
+          productionGrades ={player.productionGrades}
           isSelectedPlayer={true}
           name={player.Player_Name}
           comparePlayerData={

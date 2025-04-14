@@ -189,7 +189,7 @@
   text-align: left;
   justify-content: space-evenly;
   align-items: center;
-  margin: 3rem auto;
+  margin: 3rem auto 6rem auto;
 }
 
 .logoAndPlayerNameWrapper {
@@ -198,7 +198,7 @@
   align-items: center;
   text-align: left;
   /* margin-right: 4rem; */
-  width: 90%;
+  width: 80%;
 }
 
 .nameAndInfoboxAndGradesChartWrapper {
@@ -208,16 +208,55 @@
 }
 
 .playerName {
-  font-size: 3.25rem;
+  font-size: 3rem;
   letter-spacing: 0.1rem;
   text-align: left;
-  flex: 1;
-  max-width: 17rem;
+  /* flex: 1; */
+  
   /* margin: 1rem 0; */
   /* margin: 0 3rem 0 1rem; */
   font-family: HemiHead;
   color: var(--color-white);
   font-weight: 400;
+  margin: 0 5rem 0 -3rem ;
+  padding: 0;
+  max-height: fit-content;
+}
+
+.firstName {
+  padding: 0;
+  margin: 0;
+  font-size: 2.75rem;
+  margin-bottom: -7rem;
+  max-height: fit-content;
+}
+
+.lastName {
+  font-size: 5rem;
+  max-height: fit-content;
+}
+
+.ranksSection {
+  font-family: playRegular;
+  font-size: 1.5rem;
+  text-align: center;
+  letter-spacing: .1rem;
+}
+
+.playerGradesGraphicsSectionWrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-family: playRegular;
+  text-align: center;
+  width: 90%;
+  margin: 2rem auto;
+  border-bottom: 1px solid var(--color-orange-primary);
+  padding-bottom: 3rem;
+}
+
+.gradeGraphicLabel {
+  font-size: 2rem;
 }
 
 @media(max-width: 1500px) {
@@ -231,7 +270,7 @@
   font-size: 1rem;
   letter-spacing: 0.05rem;
   border-right: 1px solid var(--color-orange-primary);
-  padding-right: 2rem;
+  padding-right: 4rem;
   text-align: left;
 }
 
@@ -303,7 +342,7 @@
   margin: 2rem auto;
   width: 100%; /* Take full width of dialog content */
   max-width: 100%; /* Ensure it never exceeds dialog width */
-  padding: 10px;
+  /* padding: 10px; */
   gap: 1.5rem;
   font-family: playRegular;
 }
@@ -312,23 +351,36 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  
   margin: 2rem auto;
-  width: 100%; /* Take full width of dialog content */
+  width: fit-content; /* Take full width of dialog content */
   max-width: 100%; /* Ensure it never exceeds dialog width */
   padding: 10px;
-  gap: 5rem;
+
+  gap: 3rem;
   font-family: playRegular;
 }
 
 .talentBarChartAnalysisWrapper {
-  margin-bottom: 4rem;
-  margin-left: -2rem;
+  
+  /* margin-left: -3rem; */
+  font-size: 1rem;
+  
+}
+
+.productionBarChartAnalysisWrapper {
   font-size: .9rem;
 }
 
 .talentBarChartAnalysisIndividualMetric {
   padding: .5rem 0 .8rem 0;
   border-bottom: 1px solid var(--color-gray-300);
+  
+}
+
+.talentBarChartAnalysisIndividualMetricLAbel {
+text-decoration: 1px solid underline;
+color: var(--color-orange-primary);
 }
 
 .prospectGradesChart {
@@ -393,6 +445,8 @@
 
 .teamLogoPlayerNameanInfoboxWrapper {
   display: flex;
+  justify-content: space-evenly;
+  align-items: center;
   width: 90%;
 }
 

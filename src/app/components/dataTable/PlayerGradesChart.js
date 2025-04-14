@@ -19,6 +19,7 @@ const PlayerGradesChart = ({
   rookieGuideData,
   playerBio,
   talentGrades = [],
+  productionGrades = [],
   isSelectedPlayer,
   name = "Player",
   comparePlayerData,
@@ -112,35 +113,61 @@ const PlayerGradesChart = ({
   const uniqueTalentGrades = getUniqueTalentGrades(talentGrades);
 
   // Modify the data object for the prospect grades bar chart
+  // const data = {
+  //   labels: ["Talent Grade", "Analytical Grade", "Landing Spot", "Overall Grade"],
+  //   datasets: [
+  //     {
+  //       label: name,
+  //       data: [Film_Grade, Analytical_Grade, Landing_Spot, Overall_Grade],
+  //       backgroundColor: [
+  //         getColor(Film_Grade),
+  //         getColor(Analytical_Grade),
+  //         getColor(Landing_Spot),
+  //         getColor(Overall_Grade),
+  //       ],
+  //       borderColor: "rgba(0, 0, 0, 1)",
+  //       borderWidth: 1,
+  //     },
+  //     comparePlayerData && {
+  //       label: comparePlayerData.name,
+  //       data: [
+  //         comparePlayerData.rookieGuideData.Film_Grade,
+  //         comparePlayerData.rookieGuideData.Analytical_Grade,
+  //         comparePlayerData.rookieGuideData.Landing_Spot,
+  //         comparePlayerData.rookieGuideData.Overall_Grade,
+  //       ],
+  //       backgroundColor: [
+  //         getColor(comparePlayerData.rookieGuideData.Film_Grade),
+  //         getColor(comparePlayerData.rookieGuideData.Analytical_Grade),
+  //         getColor(comparePlayerData.rookieGuideData.Landing_Spot),
+  //         getColor(comparePlayerData.rookieGuideData.Overall_Grade),
+  //       ],
+  //       borderColor: "rgba(0, 0, 0, 1)",
+  //       borderWidth: 1,
+  //     },
+  //   ].filter(Boolean),
+  // };
+
   const data = {
-    labels: ["Talent Grade", "Analytical Grade", "Landing Spot", "Overall Grade"],
+    labels: productionGrades.map((grade) => grade.Metric),
     datasets: [
       {
         label: name,
-        data: [Film_Grade, Analytical_Grade, Landing_Spot, Overall_Grade],
-        backgroundColor: [
-          getColor(Film_Grade),
-          getColor(Analytical_Grade),
-          getColor(Landing_Spot),
-          getColor(Overall_Grade),
-        ],
+        data: productionGrades.map((grade) => grade.Grade),
+        backgroundColor: productionGrades.map((grade) =>
+          getTalentColor(grade.Grade)
+        ),
         borderColor: "rgba(0, 0, 0, 1)",
         borderWidth: 1,
       },
       comparePlayerData && {
         label: comparePlayerData.name,
-        data: [
-          comparePlayerData.rookieGuideData.Film_Grade,
-          comparePlayerData.rookieGuideData.Analytical_Grade,
-          comparePlayerData.rookieGuideData.Landing_Spot,
-          comparePlayerData.rookieGuideData.Overall_Grade,
-        ],
-        backgroundColor: [
-          getColor(comparePlayerData.rookieGuideData.Film_Grade),
-          getColor(comparePlayerData.rookieGuideData.Analytical_Grade),
-          getColor(comparePlayerData.rookieGuideData.Landing_Spot),
-          getColor(comparePlayerData.rookieGuideData.Overall_Grade),
-        ],
+        data: getUniqueTalentGrades(comparePlayerData.productionGrades).map(
+          (grade) => grade.Grade
+        ),
+        backgroundColor: getUniqueTalentGrades(comparePlayerData.productionGrades).map(
+          (grade) => getTalentColor(grade.Grade)
+        ),
         borderColor: "rgba(0, 0, 0, 1)",
         borderWidth: 1,
       },
@@ -197,20 +224,20 @@ const PlayerGradesChart = ({
         display: false,
       },
       datalabels: {
-        anchor: "center",
+        anchor: "start",
         align: "end",
-        formatter: (value, context) => {
-          const playerName = context.dataset.label;
-          const initials = getInitials(playerName || "");
-          const safeValue = safeNumber(value);
-          // console.log('Value before toFixed:', value);
-          const formattedValue = safeValue.toFixed(1);
-          return `${initials}\n${formattedValue}`;
-        },
+        // formatter: (value, context) => {
+        //   const playerName = context.dataset.label;
+        //   const initials = getInitials(playerName || "");
+        //   const safeValue = safeNumber(value);
+        //   // console.log('Value before toFixed:', value);
+        //   const formattedValue = safeValue.toFixed(1);
+        //   return `${initials}\n${formattedValue}`;
+        // },
         color: "white",
         font: {
           weight: "bold",
-          size: 12,
+          size: 20,
           family: "playRegular",
         },
         padding: 6, // Add some padding to prevent label cutoff
@@ -219,7 +246,8 @@ const PlayerGradesChart = ({
     scales: {
       y: {
         beginAtZero: true,
-        max: 100,
+        max: 6,
+        display: false,
         ticks: {
           padding: 2, // Add padding to y-axis ticks
           
@@ -241,20 +269,20 @@ const PlayerGradesChart = ({
     },
     layout: {
       padding: {
-        top: 20, // Add padding to the top of the chart
+        top: 10, // Add padding to the top of the chart
         right: 5,
         left: 5,
-        bottom: 10,
+        bottom: 0,
       },
     },
     barPercentage: 0.8,
-    categoryPercentage: 0.9,
+    categoryPercentage: 0.8,
   };
 
   // Update the options for talent grades chart
   const talentGradesOptions = {
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     indexAxis: "y",
     plugins: {
       legend: {
@@ -262,43 +290,54 @@ const PlayerGradesChart = ({
       },
     
       datalabels: {
-        anchor: "center",
+        anchor: "start",
         align: "end",
-        formatter: (value, context) => {
-          const playerName = context.dataset.label;
-          const initials = getInitials(playerName);
+        // formatter: (value, context) => {
+        //   const playerName = context.dataset.label;
+        //   const initials = getInitials(playerName);
 
-          // Ensure value is a number
-          const safeValue =
-            typeof value === "number" ? value : parseFloat(value);
-          const formattedValue = !isNaN(safeValue)
-            ? safeValue.toFixed(1)
-            : "0.0"; // Default to "0.0" if not a number
+        //   // Ensure value is a number
+        //   const safeValue =
+        //     typeof value === "number" ? value : parseFloat(value);
+        //   const formattedValue = !isNaN(safeValue)
+        //     ? safeValue.toFixed(1)
+        //     : "0.0"; // Default to "0.0" if not a number
 
-          return `${initials}\n${formattedValue}`;
-        }, 
+        //   return `${initials}\n${formattedValue}`;
+        // }, 
         color: "white",
         font: {
           
-          size: 10,
+          size: 20,
           family: "playRegular",
+          
         },
         padding: 6,
       },
     },
-    
+    labels: {
+      display: false
+    },
     scales: {
       y: {
         beginAtZero: true,
-        max: 5,
+        max: 4,
+        display: false,
+        // display: {
+        //   fontFamily: 'playRegular',
+        //   fontSize: 80,
+        //   color: "white",
+        // },
+        
         ticks: {
-          padding: 2,
+          padding: 6,
           fontFamily: 'playRegular',
-          fontSize: 40,
+          fontSize: 80,
           
         },
       },
       x: {
+        display: false,
         ticks: {
           fontFamily: 'playRegular',
           fontSize: 40,
@@ -311,10 +350,10 @@ const PlayerGradesChart = ({
     },
     layout: {
       padding: {
-        top: 20,
+        top: 5,
         right: 5,
         left: 5,
-        bottom: 10,
+        bottom: 0,
       },
     },
     barPercentage: 0.8,
@@ -1255,39 +1294,54 @@ const PlayerGradesChart = ({
 
           {showTalentBarChart && (
             <div className={styles.talentBarChartWrapper}>
-              <div style={{ width: "500px", height: "300px", display: "flex", fontSize: "3rem" }}>
+                 
+               <div className={styles.talentBarChartAnalysisWrapper}>
+                {uniqueTalentGradesFiltered.length > 0 && (
+                  uniqueTalentGradesFiltered.map((grade, index) => (
+                    
+                      <div key={index} className={styles.talentBarChartAnalysisIndividualMetric}>
+                        <div className={styles.talentBarChartAnalysisIndividualMetricLAbel}>{grade.Metric}</div> <div>{grade.Analysis}</div>
+                      </div>
+                    
+                  ))
+                )}
+              </div>
+              <div style={{ width: "500px", height: "350px", display: "flex", fontSize: "3rem", alignItems: "center" }}>
                 {uniqueTalentGradesFiltered.length > 0 && (
                   <Bar
                     data={talentGradesData}
                     options={talentGradesOptions}
                     plugins={[ChartDataLabels]}
                     className={styles.talentGradesChart}
+                    style={{ width: "500px", height: "350px",   }}
                   />
                 )}
               </div>
-              <div className={styles.talentBarChartAnalysisWrapper}>
-                {uniqueTalentGradesFiltered.length > 0 && (
-                  uniqueTalentGradesFiltered.map((grade, index) => (
-                    
-                      <div key={index} className={styles.talentBarChartAnalysisIndividualMetric}>
-                        <div>{grade.Analysis}</div>
-                      </div>
-                    
-                  ))
-                )}
-              </div>
+             
               
             </div>
           )}
 
           {showProductionBarChart && (
-            <div className={styles.chartsWrapper}>
-              <div style={{ width: "500px", height: "300px", display: "flex", fontSize: "3rem" }}>
+            <div className={styles.talentBarChartWrapper}>
+              <div className={styles.productionBarChartAnalysisWrapper}>
+                {productionGrades.length > 0 && (
+                  productionGrades.map((grade, index) => (
+                    
+                      <div key={index} className={styles.talentBarChartAnalysisIndividualMetric}>
+                        <div className={styles.talentBarChartAnalysisIndividualMetricLAbel}>{grade.Metric}</div> <div>{grade.Analysis}</div>
+                      </div>
+                    
+                  ))
+                )}
+              </div>
+              <div style={{ width: "500px", height: "400px", display: "flex", fontSize: "3rem", alignItems: "center" }}>
                 <Bar
                   data={data}
                   options={options}
                   plugins={[ChartDataLabels]}
                   className={styles.prospectGradesChart}
+                  style={{ width: "500px", height: "400px",   }}
                 />
               </div>
             </div>
