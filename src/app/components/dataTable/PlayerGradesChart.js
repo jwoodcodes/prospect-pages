@@ -210,7 +210,7 @@ const PlayerGradesChart = ({
         color: "white",
         font: {
           weight: "bold",
-          size: 10,
+          size: 12,
           family: "playRegular",
         },
         padding: 6, // Add some padding to prevent label cutoff
@@ -222,11 +222,20 @@ const PlayerGradesChart = ({
         max: 100,
         ticks: {
           padding: 2, // Add padding to y-axis ticks
+          
+          fontFamily: 'playRegular',
+          fontSize: 40,
         },
       },
       x: {
+        ticks: {
+          fontFamily: 'playRegular',
+        fontSize: 40,
+        },
+        
         grid: {
           offset: true,
+          
         },
       },
     },
@@ -245,12 +254,13 @@ const PlayerGradesChart = ({
   // Update the options for talent grades chart
   const talentGradesOptions = {
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     indexAxis: "y",
     plugins: {
       legend: {
         display: false,
       },
+    
       datalabels: {
         anchor: "center",
         align: "end",
@@ -266,24 +276,34 @@ const PlayerGradesChart = ({
             : "0.0"; // Default to "0.0" if not a number
 
           return `${initials}\n${formattedValue}`;
-        },
+        }, 
         color: "white",
         font: {
-          weight: "bold",
+          
           size: 10,
+          family: "playRegular",
         },
         padding: 6,
       },
     },
+    
     scales: {
       y: {
         beginAtZero: true,
         max: 5,
         ticks: {
           padding: 2,
+          fontFamily: 'playRegular',
+          fontSize: 40,
+          
         },
       },
       x: {
+        ticks: {
+          fontFamily: 'playRegular',
+          fontSize: 40,
+          
+        },
         grid: {
           offset: true,
         },
@@ -298,7 +318,7 @@ const PlayerGradesChart = ({
       },
     },
     barPercentage: 0.8,
-    categoryPercentage: 0.9,
+    categoryPercentage: 0.8,
   };
 
   // Debugging: Log talentGrades to check its structure
@@ -1235,7 +1255,7 @@ const PlayerGradesChart = ({
 
           {showTalentBarChart && (
             <div className={styles.talentBarChartWrapper}>
-              <div style={{ width: "500px", height: "300px", display: "flex" }}>
+              <div style={{ width: "500px", height: "300px", display: "flex", fontSize: "3rem" }}>
                 {uniqueTalentGradesFiltered.length > 0 && (
                   <Bar
                     data={talentGradesData}
@@ -1262,7 +1282,7 @@ const PlayerGradesChart = ({
 
           {showProductionBarChart && (
             <div className={styles.chartsWrapper}>
-              <div style={{ width: "500px", height: "300px", display: "flex" }}>
+              <div style={{ width: "500px", height: "300px", display: "flex", fontSize: "3rem" }}>
                 <Bar
                   data={data}
                   options={options}
