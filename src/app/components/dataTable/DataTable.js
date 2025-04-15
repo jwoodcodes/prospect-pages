@@ -36,7 +36,7 @@ export default function DataTable({ data }) {
     return myTheme;
   }, []);
 
-  const [classYear, setClassYear] = React.useState("all");
+  const [classYear, setClassYear] = React.useState(2025);
 
   const [positionForDataTable, setPositionForDataTable] = React.useState("all");
 
@@ -121,12 +121,18 @@ export default function DataTable({ data }) {
 
       p.talent= player.rookieGuideData.Film_Grade;
 
-      if (player.rookieGuideData.Analytical_Grade) {
-        let tempAnalytical = +player.rookieGuideData.Analytical_Grade;
+      // console.log(player.playerDataProductionGrades[0]["Production Grade"])
 
-        p.analytical = tempAnalytical.toFixed(1);
+      if(!player.playerDataProductionGrades){
+        p.Production = 0.0;
+      }
+
+      if (p.Production !== "0.0" && player.playerDataProductionGrades[0]) {
+        let tempProduction = +player.playerDataProductionGrades[0]["Production Grade"];
+
+        p.Production = tempProduction.toFixed(1);
       } else {
-        p.analytical = player.rookieGuideData.Analytical_Grade;
+        p.Production = 0.0;
       }
 
       if (player.rookieGuideData.Landing_Spot) {
@@ -248,7 +254,7 @@ export default function DataTable({ data }) {
     if (dataSetToDisplay === "prospect grades") {
       baseColDefs.push(
         {
-          field: "analytical",
+          field: "Production",
           filter: true,
           floatingFilter: true,
           flex: 1,

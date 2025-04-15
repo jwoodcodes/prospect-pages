@@ -15,6 +15,7 @@ export default function PlayerDialog({
   const [isAvailable, setIsAvailable] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [isPlayerOnNFLTeam, setIsPlayerOnNFLTeam] = useState(true);
 
   const [comparePlayerName, setComparePlayerName] = useState(null);
   const [comparePlayerData, setComparePlayerData] = useState(null);
@@ -114,8 +115,11 @@ export default function PlayerDialog({
     : null;
   // console.log(yearsSincePlayersDraft)
   const playerAge = player.PlayerBio.Draft_Age + yearsSincePlayersDraft;
-
+let playerIsOnTeam = true
   let playersTeam = player.PlayerBio.NFL_Team.replace(" ", "");
+  if(!player.PlayerBio.NFL_Team || player.PlayerBio.NFL_Team === "") {
+    playerIsOnTeam = false
+  }
   playersTeam = playersTeam.replace(" ", "");
 
   if (player.name === "Justin Fields") {
@@ -201,14 +205,16 @@ player.lastName = player.Player_Name.split(' ').slice(-1).join(' ');
         </button>
         <div className={styles.teamLogoPlayerNameAndInfoboxWrapper}>
           <div className={styles.teamLogoPlayerNameanInfoboxWrapper}>
-          
+          {playerIsOnTeam && (
             <Image
-              src={`/${playersTeam}.png`}
-              height={100}
-              width={150}
-              alt="team logo"
-              className={styles.teamLogo}
-            />
+            src={`/${playersTeam}.png`}
+            height={100}
+            width={150}
+            alt="team logo"
+            className={styles.teamLogo}
+          />
+          )}
+            
             <div className={styles.playerName}><div className={styles.firstName}>{player.firstName}</div><br /><div className={styles.lastName}>{player.lastName}</div></div>
 
             <div className={styles.infoBox}>
