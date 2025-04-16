@@ -1325,7 +1325,7 @@ const PlayerGradesChart = ({
 
           {showProductionBarChart && (
             <div className={styles.talentBarChartWrapper}>
-              <div className={styles.productionBarChartAnalysisWrapper}>
+              <div className={styles.talentBarChartAnalysisWrapper}>
                 {productionGrades.length > 0 && (
                   productionGrades.map((grade, index) => (
                     
@@ -1341,7 +1341,7 @@ const PlayerGradesChart = ({
                   data={data}
                   options={options}
                   plugins={[ChartDataLabels]}
-                  className={styles.prospectGradesChart}
+                  className={styles.talentGradesChart}
                   style={{ width: "500px", height: "400px",   }}
                 />
               </div>
