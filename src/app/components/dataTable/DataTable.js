@@ -272,7 +272,6 @@ export default function DataTable({ data }) {
         },
         minWidth: width < 768 ? 95 : 100,
         sortable: true,
-        sort: "desc",
       },
     ];
 
@@ -314,6 +313,7 @@ export default function DataTable({ data }) {
           minWidth: 100,
           sortable: true,
           cellStyle: { textAlign: "center" },
+          sort: "asc",
         },
         {
           field: "Position Rank",
