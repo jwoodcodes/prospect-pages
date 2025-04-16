@@ -39,7 +39,7 @@ const PlayerGradesChart = ({
     React.useState("Talent");
 
   // Extract grades from rookieGuideData
-  const { Film_Grade, Analytical_Grade, Landing_Spot, Overall_Grade } =
+  const { Talent_Grade, Analytical_Grade, Landing_Spot, Overall_Grade } =
     rookieGuideData;
 
   // console.log(rookieGuideData);
@@ -118,9 +118,9 @@ const PlayerGradesChart = ({
   //   datasets: [
   //     {
   //       label: name,
-  //       data: [Film_Grade, Analytical_Grade, Landing_Spot, Overall_Grade],
+  //       data: [Talent_Grade, Analytical_Grade, Landing_Spot, Overall_Grade],
   //       backgroundColor: [
-  //         getColor(Film_Grade),
+  //         getColor(Talent_Grade),
   //         getColor(Analytical_Grade),
   //         getColor(Landing_Spot),
   //         getColor(Overall_Grade),
@@ -131,13 +131,13 @@ const PlayerGradesChart = ({
   //     comparePlayerData && {
   //       label: comparePlayerData.name,
   //       data: [
-  //         comparePlayerData.rookieGuideData.Film_Grade,
+  //         comparePlayerData.rookieGuideData.Talent_Grade,
   //         comparePlayerData.rookieGuideData.Analytical_Grade,
   //         comparePlayerData.rookieGuideData.Landing_Spot,
   //         comparePlayerData.rookieGuideData.Overall_Grade,
   //       ],
   //       backgroundColor: [
-  //         getColor(comparePlayerData.rookieGuideData.Film_Grade),
+  //         getColor(comparePlayerData.rookieGuideData.Talent_Grade),
   //         getColor(comparePlayerData.rookieGuideData.Analytical_Grade),
   //         getColor(comparePlayerData.rookieGuideData.Landing_Spot),
   //         getColor(comparePlayerData.rookieGuideData.Overall_Grade),
@@ -165,9 +165,9 @@ const PlayerGradesChart = ({
         data: getUniqueTalentGrades(comparePlayerData.productionGrades).map(
           (grade) => grade.Grade
         ),
-        backgroundColor: getUniqueTalentGrades(comparePlayerData.productionGrades).map(
-          (grade) => getTalentColor(grade.Grade)
-        ),
+        backgroundColor: getUniqueTalentGrades(
+          comparePlayerData.productionGrades
+        ).map((grade) => getTalentColor(grade.Grade)),
         borderColor: "rgba(0, 0, 0, 1)",
         borderWidth: 1,
       },
@@ -192,9 +192,9 @@ const PlayerGradesChart = ({
         data: getUniqueTalentGrades(comparePlayerData.talentGrades).map(
           (grade) => grade.Grade
         ),
-        backgroundColor: getUniqueTalentGrades(comparePlayerData.talentGrades).map(
-          (grade) => getTalentColor(grade.Grade)
-        ),
+        backgroundColor: getUniqueTalentGrades(
+          comparePlayerData.talentGrades
+        ).map((grade) => getTalentColor(grade.Grade)),
         borderColor: "rgba(0, 0, 0, 1)",
         borderWidth: 1,
       },
@@ -250,20 +250,19 @@ const PlayerGradesChart = ({
         display: false,
         ticks: {
           padding: 2, // Add padding to y-axis ticks
-          
-          fontFamily: 'playRegular',
+
+          fontFamily: "playRegular",
           fontSize: 40,
         },
       },
       x: {
         ticks: {
-          fontFamily: 'playRegular',
-        fontSize: 40,
+          fontFamily: "playRegular",
+          fontSize: 40,
         },
-        
+
         grid: {
           offset: true,
-          
         },
       },
     },
@@ -288,7 +287,7 @@ const PlayerGradesChart = ({
       legend: {
         display: false,
       },
-    
+
       datalabels: {
         anchor: "start",
         align: "end",
@@ -304,14 +303,12 @@ const PlayerGradesChart = ({
         //     : "0.0"; // Default to "0.0" if not a number
         //   let metric = ''
         //   // return `${initials}\n${formattedValue}`;
-          
-        // }, 
+
+        // },
         color: "white",
         font: {
-          
           size: 20,
           family: "playRegular",
-          
         },
         padding: 6,
       },
@@ -329,20 +326,18 @@ const PlayerGradesChart = ({
         //   fontSize: 80,
         //   color: "white",
         // },
-        
+
         ticks: {
           padding: 6,
-          fontFamily: 'playRegular',
+          fontFamily: "playRegular",
           fontSize: 80,
-          
         },
       },
       x: {
         display: false,
         ticks: {
-          fontFamily: 'playRegular',
+          fontFamily: "playRegular",
           fontSize: 40,
-          
         },
         grid: {
           offset: true,
@@ -366,7 +361,7 @@ const PlayerGradesChart = ({
 
   // Create filtered data for prospect grades spider chart
   const selectedRookieGuideFields = {
-    Talent: rookieGuideData?.Film_Grade || 0,
+    Talent: rookieGuideData?.Talent_Grade || 0,
     Analytical: rookieGuideData?.Analytical_Grade || 0,
     "Landing Spot": rookieGuideData?.Landing_Spot || 0,
     Overall: rookieGuideData?.Overall_Grade || 0,
@@ -411,7 +406,7 @@ const PlayerGradesChart = ({
           {
             label: "Prospect Grades",
             data: [
-              safeNumber(comparePlayerData.rookieGuideData?.Film_Grade),
+              safeNumber(comparePlayerData.rookieGuideData?.Talent_Grade),
               safeNumber(comparePlayerData.rookieGuideData?.Analytical_Grade),
               safeNumber(comparePlayerData.rookieGuideData?.Landing_Spot),
               safeNumber(comparePlayerData.rookieGuideData?.Overall_Grade),
@@ -422,7 +417,7 @@ const PlayerGradesChart = ({
             fill: true,
             pointBackgroundColor: [
               getColor(
-                safeNumber(comparePlayerData.rookieGuideData?.Film_Grade)
+                safeNumber(comparePlayerData.rookieGuideData?.Talent_Grade)
               ),
               getColor(
                 safeNumber(comparePlayerData.rookieGuideData?.Analytical_Grade)
@@ -436,7 +431,7 @@ const PlayerGradesChart = ({
             ],
             pointBorderColor: [
               getColor(
-                safeNumber(comparePlayerData.rookieGuideData?.Film_Grade)
+                safeNumber(comparePlayerData.rookieGuideData?.Talent_Grade)
               ),
               getColor(
                 safeNumber(comparePlayerData.rookieGuideData?.Analytical_Grade)
@@ -450,7 +445,7 @@ const PlayerGradesChart = ({
             ],
             pointHoverBackgroundColor: [
               getColor(
-                safeNumber(comparePlayerData.rookieGuideData?.Film_Grade)
+                safeNumber(comparePlayerData.rookieGuideData?.Talent_Grade)
               ),
               getColor(
                 safeNumber(comparePlayerData.rookieGuideData?.Analytical_Grade)
@@ -464,7 +459,7 @@ const PlayerGradesChart = ({
             ],
             pointHoverBorderColor: [
               getColor(
-                safeNumber(comparePlayerData.rookieGuideData?.Film_Grade)
+                safeNumber(comparePlayerData.rookieGuideData?.Talent_Grade)
               ),
               getColor(
                 safeNumber(comparePlayerData.rookieGuideData?.Analytical_Grade)
@@ -477,9 +472,9 @@ const PlayerGradesChart = ({
               ),
             ],
             pointLabels: [
-              safeNumber(comparePlayerData.rookieGuideData?.Film_Grade).toFixed(
-                1
-              ),
+              safeNumber(
+                comparePlayerData.rookieGuideData?.Talent_Grade
+              ).toFixed(1),
               safeNumber(
                 comparePlayerData.rookieGuideData?.Analytical_Grade
               ).toFixed(1),
@@ -740,7 +735,7 @@ const PlayerGradesChart = ({
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedPosition, setSelectedPosition] = useState("");
   const [xAxisVariable, setXAxisVariable] = useState("Analytical_Grade"); // Default x-axis variable
-  const [yAxisVariable, setYAxisVariable] = useState("Film_Grade"); // Default y-axis variable
+  const [yAxisVariable, setYAxisVariable] = useState("Talent_Grade"); // Default y-axis variable
 
   // console.log("X Axis Variable:", xAxisVariable);
   // console.log("Y Axis Variable:", yAxisVariable);
@@ -952,7 +947,7 @@ const PlayerGradesChart = ({
     }
 
     return [
-      "Film_Grade", // Default for Data Point 1
+      "Talent_Grade", // Default for Data Point 1
       "Analytical_Grade", // Default for Data Point 2
       "Overall_Grade", // Default for Data Point 3
       ...lastTwoDefaults, // Position-specific defaults for Points 4 and 5
@@ -966,11 +961,9 @@ const PlayerGradesChart = ({
     setSelectedVariables(newVariables);
   };
 
- 
-
   // Define an array of options with display labels and corresponding data keys
   const variableOptions = [
-    { label: "Talent Grade", value: "Film_Grade" },
+    { label: "Talent Grade", value: "Talent_Grade" },
     { label: "Analytical Grade", value: "Analytical_Grade" },
     { label: "Landing Spot", value: "Landing_Spot" },
     { label: "Overall Grade", value: "Overall_Grade" },
@@ -998,7 +991,7 @@ const PlayerGradesChart = ({
       switch (label) {
         case "Analytical_Grade":
           return "Analytical";
-        case "Film_Grade":
+        case "Talent_Grade":
           return "Talent";
         case "Overall_Grade":
           return "Overall";
@@ -1074,7 +1067,9 @@ const PlayerGradesChart = ({
               const talentGradeEntry = getUniqueTalentGrades(
                 player.talentGrades
               ).find((grade) => grade.Metric === variable);
-              return getTalentColor(talentGradeEntry ? talentGradeEntry.Grade : 0);
+              return getTalentColor(
+                talentGradeEntry ? talentGradeEntry.Grade : 0
+              );
             } else {
               return getColor(player.rookieGuideData[variable] || 0);
             }
@@ -1102,7 +1097,9 @@ const PlayerGradesChart = ({
               const talentGradeEntry = getUniqueTalentGrades(
                 player.talentGrades
               ).find((grade) => grade.Metric === variable);
-              return getTalentColor(talentGradeEntry ? talentGradeEntry.Grade : 0);
+              return getTalentColor(
+                talentGradeEntry ? talentGradeEntry.Grade : 0
+              );
             } else {
               return getColor(player.rookieGuideData[variable] || 0);
             }
@@ -1130,7 +1127,9 @@ const PlayerGradesChart = ({
               const talentGradeEntry = getUniqueTalentGrades(
                 player.talentGrades
               ).find((grade) => grade.Metric === variable);
-              return getTalentColor(talentGradeEntry ? talentGradeEntry.Grade : 0);
+              return getTalentColor(
+                talentGradeEntry ? talentGradeEntry.Grade : 0
+              );
             } else {
               return getColor(player.rookieGuideData[variable] || 0);
             }
@@ -1158,7 +1157,9 @@ const PlayerGradesChart = ({
               const talentGradeEntry = getUniqueTalentGrades(
                 player.talentGrades
               ).find((grade) => grade.Metric === variable);
-              return getTalentColor(talentGradeEntry ? talentGradeEntry.Grade : 0);
+              return getTalentColor(
+                talentGradeEntry ? talentGradeEntry.Grade : 0
+              );
             } else {
               return getColor(player.rookieGuideData[variable] || 0);
             }
@@ -1219,7 +1220,7 @@ const PlayerGradesChart = ({
 
   // Combined list of all variables from both spider charts
   const allVariables = [
-    "Film_Grade",
+    "Talent_Grade",
     "Analytical_Grade",
     "Landing_Spot",
     "Overall_Grade",
@@ -1295,54 +1296,82 @@ const PlayerGradesChart = ({
 
           {showTalentBarChart && (
             <div className={styles.talentBarChartWrapper}>
-                 
-               <div className={styles.talentBarChartAnalysisWrapper}>
-                {uniqueTalentGradesFiltered.length > 0 && (
+              <div className={styles.talentBarChartAnalysisWrapper}>
+                {uniqueTalentGradesFiltered.length > 0 &&
                   uniqueTalentGradesFiltered.map((grade, index) => (
-                    
-                      <div key={index} className={styles.talentBarChartAnalysisIndividualMetric}>
-                        <div className={styles.talentBarChartAnalysisIndividualMetricLAbel}>{grade.Metric}</div> <div>{grade.Analysis}</div>
-                      </div>
-                    
-                  ))
-                )}
+                    <div
+                      key={index}
+                      className={styles.talentBarChartAnalysisIndividualMetric}
+                    >
+                      <div
+                        className={
+                          styles.talentBarChartAnalysisIndividualMetricLAbel
+                        }
+                      >
+                        {grade.Metric}
+                      </div>{" "}
+                      <div>{grade.Analysis}</div>
+                    </div>
+                  ))}
               </div>
-              <div style={{ width: "500px", height: "350px", display: "flex", fontSize: "3rem", alignItems: "center" }} className={styles.talentGradesBarChartWrapper}>
+              <div
+                style={{
+                  width: "500px",
+                  height: "350px",
+                  display: "flex",
+                  fontSize: "3rem",
+                  alignItems: "center",
+                }}
+                className={styles.talentGradesBarChartWrapper}
+              >
                 {uniqueTalentGradesFiltered.length > 0 && (
                   <Bar
                     data={talentGradesData}
                     options={talentGradesOptions}
                     plugins={[ChartDataLabels]}
                     className={styles.talentGradesChart}
-                    style={{ width: "500px", height: "350px",   }}
+                    style={{ width: "500px", height: "350px" }}
                   />
                 )}
               </div>
-             
-              
             </div>
           )}
 
           {showProductionBarChart && (
             <div className={styles.talentBarChartWrapper}>
               <div className={styles.talentBarChartAnalysisWrapper}>
-                {productionGrades.length > 0 && (
+                {productionGrades.length > 0 &&
                   productionGrades.map((grade, index) => (
-                    
-                      <div key={index} className={styles.talentBarChartAnalysisIndividualMetric}>
-                        <div className={styles.talentBarChartAnalysisIndividualMetricLAbel}>{grade.Metric}</div> <div>{grade.Analysis}</div>
-                      </div>
-                    
-                  ))
-                )}
+                    <div
+                      key={index}
+                      className={styles.talentBarChartAnalysisIndividualMetric}
+                    >
+                      <div
+                        className={
+                          styles.talentBarChartAnalysisIndividualMetricLAbel
+                        }
+                      >
+                        {grade.Metric}
+                      </div>{" "}
+                      <div>{grade.Analysis}</div>
+                    </div>
+                  ))}
               </div>
-              <div style={{ width: "500px", height: "400px", display: "flex", fontSize: "3rem", alignItems: "center" }}>
+              <div
+                style={{
+                  width: "500px",
+                  height: "400px",
+                  display: "flex",
+                  fontSize: "3rem",
+                  alignItems: "center",
+                }}
+              >
                 <Bar
                   data={data}
                   options={options}
                   plugins={[ChartDataLabels]}
                   className={styles.talentGradesChart}
-                  style={{ width: "500px", height: "400px",   }}
+                  style={{ width: "500px", height: "400px" }}
                 />
               </div>
             </div>
@@ -1400,7 +1429,7 @@ const PlayerGradesChart = ({
               className={styles.scatterSelects}
               value={xAxisVariable}
             >
-              <option value="Film_Grade">Talent Grade</option>
+              <option value="Talent_Grade">Talent Grade</option>
               <option value="Analytical_Grade">Analytical Grade</option>
               <option value="Landing_Spot">Landing Spot</option>
               <option value="Overall_Grade">Overall Grade</option>
@@ -1410,7 +1439,7 @@ const PlayerGradesChart = ({
               className={styles.scatterSelects}
               value={yAxisVariable}
             >
-              <option value="Film_Grade">Talent Grade</option>
+              <option value="Talent_Grade">Talent Grade</option>
               <option value="Analytical_Grade">Analytical Grade</option>
               <option value="Landing_Spot">Landing Spot</option>
               <option value="Overall_Grade">Overall Grade</option>
@@ -1589,7 +1618,7 @@ const PlayerGradesChart = ({
                         label: "Prospect Grades",
                                             data: [
                               safeNumber(
-                                comparePlayer.rookieGuideData?.Film_Grade
+                                comparePlayer.rookieGuideData?.Talent_Grade
                               ),
                           safeNumber(
                             comparePlayer.rookieGuideData?.Analytical_Grade
@@ -1608,7 +1637,7 @@ const PlayerGradesChart = ({
                                             pointBackgroundColor: [
                           getColor(
                             safeNumber(
-                              comparePlayer.rookieGuideData?.Film_Grade
+                              comparePlayer.rookieGuideData?.Talent_Grade
                             )
                           ),
                           getColor(
@@ -1631,7 +1660,7 @@ const PlayerGradesChart = ({
                                             pointBorderColor: [
                           getColor(
                             safeNumber(
-                              comparePlayer.rookieGuideData?.Film_Grade
+                              comparePlayer.rookieGuideData?.Talent_Grade
                             )
                           ),
                           getColor(

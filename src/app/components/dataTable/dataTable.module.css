@@ -212,13 +212,13 @@
   letter-spacing: 0.1rem;
   text-align: left;
   /* flex: 1; */
-  
+
   /* margin: 1rem 0; */
   /* margin: 0 3rem 0 1rem; */
   font-family: HemiHead;
   color: var(--color-white);
   font-weight: 400;
-  margin: 0 5rem 0 -3rem ;
+  margin: 0 5rem 0 -3rem;
   padding: 0;
   max-height: fit-content;
 }
@@ -240,7 +240,7 @@
   font-family: playRegular;
   font-size: 1.5rem;
   text-align: center;
-  letter-spacing: .1rem;
+  letter-spacing: 0.1rem;
 }
 
 .playerGradesGraphicsSectionWrapper {
@@ -259,7 +259,7 @@
   font-size: 2rem;
 }
 
-@media(max-width: 1500px) {
+@media (max-width: 1500px) {
   .playerName {
     font-size: 2.75rem;
   }
@@ -351,7 +351,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
   margin: 2rem auto;
   width: fit-content; /* Take full width of dialog content */
   max-width: 100%; /* Ensure it never exceeds dialog width */
@@ -362,25 +362,23 @@
 }
 
 .talentBarChartAnalysisWrapper {
-  
   /* margin-left: -3rem; */
   font-size: 1rem;
   max-width: 50%;
 }
 
 .productionBarChartAnalysisWrapper {
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 
 .talentBarChartAnalysisIndividualMetric {
-  padding: .5rem 0 .8rem 0;
+  padding: 0.5rem 0 0.8rem 0;
   border-bottom: 1px solid var(--color-gray-300);
-  
 }
 
 .talentBarChartAnalysisIndividualMetricLAbel {
-text-decoration: 1px solid underline;
-color: var(--color-orange-primary);
+  text-decoration: 1px solid underline;
+  color: var(--color-orange-primary);
 }
 
 .prospectGradesChart {
@@ -419,10 +417,10 @@ color: var(--color-orange-primary);
 
 .tablesContainer {
   display: flex;
-    flex-wrap: wrap; 
-    justify-content: center; 
-    align-items: center;
-    flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   text-align: center;
   letter-spacing: 0.05rem;
   width: 60%;
@@ -450,7 +448,7 @@ color: var(--color-orange-primary);
   width: 90%;
 }
 
-@media(max-width: 1500px) {
+@media (max-width: 1500px) {
   .playerName {
     font-size: 2.75rem;
     margin-left: 1rem;
@@ -458,7 +456,7 @@ color: var(--color-orange-primary);
 
   .infoBox {
     font-family: playRegular;
-    font-size: .9rem;
+    font-size: 0.9rem;
     letter-spacing: 0;
     border-right: 1px solid var(--color-orange-primary);
     padding-right: 1rem;
@@ -469,7 +467,7 @@ color: var(--color-orange-primary);
     font-family: playRegular;
     font-size: 1rem;
     text-align: center;
-    letter-spacing: .1rem;
+    letter-spacing: 0.1rem;
   }
 
   .firstName {
@@ -479,21 +477,21 @@ color: var(--color-orange-primary);
     margin-bottom: -6rem;
     max-height: fit-content;
   }
-  
+
   .lastName {
     font-size: 4.5rem;
     max-height: fit-content;
   }
 }
 
-@media(max-width: 1325px) {
+@media (max-width: 1325px) {
   .playerName {
-    margin: 0 2rem 0 -3rem ;
+    margin: 0 2rem 0 -3rem;
   }
 
   .infoBox {
     font-family: playRegular;
-    font-size: .8rem;
+    font-size: 0.8rem;
     letter-spacing: 0;
     border-right: 1px solid var(--color-orange-primary);
     padding-right: 2rem;
@@ -501,12 +499,10 @@ color: var(--color-orange-primary);
   }
 }
 
-@media(max-width: 1250px) {
-
+@media (max-width: 1250px) {
   .teamLogoPlayerNameanInfoboxWrapper {
     display: flex;
     /* flex-direction: column; */
-  
   }
   .playerName {
     font-size: 2rem;
@@ -520,7 +516,7 @@ color: var(--color-orange-primary);
     margin-bottom: -4rem;
     max-height: fit-content;
   }
-  
+
   .lastName {
     font-size: 3rem;
     max-height: fit-content;
@@ -528,7 +524,7 @@ color: var(--color-orange-primary);
 
   .infoBox {
     font-family: playRegular;
-    font-size: .75rem;
+    font-size: 0.75rem;
     letter-spacing: 0;
     border-right: 1px solid var(--color-orange-primary);
     padding-right: 1rem;
@@ -536,13 +532,13 @@ color: var(--color-orange-primary);
   }
   .ranksSection {
     font-family: playRegular;
-    font-size: .9rem;
+    font-size: 0.9rem;
     text-align: center;
     letter-spacing: 0;
   }
 }
 
-@media(max-width: 1250px) {
+@media (max-width: 1250px) {
   .teamLogoPlayerNameanInfoboxWrapper {
     display: flex;
     /* flex-direction: column; */
@@ -550,7 +546,6 @@ color: var(--color-orange-primary);
   }
 
   .playerName {
- 
     margin-left: 0;
   }
 
@@ -561,7 +556,7 @@ color: var(--color-orange-primary);
     margin-bottom: -3.5rem;
     max-height: fit-content;
   }
-  
+
   .lastName {
     font-size: 2rem;
     max-height: fit-content;
@@ -569,7 +564,7 @@ color: var(--color-orange-primary);
 
   .infoBox {
     font-family: playRegular;
-    font-size: .7rem;
+    font-size: 0.7rem;
     letter-spacing: 0;
     border-right: 1px solid var(--color-orange-primary);
     padding-right: 1.5rem;
@@ -577,7 +572,7 @@ color: var(--color-orange-primary);
   }
   .ranksSection {
     font-family: playRegular;
-    font-size: .8rem;
+    font-size: 0.8rem;
     text-align: center;
     letter-spacing: 0;
     padding-left: 1rem;
@@ -587,7 +582,6 @@ color: var(--color-orange-primary);
     height: 67px !important; /* Reduced proportionally from 100px */
   }
 }
-
 
 @media (max-width: 700px) {
   .tableWrapper {
@@ -622,8 +616,6 @@ color: var(--color-orange-primary);
   flex: 0 1 calc(50% - 1rem); /* Two columns, each taking up half the width minus margin */
   margin-bottom: 1rem; /* Space between video players */
 }
-
-
 
 @media (max-width: 1000px) {
   .videoWrapper {
@@ -742,56 +734,55 @@ color: var(--color-orange-primary);
 
 */
 
-.teamLogoPlayerNameanInfoboxWrapper {
-  display: flex;
-  flex-direction: column;
-  width: 95%;
-}
+  .teamLogoPlayerNameanInfoboxWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+  }
 
-.playerName {
- 
-  margin: 0;
-}
+  .playerName {
+    margin: 0;
+  }
 
-.firstName {
-  padding: 0;
-  margin: 0;
-  font-size: 1.5rem;
-  margin-bottom: -3.5rem;
-  max-height: fit-content;
-}
+  .firstName {
+    padding: 0;
+    margin: 0;
+    font-size: 1.5rem;
+    margin-bottom: -3.5rem;
+    max-height: fit-content;
+  }
 
-.lastName {
-  font-size: 2rem;
-  max-height: fit-content;
-}
+  .lastName {
+    font-size: 2rem;
+    max-height: fit-content;
+  }
 
-.infoBox {
-  font-family: playRegular;
-  font-size: .7rem;
-  letter-spacing: 0;
-  border-right: none;
-  padding-right: 0;
-  text-align: center;
-  margin: 1rem auto;
-}
-.ranksSection {
-  font-family: playRegular;
-  font-size: .8rem;
-  text-align: center;
-  letter-spacing: 0;
-  /* padding-left: 1rem; */
-  margin: 0 auto;
-}
-.teamLogo {
-  width: 100px !important; /* Reduced from 150px */
-  height: 67px !important; /* Reduced proportionally from 100px */
-}
+  .infoBox {
+    font-family: playRegular;
+    font-size: 0.7rem;
+    letter-spacing: 0;
+    border-right: none;
+    padding-right: 0;
+    text-align: center;
+    margin: 1rem auto;
+  }
+  .ranksSection {
+    font-family: playRegular;
+    font-size: 0.8rem;
+    text-align: center;
+    letter-spacing: 0;
+    /* padding-left: 1rem; */
+    margin: 0 auto;
+  }
+  .teamLogo {
+    width: 100px !important; /* Reduced from 150px */
+    height: 67px !important; /* Reduced proportionally from 100px */
+  }
 
-.gradeGraphicLabel {
-  font-size: 1.5rem;
-  margin-top: 1rem;
-}
+  .gradeGraphicLabel {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+  }
 
   .dataTableSelectsWrapper {
     flex-direction: column;
@@ -903,8 +894,6 @@ color: var(--color-orange-primary);
     width: 75%; /* Slightly smaller than container on mobile */
     max-height: 200px;
   }
-
- 
 }
 
 @media (max-width: 575px) {
@@ -947,6 +936,19 @@ color: var(--color-orange-primary);
     margin: 0 auto;
     flex-direction: column !important;
     width: 80%;
+  }
+
+  @media (max-width: 700px) {
+    .tableWrapper {
+      flex: 1 1 80%; /* Stack tables to take full width on small screens */
+      margin: 0; /* Remove margin on small screens */
+    }
+  }
+
+  .table {
+    width: 80%; /* Ensure the table takes full width */
+    border-collapse: collapse; /* Collapse borders for a cleaner look */
+    padding: 0;
   }
 
   /*
@@ -1014,7 +1016,6 @@ color: var(--color-orange-primary);
     margin: 0 auto;
   }
 
-
   .talentGradesChart {
     width: 100%; /* Slightly smaller than container on mobile */
     max-height: 500px;
@@ -1024,7 +1025,7 @@ color: var(--color-orange-primary);
 
   .infoBox {
     font-family: playRegular;
-    font-size: .7rem;
+    font-size: 0.7rem;
     letter-spacing: 0;
     border-right: none;
     padding-right: 0;
@@ -1033,7 +1034,7 @@ color: var(--color-orange-primary);
   }
   .ranksSection {
     font-family: playRegular;
-    font-size: .8rem;
+    font-size: 0.8rem;
     text-align: center;
     letter-spacing: 0;
     /* padding-left: 1rem; */
@@ -1220,9 +1221,8 @@ color: var(--color-orange-primary);
   }
 
   .talentBarChartAnalysisWrapper {
-  
     /* margin-left: -3rem; */
-    font-size: .7rem;
+    font-size: 0.7rem;
     max-width: 40%;
   }
 
@@ -1332,11 +1332,11 @@ color: var(--color-orange-primary);
     height: 700px !important;
   }
   .tablesContainer {
-    width: 60%;
-    max-width: 60%;
+    width: 125%;
+    max-width: 125%;
     margin-right: auto;
     margin-bottom: 0;
-    font-size: .5rem;
+    font-size: 0.5rem;
   }
 }
 

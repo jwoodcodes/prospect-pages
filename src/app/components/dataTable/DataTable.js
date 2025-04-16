@@ -114,21 +114,22 @@ export default function DataTable({ data }) {
 
       if (player.rookieGuideData.Overall_Grade) {
         let tempOverall = +player.rookieGuideData.Overall_Grade;
-        p.Grade = tempOverall.toFixed(1);
+        p.Grade = +tempOverall.toFixed(1);
       } else {
         p.Grade = "0.0";
       }
 
-      p.talent= player.rookieGuideData.Film_Grade;
+      p.talent = player.rookieGuideData.Talent_Grade;
 
       // console.log(player.playerDataProductionGrades[0]["Production Grade"])
 
-      if(!player.playerDataProductionGrades){
+      if (!player.playerDataProductionGrades) {
         p.Production = 0.0;
       }
 
       if (p.Production !== "0.0" && player.playerDataProductionGrades[0]) {
-        let tempProduction = +player.playerDataProductionGrades[0]["Production Grade"];
+        let tempProduction =
+          +player.playerDataProductionGrades[0]["Production Grade"];
 
         p.Production = tempProduction.toFixed(1);
       } else {
@@ -141,6 +142,30 @@ export default function DataTable({ data }) {
         p.Landing = tempLanding.toFixed(1);
       } else {
         p.Landing = player.rookieGuideData.Landing_Spot;
+      }
+
+      if (player.rookieGuideData.Rank) {
+        let tempOverallRank = +player.rookieGuideData.Rank;
+
+        p["Overall Rank"] = tempOverallRank.toFixed(0);
+      } else {
+        p["Overall Rank"] = player.rookieGuideData.Rank;
+      }
+
+      if (player.rookieGuideData.Position_Rank) {
+        let tempPositionRank = +player.rookieGuideData.Position_Rank;
+
+        p["Position Rank"] = tempPositionRank.toFixed(0);
+      } else {
+        p["Position Rank"] = player.rookieGuideData.Position_Rank;
+      }
+
+      if (player.rookieGuideData.SF_Rank) {
+        let tempSFRank = +player.rookieGuideData.SF_Rank;
+
+        p["SF Rank"] = tempSFRank.toFixed(0);
+      } else {
+        p["SF Rank"] = player.rookieGuideData.SF_Rank;
       }
 
       p.G = +player.careerRushing.totalGames;
@@ -279,6 +304,36 @@ export default function DataTable({ data }) {
           cellStyle: { textAlign: "center" },
           minWidth: 100,
           sortable: true,
+        },
+        {
+          field: "Overall Rank",
+          filter: true,
+          floatingFilter: true,
+          flex: 1,
+
+          minWidth: 100,
+          sortable: true,
+          cellStyle: { textAlign: "center" },
+        },
+        {
+          field: "Position Rank",
+          filter: true,
+          floatingFilter: true,
+          flex: 1,
+
+          minWidth: 100,
+          sortable: true,
+          cellStyle: { textAlign: "center" },
+        },
+        {
+          field: "SF Rank",
+          filter: true,
+          floatingFilter: true,
+          flex: 1,
+
+          minWidth: 100,
+          sortable: true,
+          cellStyle: { textAlign: "center" },
         }
       );
     }
@@ -361,6 +416,16 @@ export default function DataTable({ data }) {
         },
         {
           field: "Landing",
+          filter: true,
+          floatingFilter: true,
+          flex: 1,
+
+          minWidth: 100,
+          sortable: true,
+          cellStyle: { textAlign: "center" },
+        },
+        {
+          field: "Overall Rank",
           filter: true,
           floatingFilter: true,
           flex: 1,
