@@ -36,6 +36,22 @@
   width: 100dvw;
 }
 
+@media screen and (max-width: 600px) {
+  .title {
+    color: var(--color-gray-700);
+    font-size: clamp(1rem, 5vw, 2rem);
+    /* font-size: clamp(5rem); */
+  }
+  
+  .secondTitle {
+    color: var(--color-gray-700);
+    font-size: clamp(.6rem, 2vw, .7rem);
+    letter-spacing: 0;
+    text-align: center;
+    color: var(--color-orange-primary);
+  }
+}
+
 /* .clsSelectBtnsWrapper {
   display: flex;
   justify-content: center;

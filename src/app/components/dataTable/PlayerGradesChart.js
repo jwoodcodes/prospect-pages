@@ -302,8 +302,9 @@ const PlayerGradesChart = ({
         //   const formattedValue = !isNaN(safeValue)
         //     ? safeValue.toFixed(1)
         //     : "0.0"; // Default to "0.0" if not a number
-
-        //   return `${initials}\n${formattedValue}`;
+        //   let metric = ''
+        //   // return `${initials}\n${formattedValue}`;
+          
         // }, 
         color: "white",
         font: {
@@ -316,7 +317,7 @@ const PlayerGradesChart = ({
       },
     },
     labels: {
-      display: false
+      display: true,
     },
     scales: {
       y: {
@@ -1306,7 +1307,7 @@ const PlayerGradesChart = ({
                   ))
                 )}
               </div>
-              <div style={{ width: "500px", height: "350px", display: "flex", fontSize: "3rem", alignItems: "center" }}>
+              <div style={{ width: "500px", height: "350px", display: "flex", fontSize: "3rem", alignItems: "center" }} className={styles.talentGradesBarChartWrapper}>
                 {uniqueTalentGradesFiltered.length > 0 && (
                   <Bar
                     data={talentGradesData}

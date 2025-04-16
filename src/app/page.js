@@ -57,7 +57,7 @@ export default function Home() {
         
         <div className={styles.titleWrapper}>
           <h1 className={`${aAtmospheric.className} ${styles.title}`}>Prospect Data By Class</h1>
-          <h2 className={hemiHead.className} style={{color: "var(--color-orange-primary)", fontSize: "clamp(1.25rem, 2vw, 1.1rem)", letterSpacing: "0.05rem"}}>
+          <h2 className={`${hemiHead.className} ${styles.secondTitle}`} style={{color: "var(--color-orange-primary)", fontSize: "clamp(1.25rem, 2vw, 1.1rem)", letterSpacing: "0.05rem"}}>
  
   
             click players name to view full prospect profile
