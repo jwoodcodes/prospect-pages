@@ -62,7 +62,7 @@ export default function MainNav() {
         >
           <li>Discord</li>
         </a>
-        <a
+        {/* <a
           href="https://identity.hudl.com/u/login/identifier?state=hKFo2SBDcHUtbEdlb2hPZUQ0TUtBODBLWlFlX2VSZGQ2ZmoybaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIG5YWThqWWI3TWJwMGxNSGZZQllDc0xEVGY0cmsyZGluo2NpZNkgbjEzUmZrSHpLb3phTnhXQzVkWlFvYmVXR2Y0V2pTbjU"
           className={styles.mainNavLink}
         >
@@ -73,7 +73,7 @@ export default function MainNav() {
           className={styles.mainNavLink}
         >
           <li>Weekly Projections</li>
-        </a>
+        </a> */}
       </ul>
     </nav>
   );

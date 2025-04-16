@@ -10,6 +10,10 @@ const playRegular = localFont({
   src: "./fonts/Play-Regular.ttf",
 });
 
+const aAtmospheric = localFont({
+  src: "./fonts/aAtmospheric.ttf",
+});
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
