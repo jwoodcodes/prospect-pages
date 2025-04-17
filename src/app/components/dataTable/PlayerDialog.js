@@ -215,10 +215,29 @@ export default function PlayerDialog({
 
   productionGradeForGraphic = productionGradeForGraphic.toFixed(1);
 
+  if (player.playerDataProductionGrades[0]["Production Grade"] < 60.0) {
+    productionGradeForGraphic = "60.0";
+  }
   if (player.playerDataProductionGrades[0]["Production Grade"] > 99.9) {
     productionGradeForGraphic = "99.9";
   }
+  if (player.playerDataProductionGrades[0]["Overall_Grade"] < 60.0) {
+    productionGradeForGraphic = "60.0";
+  }
+  if (player.playerDataProductionGrades[0]["Overall_Grade"] > 99.9) {
+    productionGradeForGraphic = "99.9";
+  }
 
+  if (
+    player.playerDataProductionGrades[0]["productionGradeForGraphic"] < 60.0
+  ) {
+    productionGradeForGraphic = "60.0";
+  }
+  if (
+    player.playerDataProductionGrades[0]["productionGradeForGraphic"] > 99.9
+  ) {
+    productionGradeForGraphic = "99.9";
+  }
   // console.log(productionGradeForGraphic);
   // console.log(typeof player.playerDataProductionGrades[0]["Production Grade"], typeof player.productionGradeForGraphic)
 
