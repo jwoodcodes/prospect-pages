@@ -211,13 +211,30 @@ export default function PlayerDialog({
   // console.log(`/${playersTeam}.png`)
 
   let productionGradeForGraphic =
-    player.playerDataProductionGrades[0]["Production Grade"];
+    +player.playerDataProductionGrades[0]["Production Grade"];
+
+  productionGradeForGraphic = productionGradeForGraphic.toFixed(1);
 
   if (player.playerDataProductionGrades[0]["Production Grade"] > 99.9) {
     productionGradeForGraphic = "99.9";
   }
 
+  // console.log(productionGradeForGraphic);
   // console.log(typeof player.playerDataProductionGrades[0]["Production Grade"], typeof player.productionGradeForGraphic)
+
+  // console.log(player.rookieGuideData.Talent_Grade);
+  if (player.rookieGuideData.Talent_Grade === 81) {
+    // player.rookieGuideData.Talent_Grade = 81.1;
+  }
+
+  if (playerBio.Height > 65) {
+    let temp = +playerBio.Height;
+    playerBio.Height = (temp / 12).toFixed(1);
+  }
+
+  // console.log(player.rookieGuideData.Talent_Grade.toFixed(1));
+
+  console.log(typeof playerBio.Height, playerBio.Height);
 
   //
   ///
@@ -258,7 +275,7 @@ export default function PlayerDialog({
               {playerBio.Height && (
                 <p>
                   <strong>
-                    {(playerBio.Height / 12).toFixed(1)}' {playerBio.Weight}
+                    {playerBio.Height} - {playerBio.Weight}
                   </strong>{" "}
                 </p>
               )}
@@ -300,7 +317,9 @@ export default function PlayerDialog({
         <div className={styles.playerGradesGraphicsSectionWrapper}>
           <div>
             <Image
-              src={`/${player.rookieGuideData.Overall_Grade} Rookie Grade Trap.png`}
+              src={`/${player.rookieGuideData.Overall_Grade.toFixed(
+                1
+              )} Rookie Grade Trap.png`}
               height={100}
               width={150}
               alt="team logo"
@@ -310,7 +329,9 @@ export default function PlayerDialog({
           </div>
           <div>
             <Image
-              src={`/${player.rookieGuideData.Talent_Grade} Rookie Grade Trap.png`}
+              src={`/${player.rookieGuideData.Talent_Grade.toFixed(
+                1
+              )} Rookie Grade Trap.png`}
               height={100}
               width={150}
               alt="team logo"
