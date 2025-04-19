@@ -259,6 +259,18 @@
   font-size: 2rem;
 }
 
+.table {
+  font-family: playRegular;
+}
+
+.tableCell {
+  font-family: playRegular;
+}
+
+.heading {
+  font-family: playRegular;
+}
+
 @media (max-width: 1500px) {
   .playerName {
     font-size: 2.75rem;
@@ -365,6 +377,7 @@
   /* margin-left: -3rem; */
   font-size: 1rem;
   max-width: 50%;
+  min-width: 30%;
 }
 
 .productionBarChartAnalysisWrapper {
@@ -815,6 +828,7 @@
   .talentGradesChart {
     width: 100%; /* Slightly smaller than container on mobile */
     max-height: 500px;
+    height: 600px;
     /* max-width: 350px; */
     margin: 0 auto;
   }
@@ -1340,7 +1354,11 @@
   }
 
   .tableCell {
-    padding: .25rem;
+    padding: .35rem;
+  }
+
+  .tablesContainer {
+    width: 100%;
   }
 }
 

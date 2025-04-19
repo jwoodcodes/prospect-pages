@@ -110,9 +110,10 @@ export default function PlayerDialog({
   const isReceiverOrTE =
     playerBio.Position === "WR" || playerBio.Position === "TE";
 
-  if (player.name === "Cam Skattebo") {
+  if (player.name === "Cam Skattebo" || player.name === "Cameron Skattebo") {
     player.PlayerBio.Draft_Year === 2025;
   }
+  // player.PlayerBio.Draft_Year = player.playerDataProductionGrades[0]["Draft Class"]
   if (!player.PlayerBio.Draft_Year) {
     player.PlayerBio.Draft_Year = 2025;
   }

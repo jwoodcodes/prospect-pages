@@ -234,6 +234,10 @@ const PlayerGradesChart = ({
         //   const formattedValue = safeValue.toFixed(1);
         //   return `${initials}\n${formattedValue}`;
         // },
+        formatter: (value, context) => {
+          
+          return context.dataset.Metric;
+        },
         color: "white",
         font: {
           weight: "bold",
