@@ -201,7 +201,7 @@ const PlayerGradesChart = ({
     ].filter(Boolean),
   };
 
-  // Helper function to get initials from name
+ 
   const getInitials = (playerName) => {
     return playerName
       .split(" ")
