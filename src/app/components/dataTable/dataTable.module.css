@@ -747,13 +747,13 @@
   .firstName {
     padding: 0;
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 2.25rem;
     margin-bottom: -3.5rem;
     max-height: fit-content;
   }
 
   .lastName {
-    font-size: 2rem;
+    font-size: 3.75rem;
     max-height: fit-content;
   }
 
@@ -1338,6 +1338,10 @@
     margin-bottom: 0;
     font-size: 0.5rem;
   }
+
+  .tableCell {
+    padding: .25rem;
+  }
 }
 
 .playerBarChart {
@@ -1345,3 +1349,35 @@
   min-width: fit-content;
   font-size: 2rem;
 }
+
+
+@media screen and (max-width: 400px) {
+  .firstName {
+    padding: 0;
+    margin: 0;
+    font-size: 1.75rem;
+    margin-bottom: -3.5rem;
+    max-height: fit-content;
+  }
+
+  .lastName {
+    font-size: 3rem;
+    max-height: fit-content;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .firstName {
+    padding: 0;
+    margin: 0;
+    font-size: 1.5rem;
+    margin-bottom: -3.5rem;
+    max-height: fit-content;
+  }
+
+  .lastName {
+    font-size: 2.75rem;
+    max-height: fit-content;
+  }
+}
+

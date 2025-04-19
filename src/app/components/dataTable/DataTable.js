@@ -222,6 +222,7 @@ export default function DataTable({ data }) {
         cellStyle: {
           textAlign: width < 768 ? "left" : "center",
           fontSize: width < 768 ? "12px" : "14px",
+          color: "var(--color-orange-primary)",
         },
         cellRenderer: (params) => (
           <span
