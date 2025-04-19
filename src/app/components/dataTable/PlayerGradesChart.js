@@ -209,7 +209,7 @@ const PlayerGradesChart = ({
       .join("");
   };
 
-  // Add this helper function at the top of the component
+ 
   const safeNumber = (value) => {
     return typeof value === "number" && !isNaN(value) ? value : 0;
   };
