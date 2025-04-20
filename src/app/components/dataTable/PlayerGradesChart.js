@@ -230,7 +230,7 @@ const PlayerGradesChart = ({
         //   const playerName = context.dataset.label;
         //   const initials = getInitials(playerName || "");
         //   const safeValue = safeNumber(value);
-        //   // console.log('Value before toFixed:', value);
+       
         //   const formattedValue = safeValue.toFixed(1);
         //   return `${initials}\n${formattedValue}`;
         // },
