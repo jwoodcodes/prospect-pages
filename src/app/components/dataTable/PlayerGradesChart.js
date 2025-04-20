@@ -214,7 +214,7 @@ const PlayerGradesChart = ({
     return typeof value === "number" && !isNaN(value) ? value : 0;
   };
 
-  // Update the options for prospect grades chart
+ 
   const options = {
     responsive: true,
     maintainAspectRatio: false, // This allows us to control height independently
