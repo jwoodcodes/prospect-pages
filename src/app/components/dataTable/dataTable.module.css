@@ -161,7 +161,6 @@
   background: var(--color-orange-dark); /* Color of the thumb on hover */
 }
 
-/* Custom scrollbar for Firefox */
 .dialogContent {
   scrollbar-width: thin; /* Options: auto | thin */
   scrollbar-color: var(--color-blue-light) var(--color-gray-200); /* thumb color and track color */
