@@ -1396,8 +1396,22 @@ const PlayerGradesChart = ({
               playerBio && playerBio.Breakdown
                 ? playerBio.Breakdown.replace(/<br\s*\/?>/gi, "<br />")
                 : "",
+               
+          }}
+         
+        />
+        <div className={styles.BreakdownHeading}>Landing Spot</div>
+        <p 
+        className={styles.breakdown}
+           dangerouslySetInnerHTML={{
+            __html:
+            playerBio && playerBio.Landing_Spot
+                ? playerBio.Landing_Spot.replace(/<br\s*\/?>/gi, "<br />")
+                : "",
+                 
           }}
         />
+        
       </div>
 
       {/*scatter Plot and Spider chart sections */}
