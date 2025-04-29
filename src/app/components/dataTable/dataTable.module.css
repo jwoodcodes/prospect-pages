@@ -699,9 +699,7 @@
     flex-direction: column; /* Stack info box items vertically */
   }
 
-  .teamNameInDraftRow {
-    padding-left: 0;
-  }
+ 
 }
 
 .playerCardsWrapper {
