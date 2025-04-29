@@ -247,6 +247,10 @@ export default function PlayerDialog({
     // player.rookieGuideData.Talent_Grade = 81.1;
   }
 
+  if(player.rookieGuideData.Landing_Spot > 99.9) {
+    player.rookieGuideData.Landing_Spot = 99.9;
+  }
+
   if (playerBio.Height > 65) {
     let temp = +playerBio.Height;
     playerBio.Height = (temp / 12).toFixed(1);
@@ -270,15 +274,7 @@ export default function PlayerDialog({
         </button>
         <div className={styles.teamLogoPlayerNameAndInfoboxWrapper}>
           <div className={styles.teamLogoPlayerNameanInfoboxWrapper}>
-            {playerIsOnTeam && (
-              <Image
-                src={`/${playersTeam}.png`}
-                height={100}
-                width={150}
-                alt="team logo"
-                className={styles.teamLogo}
-              />
-            )}
+           
 
             <div className={styles.playerName}>
               <div className={styles.firstName}>{player.firstName}</div>
@@ -334,6 +330,41 @@ export default function PlayerDialog({
             </div>
           </div>
         </div>
+
+
+        {player.PlayerBio.Draft_Round ? (
+          <div className={styles.playerTeamAndDraftRoundAndPickSectionAboveGradesWrapper}>
+          
+          <p className={styles.teamNameInDraftRow}>{player.PlayerBio.NFL_Team}</p>
+          {playerIsOnTeam && (
+              <Image
+                src={`/${playersTeam}.png`}
+                height={100}
+                width={150}
+                alt="team logo"
+                className={styles.teamLogo}
+                
+              />
+            )}
+          <p className={styles.draftRoundAndPick}><span className={styles.draftRoundSpan}>Round: {player.PlayerBio.Draft_Round}</span> Pick: {player.PlayerBio.Draft_Pick}</p>
+          <p></p>
+        </div>
+        ) : (
+          <div className={styles.playerTeamAndDraftRoundAndPickSectionAboveGradesWrapper}>
+          <p>{player.PlayerBio.NFL_Team}</p>
+          {playerIsOnTeam && (
+              <Image
+                src={`/${playersTeam}.png`}
+                height={100}
+                width={150}
+                alt="team logo"
+                className={styles.teamLogo}
+              />
+            )}
+        </div>
+        )
+      }
+
         <div className={styles.playerGradesGraphicsSectionWrapper}>
           <div>
             <Image
@@ -369,7 +400,21 @@ export default function PlayerDialog({
             />
             <div className={styles.gradeGraphicLabel}>Production</div>
           </div>
+          <div>
+            <Image
+              src={`/${player.rookieGuideData.Landing_Spot.toFixed(
+                1
+              )} Rookie Grade Trap.png`}
+              height={100}
+              width={150}
+              alt="team logo"
+              className={styles.teamLogo}
+            />
+            <div className={styles.gradeGraphicLabel}>Landing</div>
+          </div>
         </div>
+      
+        
         {/* <PlayerBarChart
               overallGrade={player.rookieGuideData.Overall_Grade}
               talentGrade={player.rookieGuideData.Talent_Grade}
