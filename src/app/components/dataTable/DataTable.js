@@ -82,6 +82,10 @@ export default function DataTable({ data }) {
     const newPlayerArray = [];
 
     let tempDataToUse = data.filter((player) => {
+
+      player.rookieGuideData.Draft_Cap = player.rookieGuideData["Draft Cap"]
+      player.rookieGuideData.NFL_PPG = player.rookieGuideData["Yr 1-3 PPG"]
+
       return +player.rookieGuideData.Class === classYear;
     });
 
