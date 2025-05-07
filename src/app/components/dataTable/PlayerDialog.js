@@ -211,7 +211,9 @@ export default function PlayerDialog({
   player.lastName = player.Player_Name.split(" ").slice(-1).join(" ");
   // console.log(`/${playersTeam}.png`)
 
-  let productionGradeForGraphic =
+  let productionGradeForGraphic = "60.0";
+  if(player.playerDataProductionGrades[0]) {
+  productionGradeForGraphic =
     +player.playerDataProductionGrades[0]["Production Grade"];
 
   productionGradeForGraphic = productionGradeForGraphic.toFixed(1);
@@ -239,6 +241,13 @@ export default function PlayerDialog({
   ) {
     productionGradeForGraphic = "99.9";
   }
+}
+
+// if(!player.playerDataProductionGrades[0]) {
+//   player.playerDataProductionGrades[0] = {};
+//   player.playerDataProductionGrades[0]["Production Grade"] = "60.0";
+  
+// }
   // console.log(productionGradeForGraphic);
   // console.log(typeof player.playerDataProductionGrades[0]["Production Grade"], typeof player.productionGradeForGraphic)
 

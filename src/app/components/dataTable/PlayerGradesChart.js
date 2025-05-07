@@ -48,17 +48,37 @@ const PlayerGradesChart = ({
 
   // Get position from first talent grade entry
   const position = talentGrades?.[0]?.Position;
+  let draftPick = {Metric: "Draft Pick", Grade: 0}
+  let PPG = {Metric: "NFL_PPG", Grade: 0};
+  productionGrades.forEach((grade) => {
+    if (grade.Metric === "Draft Capital") {
+      draftPick = {Metric: "Draft_Pick", Grade: grade.Grade}
+      
+    }
+  })
+  // let draftPick = {Metric: "Draft Pick", Grade: productionGrades["Draft Cap"]}
+  console.log(rookieGuideData.NFL_PPG, rookieGuideData["Yr 1-3 PPG"])
+  PPG = {Metric: "NFL_PPG", Grade: +rookieGuideData.NFL_PPG};
 
-  // Define metrics based on position first
+  if (!rookieGuideData["Yr 1-3 PPG"]) {
+    
+    PPG = {Metric: "NFL_PPG", Grade: 0};
+  }
+  // talentGrades.push(draftPick, NFL_PPG)
+  talentGrades = [...talentGrades, draftPick, PPG]
+  // console.log(talentGrades["NFL PPG"], talentGrades["Draft Pick"])
+  // console.log(talentGrades)
+
+  // Update the metrics array to include the new variables
   let metrics = [];
   if (position === "QB") {
-    metrics = ["Processing", "Accuracy", "Arm Talent", "Pocket", "Run Threat"];
+    metrics = ["Processing", "Accuracy", "Arm Talent", "Pocket", "Run Threat", "Draft_Pick", "NFL_PPG"];
   } else if (position === "RB") {
-    metrics = ["Vision", "Collisions", "Elusiveness", "Receiving", "Burst"];
+    metrics = ["Vision", "Collisions", "Elusiveness", "Receiving", "Burst", "Draft_Pick", "NFL_PPG"];
   } else if (position === "WR") {
-    metrics = ["Release", "Route", "Receiving", "YAC", "Explosiveness"];
+    metrics = ["Release", "Route", "Receiving", "YAC", "Explosiveness", "Draft_Pick", "NFL_PPG"];
   } else if (position === "TE") {
-    metrics = ["Blocking", "Route", "Receiving", "YAC", "Explosiveness"];
+    metrics = ["Blocking", "Route", "Receiving", "YAC", "Explosiveness", "Draft_Pick", "NFL_PPG"];
   }
 
   // console.log('this one', rookieGuideData)
@@ -103,7 +123,9 @@ const PlayerGradesChart = ({
     return grades.filter((grade) => {
       if (!seenMetrics.has(grade.Metric)) {
         seenMetrics.add(grade.Metric);
+        // console.log(grade.Metric)
         return true; // Keep this grade
+        
       }
       return false; // Skip duplicates
     });
@@ -362,6 +384,7 @@ const PlayerGradesChart = ({
 
   // Debugging: Log talentGrades to check its structure
   // console.log('Talent Grades:', uniquetalentGrades);
+  rookieGuideData.Draft_Cap = rookieGuideData["Draft Cap"];
 
   // Create filtered data for prospect grades spider chart
   const selectedRookieGuideFields = {
@@ -369,6 +392,7 @@ const PlayerGradesChart = ({
     Analytical: rookieGuideData?.Analytical_Grade || 0,
     "Landing Spot": rookieGuideData?.Landing_Spot || 0,
     Overall: rookieGuideData?.Overall_Grade || 0,
+    "Draft Capital": rookieGuideData?.Draft_Cap || 0,
   };
 
   const prospectSpiderData = {
@@ -432,6 +456,9 @@ const PlayerGradesChart = ({
               getColor(
                 safeNumber(comparePlayerData.rookieGuideData?.Overall_Grade)
               ),
+              getColor(
+                safeNumber(comparePlayerData.rookieGuideData?.Draft_Cap)
+              ),
             ],
             pointBorderColor: [
               getColor(
@@ -445,6 +472,9 @@ const PlayerGradesChart = ({
               ),
               getColor(
                 safeNumber(comparePlayerData.rookieGuideData?.Overall_Grade)
+              ),
+              getColor(
+                safeNumber(comparePlayerData.rookieGuideData?.Draft_Cap)
               ),
             ],
             pointHoverBackgroundColor: [
@@ -460,6 +490,9 @@ const PlayerGradesChart = ({
               getColor(
                 safeNumber(comparePlayerData.rookieGuideData?.Overall_Grade)
               ),
+              getColor(
+                safeNumber(comparePlayerData.rookieGuideData?.Draft_Cap)
+              ),
             ],
             pointHoverBorderColor: [
               getColor(
@@ -474,6 +507,9 @@ const PlayerGradesChart = ({
               getColor(
                 safeNumber(comparePlayerData.rookieGuideData?.Overall_Grade)
               ),
+              getColor(
+                safeNumber(comparePlayerData.rookieGuideData?.Draft_Cap)
+              ),
             ],
             pointLabels: [
               safeNumber(
@@ -487,6 +523,9 @@ const PlayerGradesChart = ({
               ).toFixed(1),
               safeNumber(
                 comparePlayerData.rookieGuideData?.Overall_Grade
+              ).toFixed(1),
+              safeNumber(
+                comparePlayerData.rookieGuideData?.Draft_Cap
               ).toFixed(1),
             ],
             pointRadius: 7,
@@ -561,7 +600,9 @@ const PlayerGradesChart = ({
   // Create data object with position-specific metrics
   const processedData = {};
   metrics.forEach((metric) => {
+    // console.log("Metric:", metric);
     const grade = uniqueTalentGradesFiltered.find((g) => g.Metric === metric);
+    // console.log("Grade:", grade.Grade);
     processedData[metric] = grade ? parseFloat(grade.Grade) : 0;
   });
 
@@ -569,6 +610,11 @@ const PlayerGradesChart = ({
   // console.log('Processed Data:', processedData);
 
   // Talent spider data with point colors
+ 
+  if(!processedData.NFL_PPG) {
+    processedData.NFL_PPG = 0
+  }
+  // console.log(processedData, metrics)
   const talentSpiderData = {
     labels: metrics,
     datasets: [
@@ -699,6 +745,7 @@ const PlayerGradesChart = ({
             const grade = uniqueTalentGradesFiltered.find(
               (g) => g.Metric === metric
             );
+            
             return grade
               ? `${metric}: ${grade.Grade} - ${grade.Analysis}`
               : `${metric}: ${context.raw}`;
@@ -961,7 +1008,9 @@ const PlayerGradesChart = ({
   // Function to handle variable selection
   const handleVariableChange = (index, value) => {
     const newVariables = [...selectedVariables];
+    
     newVariables[index] = value;
+    // console.log(newVariables);
     setSelectedVariables(newVariables);
   };
 
@@ -971,6 +1020,8 @@ const PlayerGradesChart = ({
     { label: "Analytical Grade", value: "Analytical_Grade" },
     { label: "Landing Spot", value: "Landing_Spot" },
     { label: "Overall Grade", value: "Overall_Grade" },
+    { label: "Draft Pick", value: "Draft_Pick" },
+    // { label: "NFL PPG", value: "NFL_PPG" }, 
     { label: "Processing (QB)", value: "Processing" },
     { label: "Accuracy (QB)", value: "Accuracy" },
     { label: "Arm Talent (QB)", value: "Arm Talent" },
@@ -988,6 +1039,13 @@ const PlayerGradesChart = ({
     { label: "Blocking (TE)", value: "Blocking" },
   ];
 
+  // variableOptions.map((option) => {
+  //  console.log(option)
+  // }); 
+  // selectedVariables.map((variable) => {
+  //   console.log(variable)
+  // });
+
   // Function to render the new spider chart based on selected variables
   const renderNewSpiderChart = (player) => {
     const formatLabel = (label) => {
@@ -1001,6 +1059,8 @@ const PlayerGradesChart = ({
           return "Overall";
         case "Landing_Spot":
           return "Landing Spot";
+          case "Draft Cap":
+          return "Draft Cap";
         default:
           return label;
       }
@@ -1014,7 +1074,8 @@ const PlayerGradesChart = ({
           data: selectedVariables.map((variable) => {
             // Keep original variable names for data lookup
             const talentGradeVariables = [
-              "Processing",
+              "Draft_Pick",
+               "NFL_PPG",
               "Accuracy",
               "Arm Talent",
               "Pocket",
@@ -1050,6 +1111,8 @@ const PlayerGradesChart = ({
           fill: true,
           pointBackgroundColor: selectedVariables.map((variable) => {
             const talentGradeVariables = [
+              "Draft_Pick",
+              "NFL_PPG",
               "Processing",
               "Accuracy",
               "Arm Talent",
@@ -1067,6 +1130,8 @@ const PlayerGradesChart = ({
               "Blocking",
             ];
 
+           
+
             if (talentGradeVariables.includes(variable)) {
               const talentGradeEntry = getUniqueTalentGrades(
                 player.talentGrades
@@ -1080,6 +1145,8 @@ const PlayerGradesChart = ({
           }),
           pointBorderColor: selectedVariables.map((variable) => {
             const talentGradeVariables = [
+              "Draft_Pick",
+              "NFL_PPG",
               "Processing",
               "Accuracy",
               "Arm Talent",
@@ -1110,6 +1177,8 @@ const PlayerGradesChart = ({
           }),
           pointHoverBackgroundColor: selectedVariables.map((variable) => {
             const talentGradeVariables = [
+              "Draft_Pick",
+              "NFL_PPG",
               "Processing",
               "Accuracy",
               "Arm Talent",
@@ -1140,6 +1209,8 @@ const PlayerGradesChart = ({
           }),
           pointHoverBorderColor: selectedVariables.map((variable) => {
             const talentGradeVariables = [
+              "Draft_Pick",
+              "NFL_PPG",
               "Processing",
               "Accuracy",
               "Arm Talent",
@@ -1228,6 +1299,8 @@ const PlayerGradesChart = ({
     "Analytical_Grade",
     "Landing_Spot",
     "Overall_Grade",
+    "Draft_Pick",
+    "NFL_PPG",
     "Processing",
     "Accuracy",
     "Arm Talent",
@@ -1451,6 +1524,7 @@ const PlayerGradesChart = ({
               <option value="Analytical_Grade">Analytical Grade</option>
               <option value="Landing_Spot">Landing Spot</option>
               <option value="Overall_Grade">Overall Grade</option>
+              <option value="Draft_Cap">Draft Cap</option>
             </select>
             <select
               onChange={(e) => setYAxisVariable(e.target.value)}
@@ -1461,6 +1535,7 @@ const PlayerGradesChart = ({
               <option value="Analytical_Grade">Analytical Grade</option>
               <option value="Landing_Spot">Landing Spot</option>
               <option value="Overall_Grade">Overall Grade</option>
+              <option value="Draft_Cap">Draft Cap</option>
             </select>
           </div>
           <p className={styles.colorDotLabelsScatterParagraphWrapper}>
@@ -1865,6 +1940,7 @@ const PlayerGradesChart = ({
                         : selectedVariables[4] || `Data Point ${index + 1}`}
                     </option>
                     {variableOptions.map((option) => (
+                      // console.log(option.label, option.value),
                       <option key={option.value} value={option.value}>
                         {option.label}
                       </option>
