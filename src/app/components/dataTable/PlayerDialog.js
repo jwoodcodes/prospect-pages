@@ -212,32 +212,40 @@ export default function PlayerDialog({
   // console.log(`/${playersTeam}.png`)
 
   let productionGradeForGraphic = "60.0";
-  if(player.playerDataProductionGrades[0]) {
+
+
+  
+  if(player.rookieGuideData) {
   productionGradeForGraphic =
-    +player.playerDataProductionGrades[0]["Production Grade"];
+    +player.rookieGuideData.Production;
 
   productionGradeForGraphic = productionGradeForGraphic.toFixed(1);
 
-  if (player.playerDataProductionGrades[0]["Production Grade"] < 60.0) {
+  if(player.playerDataProductionGrades[0]) {
+    productionGradeForGraphic = player.playerDataProductionGrades[0]["Production Grade"];
+    productionGradeForGraphic = productionGradeForGraphic.toFixed(1);
+  }
+
+  if (productionGradeForGraphic < 60.0) {
     productionGradeForGraphic = "60.0";
   }
-  if (player.playerDataProductionGrades[0]["Production Grade"] > 99.9) {
+  if (productionGradeForGraphic > 99.9) {
     productionGradeForGraphic = "99.9";
   }
-  if (player.playerDataProductionGrades[0]["Overall_Grade"] < 60.0) {
+  if (productionGradeForGraphic < 60.0) {
     productionGradeForGraphic = "60.0";
   }
-  if (player.playerDataProductionGrades[0]["Overall_Grade"] > 99.9) {
+  if (productionGradeForGraphic > 99.9) {
     productionGradeForGraphic = "99.9";
   }
 
   if (
-    player.playerDataProductionGrades[0]["productionGradeForGraphic"] < 60.0
+    productionGradeForGraphic < 60.0
   ) {
     productionGradeForGraphic = "60.0";
   }
   if (
-    player.playerDataProductionGrades[0]["productionGradeForGraphic"] > 99.9
+    productionGradeForGraphic > 99.9
   ) {
     productionGradeForGraphic = "99.9";
   }
@@ -252,9 +260,13 @@ export default function PlayerDialog({
   // console.log(typeof player.playerDataProductionGrades[0]["Production Grade"], typeof player.productionGradeForGraphic)
 
   // console.log(player.rookieGuideData.Talent_Grade);
+
+
   if (player.rookieGuideData.Talent_Grade === 81) {
     // player.rookieGuideData.Talent_Grade = 81.1;
   }
+
+ 
 
   if(player.rookieGuideData.Landing_Spot > 99.9) {
     player.rookieGuideData.Landing_Spot = 99.9;
@@ -267,7 +279,7 @@ export default function PlayerDialog({
 
   // console.log(player.rookieGuideData.Talent_Grade.toFixed(1));
 
-  console.log(typeof playerBio.Height, playerBio.Height);
+  // console.log(typeof playerBio.Height, playerBio.Height);
 
   //
   ///

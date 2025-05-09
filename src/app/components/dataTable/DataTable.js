@@ -127,17 +127,45 @@ export default function DataTable({ data }) {
 
       // console.log(player.playerDataProductionGrades[0]["Production Grade"])
 
-      if (!player.playerDataProductionGrades) {
-        p.Production = 0.0;
+      // if (!player.playerDataProductionGrades) {
+      //   p.Production = 0.0;
+      // }
+
+      // if (p.Production !== "0.0" && player.playerDataProductionGrades[0]) {
+      //   let tempProduction =
+      //     +player.playerDataProductionGrades[0]["Production Grade"];
+
+      //   p.Production = tempProduction.toFixed(1);
+      // } else {
+      //   p.Production = 0.0;
+      // }
+
+      if(!player.rookieGuideData.Production && !player.playerDataProductionGrades) {
+        p.Production = 60.0
       }
 
-      if (p.Production !== "0.0" && player.playerDataProductionGrades[0]) {
+      // if(player.rookieGuideData.Production) {
+      //   let tempProduction = +player.rookieGuideData.Production;
+      //   p.Production = tempProduction.toFixed(1);
+
+      // } else if (player.playerDataProductionGrades[0]) {
+      //   let tempProduction =
+      //     +player.playerDataProductionGrades[0]["Production Grade"];
+
+      // } else {
+      //   p.Production = 60.0;
+      // }
+
+      if(player.playerDataProductionGrades[0]) {
         let tempProduction =
           +player.playerDataProductionGrades[0]["Production Grade"];
 
         p.Production = tempProduction.toFixed(1);
+      } else if (player.rookieGuideData.Production) {
+        let tempProduction = +player.rookieGuideData.Production;
+        p.Production = tempProduction.toFixed(1);
       } else {
-        p.Production = 0.0;
+        p.Production = 60.0;
       }
 
       if (player.rookieGuideData.Landing_Spot) {
